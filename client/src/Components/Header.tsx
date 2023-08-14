@@ -4,7 +4,7 @@ import menu from "../assets/menu.svg";
 export default function Header() {
   return (
     <header>
-      <div className="flex justify-between px-4 py-6 max-w-5xl mx-auto lg:px-0 border-b border-white border-opacity-[11%]">
+      <div className="flex justify-between py-6 max-w-xs sm:max-w-2xl lg:max-w-5xl mx-auto lg:px-0 border-b border-white border-opacity-[11%]">
         <button>
           <img src={menu} alt="menu" className="lg:hidden" />
         </button>

@@ -12,7 +12,7 @@ export default function Headphones() {
           headphones
         </h2>
       </div>
-      <div className="max-w-5xl flex flex-col items-center gap-[120px] mx-auto">
+      <div className="max-w-xs sm:max-w-2xl lg:max-w-5xl flex flex-col items-center gap-[120px] mx-auto">
         <ProductCard />
         <ProductCard />
         <ProductCard />

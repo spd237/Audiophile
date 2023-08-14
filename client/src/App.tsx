@@ -1,4 +1,4 @@
-// import Headphones from './pages/Headphones/Headphones';
+import Headphones from './pages/Headphones/Headphones';
 // import Home from "./pages/Home/Home";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 
