@@ -11,6 +11,7 @@ export default {
         "light-gray": "#F1F1F1",
         "almost-white": "#FAFAFA",
         "light-orange": "#FBAF85",
+        "input-border-color": "#CFCFCF"
       },
       fontFamily: {
         manrope: "Manrope",

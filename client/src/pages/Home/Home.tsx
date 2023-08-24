@@ -27,7 +27,7 @@ export default function Home() {
         </div>
         <About />
       </div>
-      <div className="bg-almost-black text-white">
+      <div className="bg-almost-black text-white mt-[120px]">
         <Footer />
       </div>
     </>

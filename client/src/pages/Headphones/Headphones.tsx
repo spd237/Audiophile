@@ -23,7 +23,7 @@ export default function Headphones() {
         <CategoryCard />
       </div>
       <About />
-      <div className="bg-almost-black text-white">
+      <div className="bg-almost-black text-white mt-[120px]">
         <Footer />
       </div>
     </>

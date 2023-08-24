@@ -7,7 +7,7 @@ export default function ProductPreviewZX9() {
       <img
         src={zx9speakerDesktop}
         alt="zx9 speaker"
-        className="w-[172px] h-[207px] sm:w-[197px] sm:h-[237px] lg:w-[410px] lg:h-[493px] lg:relative top-12 left-[117px] z-10"
+        className="w-[172px] h-[207px] sm:w-[197px] sm:h-[237px] lg:w-[410px] lg:h-[493px] lg:relative top-12 left-[117px]"
       />
       <div className="flex flex-col items-center lg:items-start">
         <span className="uppercase text-4xl font-bold tracking-[1.286px] flex flex-col items-center mt-8 mb-6 lg:items-start">
