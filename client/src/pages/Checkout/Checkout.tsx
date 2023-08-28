@@ -6,9 +6,9 @@ export default function Checkout() {
   return (
     <>
       <Header />
-      <div className="bg-light-gray">
-        <div className="max-w-xs mx-auto sm:max-w-2xl lg:max-w-5xl lg:grid grid-cols-[65%_35%] grid-rows-[5%_95%] pb-[97px] gap-x-[30px]">
-          <button className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6 lg:max-w-[57px]">
+      <div className="bg-light-gray flex justify-center">
+        <div className="w-full mx-6 sm:mx-10 lg:max-w-5xl lg:grid grid-cols-[65%_35%] grid-rows-[5%_95%] pb-[97px] gap-x-[30px]">
+          <button className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6 lg:max-w-[57px] sm:mt-12 lg:mt-20">
             Go Back
           </button>
           <form className="bg-white rounded-lg px-6 pt-6 pb-8 flex flex-col gap-8 mb-8 row-start-2 lg:mb-0">
@@ -261,7 +261,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-      <div className="bg-almost-black text-white">
+      <div className="bg-almost-black text-white flex justify-center">
         <Footer />
       </div>
     </>

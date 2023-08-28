@@ -3,8 +3,8 @@ import logo from "../assets/logo.svg";
 import menu from "../assets/menu.svg";
 export default function Header() {
   return (
-    <header className="relative z-10 bg-black">
-      <div className="flex justify-between py-6 max-w-xs sm:max-w-2xl lg:max-w-5xl mx-auto lg:px-0 border-b border-white border-opacity-[11%]">
+    <header className="relative z-10 bg-black flex justify-center">
+      <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-5xl lg:px-0 border-b border-white border-opacity-[11%]">
         <button>
           <img src={menu} alt="menu" className="lg:hidden" />
         </button>

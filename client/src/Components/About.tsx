@@ -3,13 +3,13 @@
 import aboutPicDesktop from "../assets/aboutpicdesktop.jpg";
 export default function About() {
   return (
-    <article className="mt-[120px] max-w-xs sm:max-w-2xl lg:max-w-5xl  flex flex-col items-center gap-8 lg:flex-row justify-center mx-auto">
+    <article className="mt-[120px] flex flex-col items-center gap-8 lg:flex-row justify-center mx-6 sm:mx-10 lg:max-w-5xl lg:mx-auto">
       <img
         src={aboutPicDesktop}
         alt="about-pic"
-        className="rounded-lg lg:max-w-[50%] lg:w-[540px] lg:h-[588px] lg:order-2"
+        className="rounded-lg  lg:max-w-[50%] lg:w-[540px] lg:h-[588px] lg:order-2"
       />
-      <div className="max-w-[91%] flex flex-col items-center lg:items-start">
+      <div className="flex flex-col items-center lg:items-start">
         <h3 className="uppercase text-black text-[28px] font-bold tracking-[2px] text-center mb-8 md:max-w-sm lg:text-left lg:text-[40px] leading-[44px]">
           bringing you the <span className="text-orange">best </span>audio gear
         </h3>

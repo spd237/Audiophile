@@ -8,7 +8,7 @@ export default function ProductPreviewYX1() {
       <img
         src={yx1earphonesDesktop}
         alt="yx1earphones"
-        className="h-[200px] max-w-[50%] rounded-lg sm:h-80"
+        className="h-[200px] sm:max-w-[50%] rounded-lg sm:h-80"
       />
       <div className="w-full h-[200px] bg-light-gray rounded-lg flex flex-col gap-8 pl-6 justify-center sm:h-80">
         <span className="uppercase text-black text-[28px] font-bold tracking-[2px]">

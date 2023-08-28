@@ -2,7 +2,7 @@ import checkmark from "../assets/icon-order-confirmation.svg";
 import mark2checkout from "../assets/image-xx99-mark-two-headphones-cart.jpg";
 export default function CheckoutModal() {
   return (
-    <div className="bg-white absolute z-10 m-auto  top-0 bottom-0 left-0 right-0 max-w-xs max-h-[600px] p-8 rounded-lg sm:max-w-[540px] sm:max-h-[580px]">
+    <div className="bg-white fixed z-10 m-auto top-0 bottom-0 left-0 right-0 max-w-xs max-h-[600px] p-8 rounded-lg sm:max-w-[540px] sm:max-h-[580px]">
       <img src={checkmark} alt="checkmark" />
       <h2 className="uppercase text-[24px] font-bold mt-6 mb-4 leading-7 tracking-[0.85px] sm:text-[32px] sm:tracking-[1.143px] sm:leading-9 sm:max-w-xs">
         thank you for your order

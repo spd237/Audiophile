@@ -1,4 +1,4 @@
-import mark2headphones from '../../assets/image-xx99-mark-two-headphones-category.jpg';
+import mark2headphones from '../../../assets/image-xx99-mark-two-headphones-category.jpg';
 // import mark2headphonesTablet from '../../assets/image-xx99-mark-two-headphones-category-tablet.jpg';
 // import mark2headphonesDesktop from "../../assets/image-xx99-mark-two-headphones-category-desktop.jpg";
 
