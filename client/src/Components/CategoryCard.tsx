@@ -1,19 +1,25 @@
-import headphoneImg from "../assets/headphone-thumbnail.png";
-export default function CategoryCard() {
+import { Link } from 'react-router-dom';
+
+interface PropsType {
+  categoryName: string;
+  thumbnail: string;
+}
+
+export default function CategoryCard({ categoryName, thumbnail }: PropsType) {
   return (
     <article className="flex flex-col justify-center items-center w-full bg-light-gray h-[165px] rounded-lg relative">
       <img
-        src={headphoneImg}
+        src={thumbnail}
         alt="headphoneImg"
-        className="absolute -top-14 drop-shadow-[0px_25px_25px_rgba(0,0,0,0.45)]"
+        className="absolute -top-14 drop-shadow-[0px_25px_25px_rgba(0,0,0,0.45)] max-w-[101px]"
       />
 
       <span className="uppercase tracking-[1px] font-bold text-[15px] mb-4 mt-9 ">
-        headphones
+        {categoryName}
       </span>
       <div className="flex items-center gap-3">
         <span className="text-[13px] opacity-50 font-bold uppercase tracking-[1px] hover:text-orange cursor-pointer hover:opacity-100">
-          shop
+          <Link to={`/${categoryName}`}>shop</Link>
         </span>
 
         <svg
@@ -26,7 +32,7 @@ export default function CategoryCard() {
           <path
             d="M1.32227 1L6.32227 6L1.32227 11"
             stroke="#D87D4A"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </svg>
       </div>

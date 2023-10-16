@@ -2,13 +2,13 @@ import { Request, Response } from 'express';
 import prisma from '../db';
 
 export const getHeadphones = async (req: Request, res: Response) => {
-  const headphones = await prisma.product.findMany({
+  const products = await prisma.product.findMany({
     where: {
       category: 'headphones',
     },
   });
 
-  res.json({ headphones });
+  res.json({ products });
 };
 
 export const getOneHeadphone = async (req: Request, res: Response) => {

@@ -1,26 +1,37 @@
-import Header from "../../Components/Header";
-import AddToCart from "./AddToCart/AddToCart";
-import Features from "./Features/Features";
-import InTheBox from "./InTheBox/InTheBox";
-import CategoryCard from "../../Components/CategoryCard";
-import About from "../../Components/About";
-import Footer from "../../Components/Footer";
+import Header from '../../Components/Header';
+import AddToCart from './AddToCart/AddToCart';
+import Features from './Features/Features';
+import InTheBox from './InTheBox/InTheBox';
+import CategoryCard from '../../Components/CategoryCard';
+import About from '../../Components/About';
+import Footer from '../../Components/Footer';
 // import mark2headphones from "../../assets/image-xx99-mark-two-headphones-category.jpg";
 // import mark2headphonesTablet from "../../assets/image-mark-two-headphones-product-details-tablet.jpg";
-import mark2headphonesDesktop from "../../assets/image-xx99-mark-two-headphones-product-details-desktop.jpg";
+import mark2headphonesDesktop from '../../assets/image-xx99-mark-two-headphones-product-details-desktop.jpg';
 // import galleryPic1Mobile from "../../assets/image-gallery-mark2-1.jpg";
 // import galleryPic2Mobile from "../../assets/image-gallery-mark2-2.jpg";
 // import galleryPic3Mobile from "../../assets/image-gallery-mark2-3.jpg";
-import galleryPic1Tablet from "../../assets/image-gallery-mark2-tablet-1.jpg";
-import galleryPic2Tablet from "../../assets/image-gallery-mark2-tablet-2.jpg";
-import galleryPic3Tablet from "../../assets/image-gallery-mark2-tablet-3.jpg";
-import galleryPic1Desktop from "../../assets/image-gallery-mark2-desktop-1.jpg";
-import galleryPic2Desktop from "../../assets/image-gallery-mark2-desktop-2.jpg";
-import galleryPic3Desktop from "../../assets/image-gallery-mark2-desktop-3.jpg";
+import galleryPic1Tablet from '../../assets/image-gallery-mark2-tablet-1.jpg';
+import galleryPic2Tablet from '../../assets/image-gallery-mark2-tablet-2.jpg';
+import galleryPic3Tablet from '../../assets/image-gallery-mark2-tablet-3.jpg';
+import galleryPic1Desktop from '../../assets/image-gallery-mark2-desktop-1.jpg';
+import galleryPic2Desktop from '../../assets/image-gallery-mark2-desktop-2.jpg';
+import galleryPic3Desktop from '../../assets/image-gallery-mark2-desktop-3.jpg';
 
-import OtherProducts from "./OtherProducts/OtherProducts";
+import OtherProducts from './OtherProducts/OtherProducts';
+import { categories } from '../../utils';
 
 export default function ProductDetails() {
+  const categoryCards = categories.map((category, index) => {
+    return (
+      <CategoryCard
+        key={index}
+        categoryName={category.category}
+        thumbnail={category.thumbnail}
+      />
+    );
+  });
+
   return (
     <>
       <div className="bg-almost-black">
@@ -86,9 +97,7 @@ export default function ProductDetails() {
           </div>
         </div>
         <div className="w-full flex flex-col gap-[68px] items-center mt-24 lg:max-w-5xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
+          {categoryCards}
         </div>
       </div>
       <About />

@@ -7,7 +7,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/audiophile', router);
+app.use('/', router);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:3000`);
