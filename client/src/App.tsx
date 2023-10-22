@@ -1,46 +1,48 @@
-import Cart from './Components/Cart';
-import CheckoutModal from './Components/CheckoutModal';
-import Menu from './Components/Menu';
+import { useRef } from 'react';
 import Checkout from './pages/Checkout/Checkout';
-import Category from './pages/Category/Category';
 import Home from './pages/Home/Home';
+import CategoryPage from './pages/Category/CategoryPage.tsx';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorPage from './pages/Error/ErrorPage.tsx';
-
-const router = createBrowserRouter([
-  {
-    path: '/home',
-    element: <Home />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/headphones',
-    element: <Category />,
-  },
-  {
-    path: '/earphones',
-    element: <Category />,
-  },
-  {
-    path: '/speakers',
-    element: <Category />,
-  },
-  {
-    path: '/headphones/:id',
-    element: <ProductDetails />,
-  },
-  {
-    path: '/checkout',
-    element: <Checkout />,
-  },
-]);
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useDetectClick } from './hooks/useDetectClick.ts';
+import ScrollToTop from './Components/ScrollToTop.ts';
 
 function App() {
+  const cartRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const buttonCartRef = useRef<HTMLButtonElement>(null);
+  const buttonNavRef = useRef<HTMLButtonElement>(null);
+  const [navOpen, setNavOpen] = useDetectClick(navRef, buttonNavRef);
+  const [cartOpen, setCartOpen] = useDetectClick(cartRef, buttonCartRef);
+
+  const commonProps = {
+    navOpen,
+    setNavOpen,
+    cartOpen,
+    setCartOpen,
+    cartRef,
+    navRef,
+    buttonCartRef,
+    buttonNavRef,
+  };
+
   return (
     <>
-      <RouterProvider router={router} />
-      {/* <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div> */}
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home {...commonProps} />} />
+          <Route
+            path="/:category"
+            element={<CategoryPage {...commonProps} />}
+          />
+          <Route
+            path="/product-details/:product"
+            element={<ProductDetails {...commonProps} />}
+          />
+          <Route path="/checkout" element={<Checkout />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

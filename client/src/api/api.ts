@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CategoryType } from '../types';
+import { CategoryType, ProductType } from '../types';
 
 const API_URL = 'http://localhost:3000';
 
@@ -7,12 +7,28 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-export const getHeadphones = async () => {
-  return await api.get<CategoryType>('/headphones');
+type ProductResponseType = {
+  data: ProductType;
 };
-export const getSpeakers = async () => {
-  return await api.get<CategoryType>('/speakers');
+
+export const getHeadphones = async (): Promise<CategoryType> => {
+  const response = await api.get('/headphones');
+  return response.data;
 };
-export const getEarphones = async () => {
-  return await api.get<CategoryType>('/earphones');
+export const getSpeakers = async (): Promise<CategoryType> => {
+  const response = await api.get('/speakers');
+  return response.data;
+};
+export const getEarphones = async (): Promise<CategoryType> => {
+  const response = await api.get('/earphones');
+  return response.data;
+};
+
+export const getProduct = async (
+  slug: string | undefined
+): Promise<ProductResponseType> => {
+  const response = await api.get(`/product-details/${slug}`, {
+    data: slug,
+  });
+  return response.data;
 };

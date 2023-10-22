@@ -1,11 +1,12 @@
 import { ImagesType } from '../../../types';
-import img from '../../../assets/image-xx59-category-page-preview-desktop.jpg';
+import { Link } from 'react-router-dom';
 
 interface PropsType {
   name: string;
   new: boolean;
   description: string;
   images: ImagesType;
+  slug: string;
 }
 
 export default function ProductCard(props: PropsType) {
@@ -25,14 +26,14 @@ export default function ProductCard(props: PropsType) {
         <span className="text-orange tracking-[10px] uppercase text-sm">
           {props.new && 'new product'}
         </span>
-        <h3 className="uppercase font-bold tracking-[1px] text-[28px]">
+        <h3 className="uppercase font-bold tracking-[1px] text-[28px] text-center lg:text-left">
           {props.name}
         </h3>
-        <p className=" text-[15px] opacity-50 sm:max-w-xl">
+        <p className=" text-[15px] opacity-50 sm:max-w-xl text-center lg:text-left">
           {props.description}
         </p>
         <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] hover:bg-orange-hover">
-          See product
+          <Link to={`/product-details/${props.slug}`}>see product</Link>
         </button>
       </div>
     </article>

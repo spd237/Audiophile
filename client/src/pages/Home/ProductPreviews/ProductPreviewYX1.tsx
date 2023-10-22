@@ -1,6 +1,7 @@
-// import yx1earphones from "../../../../assets/image-earphones-yx1-home-mobile.jpg";
-// import yx1earphonesTablet from '../../../../assets/image-earphones-yx1-home-tablet.jpg'
-import yx1earphonesDesktop from "../../../../assets/image-earphones-yx1-home-desktop.jpg";
+// import yx1earphones from "../../../assets/image-earphones-yx1-home-mobile.jpg";
+// import yx1earphonesTablet from '../../../assets/image-earphones-yx1-home-tablet.jpg'
+import yx1earphonesDesktop from '../../../assets/image-earphones-yx1-home-desktop.jpg';
+import { Link } from 'react-router-dom';
 
 export default function ProductPreviewYX1() {
   return (
@@ -15,7 +16,7 @@ export default function ProductPreviewYX1() {
           yx1 earphones
         </span>
         <button className="bg-transparent max-w-[160px] h-12 border-[1.5px] border-black uppercase text-[13px] font-bold tracking-[1px] hover:bg-black hover:text-white">
-          see product
+          <Link to={'/product-details/yx1-earphones'}>see product</Link>
         </button>
       </div>
     </article>

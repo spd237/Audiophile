@@ -1,33 +1,49 @@
 import Header from '../../Components/Header';
 import AddToCart from './AddToCart/AddToCart';
 import Features from './Features/Features';
-import InTheBox from './InTheBox/InTheBox';
+import Included from './Included/Included';
 import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
-// import mark2headphones from "../../assets/image-xx99-mark-two-headphones-category.jpg";
-// import mark2headphonesTablet from "../../assets/image-mark-two-headphones-product-details-tablet.jpg";
-import mark2headphonesDesktop from '../../assets/image-xx99-mark-two-headphones-product-details-desktop.jpg';
-// import galleryPic1Mobile from "../../assets/image-gallery-mark2-1.jpg";
-// import galleryPic2Mobile from "../../assets/image-gallery-mark2-2.jpg";
-// import galleryPic3Mobile from "../../assets/image-gallery-mark2-3.jpg";
-import galleryPic1Tablet from '../../assets/image-gallery-mark2-tablet-1.jpg';
-import galleryPic2Tablet from '../../assets/image-gallery-mark2-tablet-2.jpg';
-import galleryPic3Tablet from '../../assets/image-gallery-mark2-tablet-3.jpg';
-import galleryPic1Desktop from '../../assets/image-gallery-mark2-desktop-1.jpg';
-import galleryPic2Desktop from '../../assets/image-gallery-mark2-desktop-2.jpg';
-import galleryPic3Desktop from '../../assets/image-gallery-mark2-desktop-3.jpg';
-
 import OtherProducts from './OtherProducts/OtherProducts';
 import { categories } from '../../utils';
+import { CommonPropsType } from '../../types';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { getProduct } from '../../api/api';
+import Menu from '../../Components/Menu';
+import Cart from '../../Components/Cart';
+export default function ProductDetails({
+  navOpen,
+  setNavOpen,
+  cartOpen,
+  setCartOpen,
+  cartRef,
+  navRef,
+  buttonCartRef,
+  buttonNavRef,
+}: CommonPropsType) {
+  const slug = useParams().product;
+  const { data } = useQuery(['productDetails', slug], () => getProduct(slug));
 
-export default function ProductDetails() {
   const categoryCards = categories.map((category, index) => {
     return (
       <CategoryCard
         key={index}
         categoryName={category.category}
         thumbnail={category.thumbnail}
+        setNavOpen={setNavOpen}
+      />
+    );
+  });
+
+  const otherProducts = data?.data.others.map((product, index) => {
+    return (
+      <OtherProducts
+        key={index}
+        slug={product.slug}
+        name={product.name}
+        image={product.image}
       />
     );
   });
@@ -35,7 +51,12 @@ export default function ProductDetails() {
   return (
     <>
       <div className="bg-almost-black">
-        <Header />
+        <Header
+          setNavOpen={setNavOpen}
+          setCartOpen={setCartOpen}
+          buttonCartRef={buttonCartRef}
+          buttonNavRef={buttonNavRef}
+        />
       </div>
       <div className="flex flex-col items-center mx-6 sm:mx-10 lg:mx-auto lg:max-w-5xl">
         <div className=" lg:max-w-5xl">
@@ -44,45 +65,44 @@ export default function ProductDetails() {
           </button>
           <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] lg:flex-row lg:w-full">
             <img
-              src={mark2headphonesDesktop}
+              src={data?.data.image.desktop}
               alt="mark II headphones"
               className="rounded-lg sm:max-w-xs lg:max-w-[540px]"
             />
             <div className="flex flex-col gap-6 sm:gap-4">
-              <span className="text-orange tracking-[10px] uppercase text-sm ">
-                new product
-              </span>
+              {data?.data.new && (
+                <span className="text-orange tracking-[10px] uppercase text-sm ">
+                  new product
+                </span>
+              )}
               <h3 className="uppercase font-bold tracking-[1px] text-[28px] sm:mb-4">
-                xx99 mark ii headphones
+                {data?.data.name}
               </h3>
               <p className=" text-[15px] opacity-50 sm:max-w-xl">
-                The new XX99 Mark II headphones is the pinnacle of pristine
-                audio. It redefines your premium headphone experience by
-                reproducing the balanced depth and precision of studio-quality
-                sound.
+                {data?.data.description}
               </p>
-              <AddToCart />
+              <AddToCart price={data?.data.price} />
             </div>
           </article>
         </div>
         <div className="lg:flex lg:max-w-5xl gap-[125px] lg:my-40 lg:self-start">
-          <Features />
-          <InTheBox />
+          <Features features={data?.data.features} />
+          <Included inTheBox={data?.data.includes} />
         </div>
         <div className="lg:max-w-5xl flex flex-col gap-6 sm:grid grid-rows-2 grid-cols-[41.5%_58.5%] sm:gap-4 overflow-hidden">
           <img
-            src={galleryPic1Desktop}
-            alt="mark2 headphones"
+            src={data?.data.gallery.first.desktop}
+            alt="gallery img"
             className="rounded-lg self-start"
           />
           <img
-            src={galleryPic2Desktop}
-            alt="mark2 headphones"
+            src={data?.data.gallery.second.desktop}
+            alt="gallery img"
             className="rounded-lg row-start-2"
           />
           <img
-            src={galleryPic3Desktop}
-            alt="mark2 headphones"
+            src={data?.data.gallery.third.desktop}
+            alt="gallery img"
             className="rounded-lg row-start-1 row-span-2"
           />
         </div>
@@ -91,9 +111,7 @@ export default function ProductDetails() {
             you may also like
           </h3>
           <div className="w-full sm:flex gap-3 lg:gap-8 justify-between">
-            <OtherProducts />
-            <OtherProducts />
-            <OtherProducts />
+            {otherProducts}
           </div>
         </div>
         <div className="w-full flex flex-col gap-[68px] items-center mt-24 lg:max-w-5xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">
@@ -102,6 +120,19 @@ export default function ProductDetails() {
       </div>
       <About />
       <Footer />
+      {navOpen && (
+        <>
+          {' '}
+          <Menu setNavOpen={setNavOpen} navRef={navRef} />
+          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
+        </>
+      )}
+      {cartOpen && (
+        <>
+          <Cart cartRef={cartRef} />{' '}
+          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
+        </>
+      )}
     </>
   );
 }

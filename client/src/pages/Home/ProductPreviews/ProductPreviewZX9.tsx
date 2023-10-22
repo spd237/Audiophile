@@ -1,6 +1,7 @@
-// import zx9speakerMobile from "../../../../assets/image-speaker-zx9-home-mobile.png";
-// import zx9speakerTablet from '../../../../assets/image-speaker-zx9-tablet.png'
-import zx9speakerDesktop from "../../../../assets/image-speaker-zx9-desktop.png";
+// import zx9speakerMobile from "../../../assets/image-speaker-zx9-home-mobile.png";
+// import zx9speakerTablet from '../../../assets/image-speaker-zx9-tablet.png'
+import { Link } from 'react-router-dom';
+import zx9speakerDesktop from '../../../assets/image-speaker-zx9-desktop.png';
 export default function ProductPreviewZX9() {
   return (
     <article className="bg-orange bg-pattern-circles bg-no-repeat bg-cover bg-[center_bottom_8.5rem] w-full flex flex-col items-center h-[600px] sm:h-[720px] sm:bg-[center_bottom_11rem] lg:h-[560px] rounded-lg text-white py-[55px] relative overflow-hidden lg:flex-row lg:gap-[255px] lg:bg-[top_right_12.5rem]">
@@ -21,7 +22,7 @@ export default function ProductPreviewZX9() {
           truly remarkable sound.
         </p>
         <button className="bg-black w-40 h-12 uppercase font-bold text-[13px] hover:bg-zx9-hover">
-          see product
+          <Link to={'/product-details/zx9-speaker'}>see product</Link>
         </button>
       </div>
     </article>

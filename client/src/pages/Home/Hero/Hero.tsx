@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Hero() {
   return (
     <section className="text-white flex items-center min-h-[525px] justify-center lg:justify-normal lg:my-auto">
@@ -15,7 +17,9 @@ export default function Hero() {
           </p>
         </div>
         <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] hover:bg-orange-hover">
-          See product
+          <Link to={'/product-details/xx99-mark-two-headphones'}>
+            See product
+          </Link>
         </button>
       </div>
     </section>

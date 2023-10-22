@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom';
 interface PropsType {
   categoryName: string;
   thumbnail: string;
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CategoryCard({ categoryName, thumbnail }: PropsType) {
+export default function CategoryCard({
+  categoryName,
+  thumbnail,
+  setNavOpen,
+}: PropsType) {
   return (
     <article className="flex flex-col justify-center items-center w-full bg-light-gray h-[165px] rounded-lg relative">
       <img
@@ -19,7 +24,9 @@ export default function CategoryCard({ categoryName, thumbnail }: PropsType) {
       </span>
       <div className="flex items-center gap-3">
         <span className="text-[13px] opacity-50 font-bold uppercase tracking-[1px] hover:text-orange cursor-pointer hover:opacity-100">
-          <Link to={`/${categoryName}`}>shop</Link>
+          <Link to={`/${categoryName}`} onClick={() => setNavOpen(false)}>
+            shop
+          </Link>
         </span>
 
         <svg

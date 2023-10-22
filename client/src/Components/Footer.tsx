@@ -7,7 +7,7 @@ export default function Footer() {
         <img src={logo} alt="logo" />
         <ul className="uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-center sm:flex sm:gap-[34px] lg:justify-self-end">
           <li className="mb-4 cursor-pointer lg:mb-0 hover:text-orange">
-            <Link to={'/home'}>home</Link>
+            <Link to={'/'}>home</Link>
           </li>
           <li className="mb-4 cursor-pointer lg:mb-0 hover:text-orange">
             <Link to={'/headphones'}>headphones</Link>

@@ -3,15 +3,26 @@ import ProductCard from './ProductCard/ProductCard';
 import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
+import Menu from '../../Components/Menu';
 import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getEarphones, getHeadphones, getSpeakers } from '../../api/api';
+import Cart from '../../Components/Cart';
+import { CommonPropsType } from '../../types';
 
-export default function Category() {
-  let currentPage = useLocation().pathname.slice(1);
-
-  const { isLoading, isError, data, error } = useQuery({
+export default function Category({
+  navOpen,
+  setNavOpen,
+  cartOpen,
+  setCartOpen,
+  cartRef,
+  navRef,
+  buttonCartRef,
+  buttonNavRef,
+}: CommonPropsType) {
+  const currentPage = useParams().category;
+  const { data } = useQuery({
     queryKey: ['products', currentPage],
     queryFn:
       currentPage === 'headphones'
@@ -27,11 +38,12 @@ export default function Category() {
         key={index}
         categoryName={category.category}
         thumbnail={category.thumbnail}
+        setNavOpen={setNavOpen}
       />
     );
   });
 
-  const productCards = data?.data.products.map((product) => {
+  const productCards = data?.data.map((product) => {
     return (
       <ProductCard
         key={product.id}
@@ -39,6 +51,7 @@ export default function Category() {
         new={product.new}
         description={product.description}
         images={product.categoryImage}
+        slug={product.slug}
       />
     );
   });
@@ -46,7 +59,12 @@ export default function Category() {
   return (
     <>
       <div className="bg-black">
-        <Header />
+        <Header
+          setNavOpen={setNavOpen}
+          setCartOpen={setCartOpen}
+          buttonCartRef={buttonCartRef}
+          buttonNavRef={buttonNavRef}
+        />
         <h2 className="uppercase text-white font-bold text-[28px] tracking-[2px] text-center py-8 px-[84px] mb-16 sm:py-24 sm:px-60">
           {currentPage}
         </h2>
@@ -59,6 +77,19 @@ export default function Category() {
       </div>
       <About />
       <Footer />
+      {navOpen && (
+        <>
+          {' '}
+          <Menu setNavOpen={setNavOpen} navRef={navRef} />
+          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
+        </>
+      )}
+      {cartOpen && (
+        <>
+          <Cart cartRef={cartRef} />{' '}
+          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
+        </>
+      )}
     </>
   );
 }

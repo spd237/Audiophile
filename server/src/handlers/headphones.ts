@@ -8,18 +8,7 @@ export const getHeadphones = async (req: Request, res: Response) => {
     },
   });
 
-  res.json({ products });
-};
-
-export const getOneHeadphone = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const headphone = await prisma.product.findFirst({
-    where: {
-      id: id,
-    },
-  });
-
-  res.json({ headphone });
+  res.json({ data: products });
 };
 
 export const addHeadphoneToCart = async (req: Request, res: Response) => {

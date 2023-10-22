@@ -8,18 +8,7 @@ export const getSpeakers = async (req: Request, res: Response) => {
     },
   });
 
-  res.json({ products });
-};
-
-export const getOneSpeaker = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const speaker = await prisma.product.findFirst({
-    where: {
-      id: id,
-    },
-  });
-
-  res.json({ speaker });
+  res.json({ data: products });
 };
 
 export const addSpeakerToCart = async (req: Request, res: Response) => {
