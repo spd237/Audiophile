@@ -5,9 +5,11 @@ export default function OtherProducts({ slug, name, image }: Others) {
   return (
     <div className="flex flex-col gap-8 items-center mb-14">
       <img
-        src={image.desktop}
+        srcSet={`${image.mobile} 327w, ${image.tablet} 223w, ${image.desktop} 350w`}
+        sizes="(max-width: 640px) 327px, (max-width: 1024px) 223px, 350px"
         alt="mark1 headphones"
-        className="rounded-lg sm:min-w-[220px]"
+        className="rounded-lg"
+        src={image.desktop}
       />
       <h4 className="font-bold text-2xl tracking-[1.7px] text-center">
         {name}

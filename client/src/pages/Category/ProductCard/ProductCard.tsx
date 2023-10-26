@@ -17,9 +17,11 @@ export default function ProductCard(props: PropsType) {
       }`}
     >
       <img
-        src={props.images.desktop}
+        srcSet={`${props.images.mobile} 327w, ${props.images.tablet} 689w, ${props.images.desktop} 540w`}
+        sizes="(max-width: 640px) 327px, (max-width: 1024px) 689px, 540px"
         alt="headphones"
         className="rounded-lg lg:max-w-[540px]"
+        src={props.images.desktop}
       />
 
       <div className="flex flex-col gap-6 items-center lg:items-start">
@@ -32,9 +34,11 @@ export default function ProductCard(props: PropsType) {
         <p className=" text-[15px] opacity-50 sm:max-w-xl text-center lg:text-left">
           {props.description}
         </p>
-        <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] hover:bg-orange-hover">
-          <Link to={`/product-details/${props.slug}`}>see product</Link>
-        </button>
+        {
+          <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] hover:bg-orange-hover">
+            <Link to={`/product-details/${props.slug}`}>see product</Link>
+          </button>
+        }
       </div>
     </article>
   );

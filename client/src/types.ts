@@ -43,10 +43,7 @@ export interface Others {
 export interface CommonPropsType {
   navOpen: boolean;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  cartOpen: boolean;
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  cartRef: React.RefObject<HTMLDivElement>;
-  navRef: React.RefObject<HTMLDivElement>;
   buttonCartRef: React.RefObject<HTMLButtonElement>;
   buttonNavRef: React.RefObject<HTMLButtonElement>;
 }

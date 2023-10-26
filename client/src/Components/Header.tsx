@@ -1,10 +1,9 @@
 import cartIcon from '../assets/cart-icon.svg';
 import logo from '../assets/logo.svg';
-import menu from '../assets/menu.svg';
 import { Link } from 'react-router-dom';
-import Home from '../pages/Home/Home';
 
 interface HeaderPropsType {
+  navOpen: boolean;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   buttonNavRef: React.RefObject<HTMLButtonElement>;
@@ -12,6 +11,7 @@ interface HeaderPropsType {
 }
 
 export default function Header({
+  navOpen,
   setNavOpen,
   setCartOpen,
   buttonNavRef,
@@ -19,12 +19,44 @@ export default function Header({
 }: HeaderPropsType) {
   return (
     <header className="relative z-10 bg-black flex justify-center">
-      <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-5xl lg:px-0 border-b border-white border-opacity-[11%]">
+      <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-6xl lg:px-0 ">
         <button
           onClick={() => setNavOpen((prevNavOpen) => !prevNavOpen)}
           ref={buttonNavRef}
+          className="lg:hidden"
         >
-          <img src={menu} alt="menu" className="lg:hidden" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="15"
+            viewBox="0 0 16 15"
+            fill="none"
+          >
+            <rect
+              width="16"
+              height="3"
+              fill="white"
+              className={`${navOpen ? 'top' : ''} duration-500 origin-center`}
+            />
+            <rect
+              y="6"
+              width="16"
+              height="3"
+              fill="white"
+              className={`${
+                navOpen ? 'middle' : ''
+              } duration-500 origin-center`}
+            />
+            <rect
+              y="12"
+              width="16"
+              height="3"
+              fill="white"
+              className={`${
+                navOpen ? 'bottom' : ''
+              } duration-500 origin-center`}
+            />
+          </svg>
         </button>
         <img
           src={logo}

@@ -7,17 +7,12 @@ import ProductPreviewZX7 from './ProductPreviews/ProductPreviewZX7';
 import ProductPreviewYX1 from './ProductPreviews/ProductPreviewYX1';
 import ProductPreviewZX9 from './ProductPreviews/ProductPreviewZX9';
 import { categories } from '../../utils';
-import Menu from '../../Components/Menu';
-import Cart from '../../Components/Cart';
 import { CommonPropsType } from '../../types';
 
 export default function Home({
   navOpen,
   setNavOpen,
-  cartOpen,
   setCartOpen,
-  cartRef,
-  navRef,
   buttonCartRef,
   buttonNavRef,
 }: CommonPropsType) {
@@ -36,6 +31,7 @@ export default function Home({
     <>
       <div className="w-full bg-hero-mobile min-h-[587px] bg-cover bg-no-repeat sm:bg-hero-tablet sm:min-h-[729px] lg:bg-hero-desktop lg:min-h-screen bg-center flex flex-col">
         <Header
+          navOpen={navOpen}
           setNavOpen={setNavOpen}
           setCartOpen={setCartOpen}
           buttonCartRef={buttonCartRef}
@@ -57,19 +53,6 @@ export default function Home({
         </div>
       </div>
       <Footer />
-      {navOpen && (
-        <>
-          {' '}
-          <Menu setNavOpen={setNavOpen} navRef={navRef} />
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
-      {cartOpen && (
-        <>
-          <Cart cartRef={cartRef} />
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
     </>
   );
 }

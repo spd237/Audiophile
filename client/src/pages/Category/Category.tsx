@@ -3,21 +3,16 @@ import ProductCard from './ProductCard/ProductCard';
 import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
-import Menu from '../../Components/Menu';
 import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getEarphones, getHeadphones, getSpeakers } from '../../api/api';
-import Cart from '../../Components/Cart';
 import { CommonPropsType } from '../../types';
 
 export default function Category({
   navOpen,
   setNavOpen,
-  cartOpen,
   setCartOpen,
-  cartRef,
-  navRef,
   buttonCartRef,
   buttonNavRef,
 }: CommonPropsType) {
@@ -60,6 +55,7 @@ export default function Category({
     <>
       <div className="bg-black">
         <Header
+          navOpen={navOpen}
           setNavOpen={setNavOpen}
           setCartOpen={setCartOpen}
           buttonCartRef={buttonCartRef}
@@ -69,27 +65,14 @@ export default function Category({
           {currentPage}
         </h2>
       </div>
-      <div className="max-w-xs sm:max-w-2xl lg:max-w-5xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-40 ">
+      <div className="max-w-xs sm:max-w-2xl lg:max-w-6xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-40 ">
         {productCards}
       </div>
-      <div className="flex flex-col gap-[68px] items-center mx-auto mt-24 max-w-xs sm:max-w-2xl lg:max-w-5xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">
+      <div className="flex flex-col gap-[68px] items-center mx-auto mt-24 max-w-xs sm:max-w-2xl lg:max-w-6xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">
         {categoryCards}
       </div>
       <About />
       <Footer />
-      {navOpen && (
-        <>
-          {' '}
-          <Menu setNavOpen={setNavOpen} navRef={navRef} />
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
-      {cartOpen && (
-        <>
-          <Cart cartRef={cartRef} />{' '}
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
     </>
   );
 }

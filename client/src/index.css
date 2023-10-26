@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .top {
+    y: 5.5px;
+  }
+  .bottom {
+    y: 5.5px;
+  }
+  .top {
+    rotate: 45deg;
+  }
+  .bottom {
+    rotate: -45deg;
+  }
+  .middle {
+    opacity: 0;
+  }
+}

@@ -1,13 +1,13 @@
-// import aboutPic from "../assets/aboutpic.png";
-// import aboutPicTablet from "../assets/aboutpictablet.jpg";
-import aboutPicDesktop from "../assets/aboutpicdesktop.jpg";
+import aboutPicDesktop from '../assets/image-best-gear-desktop.jpg';
 export default function About() {
   return (
-    <article className="mt-[120px] flex flex-col items-center gap-8 lg:flex-row justify-center mx-6 sm:mx-10 lg:max-w-5xl lg:mx-auto">
+    <article className="mt-[120px] flex flex-col items-center gap-8 lg:flex-row justify-center sm:mx-10 lg:max-w-6xl lg:mx-auto lg:justify-between">
       <img
+        srcSet="/src/assets/image-best-gear.jpg 327w, /src/assets/image-best-gear-tablet.jpg 689w, /src/assets/image-best-gear-desktop.jpg 540w"
+        sizes="(max-width: 670px) 327px, (max-width: 1024px) 689px, 540px"
         src={aboutPicDesktop}
         alt="about-pic"
-        className="rounded-lg  lg:max-w-[50%] lg:w-[540px] lg:h-[588px] lg:order-2"
+        className="rounded-lg lg:max-w-[50%] lg:h-[588px] lg:order-2"
       />
       <div className="flex flex-col items-center lg:items-start">
         <h3 className="uppercase text-black text-[28px] font-bold tracking-[2px] text-center mb-8 md:max-w-sm lg:text-left lg:text-[40px] leading-[44px]">
