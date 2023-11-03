@@ -1,4 +1,3 @@
-import Header from '../../Components/Header';
 import AddToCart from './AddToCart/AddToCart';
 import Features from './Features/Features';
 import Included from './Included/Included';
@@ -10,32 +9,16 @@ import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../../api/api';
+import { CartItem } from '../../types';
 
 interface ProductDetailsProps {
-  setItemsOnCart: React.Dispatch<
-    React.SetStateAction<
-      | {
-          item: string;
-          quantity: number;
-          price: number;
-        }[]
-      | undefined
-    >
-  >;
-  navOpen: boolean;
+  setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  buttonCartRef: React.RefObject<HTMLButtonElement>;
-  buttonNavRef: React.RefObject<HTMLButtonElement>;
 }
 
 export default function ProductDetails({
   setItemsOnCart,
-  navOpen,
   setNavOpen,
-  setCartOpen,
-  buttonCartRef,
-  buttonNavRef,
 }: ProductDetailsProps) {
   const goBack = useNavigate();
   const slug = useParams().product;
@@ -65,15 +48,6 @@ export default function ProductDetails({
 
   return (
     <>
-      <div className="bg-almost-black">
-        <Header
-          navOpen={navOpen}
-          setNavOpen={setNavOpen}
-          setCartOpen={setCartOpen}
-          buttonCartRef={buttonCartRef}
-          buttonNavRef={buttonNavRef}
-        />
-      </div>
       <div className="flex flex-col items-center mx-6 sm:mx-10 lg:mx-auto lg:max-w-6xl">
         <div>
           <button

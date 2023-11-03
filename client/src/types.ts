@@ -40,10 +40,8 @@ export interface Others {
   image: ImagesType;
 }
 
-export interface CommonPropsType {
-  navOpen: boolean;
-  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  buttonCartRef: React.RefObject<HTMLButtonElement>;
-  buttonNavRef: React.RefObject<HTMLButtonElement>;
+export interface CartItem {
+  name: string;
+  quantity: number;
+  price: number;
 }

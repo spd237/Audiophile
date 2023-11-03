@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CategoryType, ProductType } from '../types';
+import { CartItem, CategoryType, ProductType } from '../types';
 
 const API_URL = 'http://localhost:3000';
 
@@ -32,3 +32,11 @@ export const getProduct = async (
   });
   return response.data;
 };
+
+export async function createUser(
+  id: string | undefined,
+  cartItems: CartItem[] | []
+) {
+  const response = await api.post('/signup', { id, cartItems });
+  return response.data;
+}

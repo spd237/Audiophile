@@ -1,13 +1,11 @@
-import Footer from "../../Components/Footer";
-import Header from "../../Components/Header";
-import mark2cart from "../../assets/image-xx99-mark-two-headphones-cart.jpg";
+import Footer from '../../Components/Footer';
+import mark2cart from '../../assets/image-xx99-mark-two-headphones-cart.jpg';
 
 export default function Checkout() {
   return (
     <>
-      <Header />
       <div className="bg-light-gray flex justify-center">
-        <div className="w-full mx-6 sm:mx-10 lg:max-w-5xl lg:grid grid-cols-[65%_35%] grid-rows-[5%_95%] pb-[97px] gap-x-[30px]">
+        <div className="w-full mx-6 sm:mx-10 lg:max-w-6xl lg:grid grid-cols-[65%_35%] grid-rows-[5%_95%] pb-[97px] gap-x-[30px]">
           <button className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6 lg:max-w-[57px] sm:mt-12 lg:mt-20">
             Go Back
           </button>
@@ -129,9 +127,9 @@ export default function Checkout() {
               <h3 className="text-orange text-[13px] uppercase tracking-[0.9px] font-bold leading-6">
                 payment details
               </h3>
-                <span className="text-xs font-bold tracking-[-0.2px] row-start-2">
-                  Payment Method
-                </span>
+              <span className="text-xs font-bold tracking-[-0.2px] row-start-2">
+                Payment Method
+              </span>
               <div className="flex flex-col gap-4 row-start-2 col-start-2">
                 <label className="text-sm font-bold tracking-[-0.2px] flex gap-4 border border-input-border-color rounded-lg px-4 py-[18px]">
                   <input
@@ -252,7 +250,9 @@ export default function Checkout() {
                 <span className="text-[15px] font-medium uppercase opacity-50">
                   grand total
                 </span>
-                <span className="text-lg font-bold uppercase text-orange">$5,486</span>
+                <span className="text-lg font-bold uppercase text-orange">
+                  $5,486
+                </span>
               </div>
               <button className="bg-orange text-white text-[13px] uppercase font-bold tracking-[1px] w-full py-4 mt-8">
                 continue & pay
@@ -261,9 +261,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-      <div className="bg-almost-black text-white flex justify-center">
-        <Footer />
-      </div>
+      <Footer />
     </>
   );
 }

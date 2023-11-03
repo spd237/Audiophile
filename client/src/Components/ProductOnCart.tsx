@@ -1,17 +1,9 @@
+import { CartItem } from '../types';
 interface ProductOnCartProps {
   name: string;
   quantity: number;
   price: number;
-  setItemsOnCart: React.Dispatch<
-    React.SetStateAction<
-      | {
-          item: string;
-          quantity: number;
-          price: number;
-        }[]
-      | undefined
-    >
-  >;
+  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
 }
 
 export default function ProductOnCart({
@@ -25,7 +17,7 @@ export default function ProductOnCart({
   function handleAddItem() {
     setItemsOnCart((prevItems) => {
       return prevItems?.map((item) => {
-        if (item.item === name) {
+        if (item.name === name) {
           return { ...item, quantity: quantity + 1 };
         } else return item;
       });
@@ -36,7 +28,7 @@ export default function ProductOnCart({
     setItemsOnCart((prevItems) => {
       return prevItems
         ?.map((item) => {
-          if (item.item === name && item.quantity > 0) {
+          if (item.name === name && item.quantity > 0) {
             return { ...item, quantity: quantity - 1 };
           } else return item;
         })

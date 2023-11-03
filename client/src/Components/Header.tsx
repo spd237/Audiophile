@@ -1,6 +1,8 @@
 import cartIcon from '../assets/cart-icon.svg';
 import logo from '../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { User } from '@supabase/supabase-js';
+import { supabase } from '../App';
 
 interface HeaderPropsType {
   navOpen: boolean;
@@ -8,6 +10,8 @@ interface HeaderPropsType {
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   buttonNavRef: React.RefObject<HTMLButtonElement>;
   buttonCartRef: React.RefObject<HTMLButtonElement>;
+  user: User | undefined;
+  setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Header({
@@ -16,9 +20,16 @@ export default function Header({
   setCartOpen,
   buttonNavRef,
   buttonCartRef,
+  user,
+  setGoingToCheckout,
 }: HeaderPropsType) {
+  const navigate = useNavigate();
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
+
   return (
-    <header className="relative z-10 bg-black flex justify-center">
+    <header className="relative z-10 bg-dark-gray flex justify-center items-center">
       <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-6xl lg:px-0 ">
         <button
           onClick={() => setNavOpen((prevNavOpen) => !prevNavOpen)}
@@ -61,7 +72,7 @@ export default function Header({
         <img
           src={logo}
           alt="logo"
-          className="sm:mr-auto sm:ml-11 lg:ml-0 lg:mr-0"
+          className="ml-8 sm:mr-auto sm:ml-11 lg:ml-0 lg:mr-0"
         />
         <ul className="hidden lg:flex uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-white gap-[34px] mx-auto items-center ">
           <li className="cursor-pointer hover:text-orange">
@@ -77,12 +88,32 @@ export default function Header({
             <Link to={'/earphones'}>earphones</Link>
           </li>
         </ul>
-        <button
-          onClick={() => setCartOpen((prevCartOpen) => !prevCartOpen)}
-          ref={buttonCartRef}
-        >
-          <img src={cartIcon} alt="cart" />
-        </button>
+        <div className="flex items-center gap-2 lg:gap-4">
+          <button
+            onClick={() => setCartOpen((prevCartOpen) => !prevCartOpen)}
+            ref={buttonCartRef}
+          >
+            <img src={cartIcon} alt="cart" />
+          </button>
+          {!user ? (
+            <Link to={'/auth'}>
+              <button className="bg-orange text-white font-bold px-2 py-[2px]">
+                Sign In
+              </button>
+            </Link>
+          ) : (
+            <button
+              className="bg-orange text-white font-bold px-2 py-[2px]"
+              onClick={() => {
+                setGoingToCheckout(false);
+                signOut();
+                navigate('/');
+              }}
+            >
+              Sign Out
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

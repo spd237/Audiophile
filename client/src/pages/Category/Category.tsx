@@ -1,4 +1,3 @@
-import Header from '../../Components/Header';
 import ProductCard from './ProductCard/ProductCard';
 import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
@@ -7,15 +6,12 @@ import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getEarphones, getHeadphones, getSpeakers } from '../../api/api';
-import { CommonPropsType } from '../../types';
 
 export default function Category({
-  navOpen,
   setNavOpen,
-  setCartOpen,
-  buttonCartRef,
-  buttonNavRef,
-}: CommonPropsType) {
+}: {
+  setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const currentPage = useParams().category;
   const { data } = useQuery({
     queryKey: ['products', currentPage],
@@ -53,14 +49,7 @@ export default function Category({
 
   return (
     <>
-      <div className="bg-black">
-        <Header
-          navOpen={navOpen}
-          setNavOpen={setNavOpen}
-          setCartOpen={setCartOpen}
-          buttonCartRef={buttonCartRef}
-          buttonNavRef={buttonNavRef}
-        />
+      <div className="bg-dark-gray">
         <h2 className="uppercase text-white font-bold text-[28px] tracking-[2px] text-center py-8 px-[84px] mb-16 sm:py-24 sm:px-60">
           {currentPage}
         </h2>

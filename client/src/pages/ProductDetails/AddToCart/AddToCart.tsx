@@ -1,18 +1,10 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CartItem } from '../../../types';
 
 interface AddToCartProps {
   price: number | undefined;
-  setItemsOnCart: React.Dispatch<
-    React.SetStateAction<
-      | {
-          item: string;
-          quantity: number;
-          price: number;
-        }[]
-      | undefined
-    >
-  >;
+  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
 }
 
 export default function AddToCart({ price, setItemsOnCart }: AddToCartProps) {
@@ -23,10 +15,10 @@ export default function AddToCart({ price, setItemsOnCart }: AddToCartProps) {
     if (productName && price && quantity > 0) {
       setItemsOnCart((prevItems) => {
         if (!prevItems) prevItems = [];
-        if (!prevItems.find((item) => item.item === productName)) {
+        if (!prevItems.find((item) => item.name === productName)) {
           return [
             ...prevItems,
-            { item: productName, quantity: quantity, price: price },
+            { name: productName, quantity: quantity, price: price },
           ];
         } else return [...prevItems];
       });

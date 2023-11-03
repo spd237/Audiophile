@@ -11,17 +11,31 @@ datasource db {
 }
 
 model Product {
-  id          Int      @id
-  slug        String
-  name        String
-  image       Json
-  category    String
+  id            Int     @id
+  slug          String
+  name          String
+  image         Json
+  category      String
   categoryImage Json
-  new         Boolean
-  price       Int
-  description String
-  features    String
-  includes    Json
-  gallery     Json
-  others      Json
+  new           Boolean
+  price         Int
+  description   String
+  features      String
+  includes      Json
+  gallery       Json
+  others        Json
+}
+
+model User {
+  id        String     @id
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id       String @id @default(uuid())
+  name     String 
+  quantity Int
+  price    Float
+  user     User   @relation(fields: [userID], references: [id])
+  userID   String
 }

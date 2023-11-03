@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 export default function Footer() {
   return (
-    <footer className="bg-almost-black text-white mt-[120px] flex justify-center">
+    <footer className="bg-almost-black text-white flex justify-center">
       <div className="mx-6 sm:mx-10 lg:max-w-6xl flex flex-col items-center gap-12 pb-8 pt-[52px] relative before:absolute before:bg-orange before:w-[101px] before:h-1 before:top-0 sm:items-start lg:grid grid-cols-2 grid-rows-3 lg:gap-y-0 lg:items-center">
         <img src={logo} alt="logo" />
         <ul className="uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-center sm:flex sm:gap-[34px] lg:justify-self-end">

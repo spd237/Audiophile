@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export function useDetectClick(
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | HTMLFormElement>,
   buttonRef: React.RefObject<HTMLButtonElement>
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>] {
   const [isOpen, setIsOpen] = useState(false);

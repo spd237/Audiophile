@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
-    <section className="text-white flex items-center min-h-[525px] justify-center lg:justify-normal lg:my-auto">
-      <div className="flex flex-col items-center justify-start mx-auto w-full max-w-5xl lg:items-start">
+    <section className="text-white flex items-center justify-center lg:justify-normal lg:my-auto w-full bg-hero-mobile min-h-[587px] bg-cover bg-no-repeat sm:bg-hero-tablet sm:min-h-[729px] lg:bg-hero-desktop bg-[center_bottom_3rem] lg:bg-[center_bottom_4.5rem] lg:min-h-screen">
+      <div className="flex flex-col items-center justify-start mx-auto w-full max-w-6xl lg:items-start mb-20">
         <h3 className="mb-4 tracking-[10px] opacity-50 uppercase text-sm lg:text-left">
           New Product
         </h3>
