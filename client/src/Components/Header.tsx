@@ -3,6 +3,7 @@ import logo from '../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../App';
+import { CartItem } from '../types';
 
 interface HeaderPropsType {
   navOpen: boolean;
@@ -12,6 +13,7 @@ interface HeaderPropsType {
   buttonCartRef: React.RefObject<HTMLButtonElement>;
   user: User | undefined;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
+  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
 }
 
 export default function Header({
@@ -22,6 +24,7 @@ export default function Header({
   buttonCartRef,
   user,
   setGoingToCheckout,
+  setItemsOnCart,
 }: HeaderPropsType) {
   const navigate = useNavigate();
   async function signOut() {
@@ -105,6 +108,8 @@ export default function Header({
             <button
               className="bg-orange text-white font-bold px-2 py-[2px]"
               onClick={() => {
+                localStorage.removeItem('cart');
+                setItemsOnCart([]);
                 setGoingToCheckout(false);
                 signOut();
                 navigate('/');

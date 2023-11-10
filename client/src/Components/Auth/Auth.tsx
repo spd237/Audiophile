@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { supabase } from '../../App';
 import { useMutation } from '@tanstack/react-query';
-import { createUser } from '../../api/api';
-import { CartItem } from '../../types';
+import { createUser, updateUser } from '../../api/api';
+import { AuthData, CartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
 
 interface AuthProps {
@@ -17,18 +17,23 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
   const [password, setPassword] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
 
-  const mutation = useMutation({
+  const authMutation = useMutation({
     mutationFn: ({
       id,
       cartItems,
     }: {
       id: string | undefined;
       cartItems: CartItem[] | [];
-    }) => createUser(id, cartItems),
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    }) => (isSigningUp ? createUser(id, cartItems) : updateUser(id, cartItems)),
   });
+
+  function handlePostAuth(data: AuthData) {
+    authMutation.mutate({ id: data.user?.id, cartItems: itemsOnCart });
+    if (goingToCheckout) {
+      setGoingToCheckout(false);
+      navigate('/checkout');
+    } else navigate(-1);
+  }
 
   async function handleAuthentication(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -43,12 +48,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
         if (error) {
           throw error;
         } else {
-          console.log(data);
-          mutation.mutate({ id: data.user?.id, cartItems: itemsOnCart });
-          if (goingToCheckout) {
-            setGoingToCheckout(false);
-            navigate('/checkout');
-          } else navigate(-1);
+          handlePostAuth(data);
         }
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -58,9 +58,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
         if (error) {
           throw error;
         } else {
-          console.log(data);
-          if (goingToCheckout) navigate('/checkout');
-          else navigate(-1);
+          handlePostAuth(data);
         }
       }
     } catch (error) {

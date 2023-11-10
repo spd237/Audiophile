@@ -1,9 +1,13 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CartItem } from '../types';
+import { increaseQuantity, decreaseQuantity } from '../api/api';
 interface ProductOnCartProps {
   name: string;
   quantity: number;
   price: number;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
+  token: string;
+  id: string;
 }
 
 export default function ProductOnCart({
@@ -11,7 +15,10 @@ export default function ProductOnCart({
   quantity,
   price,
   setItemsOnCart,
+  token,
+  id,
 }: ProductOnCartProps) {
+  const queryClient = useQueryClient();
   const modifiedName = name.replaceAll('-', ' ');
 
   function handleAddItem() {
@@ -36,6 +43,21 @@ export default function ProductOnCart({
     });
   }
 
+  const addItemMutation = useMutation({
+    mutationFn: ({ token, id }: { token: string; id: string }) =>
+      increaseQuantity(token, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    },
+  });
+  const removeItemMutation = useMutation({
+    mutationFn: ({ token, id }: { token: string; id: string }) =>
+      decreaseQuantity(token, id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+    },
+  });
+
   return (
     <div className="flex items-center">
       <img
@@ -50,11 +72,23 @@ export default function ProductOnCart({
         </span>
       </div>
       <div className="bg-light-gray flex items-center justify-between w-[89px] h-[30px] px-3 ml-auto lg:min-w-[89px]">
-        <button className="opacity-25" onClick={handleRemoveItem}>
+        <button
+          className="opacity-25"
+          onClick={
+            !token
+              ? handleRemoveItem
+              : () => removeItemMutation.mutate({ token, id })
+          }
+        >
           -
         </button>
         <span className="text-[13px] font-bold">{quantity}</span>
-        <button className="opacity-25" onClick={handleAddItem}>
+        <button
+          className="opacity-25"
+          onClick={
+            !token ? handleAddItem : () => addItemMutation.mutate({ token, id })
+          }
+        >
           +
         </button>
       </div>

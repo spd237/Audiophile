@@ -1,3 +1,5 @@
+import { Session, User } from '@supabase/supabase-js';
+
 export interface CategoryType {
   data: ProductType[];
 }
@@ -41,7 +43,19 @@ export interface Others {
 }
 
 export interface CartItem {
+  id: string;
   name: string;
   quantity: number;
   price: number;
+  userID?: string;
 }
+
+export type AuthData =
+  | {
+      user: User | null;
+      session: Session | null;
+    }
+  | {
+      user: null;
+      session: null;
+    };

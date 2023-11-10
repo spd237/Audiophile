@@ -14,11 +14,13 @@ import { CartItem } from '../../types';
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  token: string;
 }
 
 export default function ProductDetails({
   setItemsOnCart,
   setNavOpen,
+  token,
 }: ProductDetailsProps) {
   const goBack = useNavigate();
   const slug = useParams().product;
@@ -80,6 +82,7 @@ export default function ProductDetails({
               <AddToCart
                 price={data?.data.price}
                 setItemsOnCart={setItemsOnCart}
+                token={token}
               />
             </div>
           </article>
