@@ -96,7 +96,7 @@ function App() {
           path="/checkout"
           element={
             <CheckoutWrapper>
-              <Checkout />
+              <Checkout token={token} />
             </CheckoutWrapper>
           }
         />

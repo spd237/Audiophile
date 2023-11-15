@@ -4,6 +4,9 @@ import { useMutation } from '@tanstack/react-query';
 import { createUser, updateUser } from '../../api/api';
 import { AuthData, CartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { UserData, UserSchema } from '../../models/UserSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface AuthProps {
   itemsOnCart: CartItem[] | [];
@@ -13,8 +16,16 @@ interface AuthProps {
 
 function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<UserData>({
+    resolver: zodResolver(UserSchema),
+  });
+  const email = watch('email');
+  const password = watch('password');
   const [isSigningUp, setIsSigningUp] = useState(false);
 
   const authMutation = useMutation({
@@ -35,10 +46,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
     } else navigate(-1);
   }
 
-  async function handleAuthentication(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault();
+  async function handleAuthentication() {
     try {
       if (isSigningUp) {
         const { data, error } = await supabase.auth.signUp({
@@ -68,26 +76,32 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
 
   return (
     <div className="w-full h-screen bg-dark-gray">
-      <form className="fixed w-80 h-80 left-0 right-0 m-auto top-[30%] flex flex-col items-center justify-center bg-gray-50 gap-4 z-10 rounded-lg">
+      <form
+        className="fixed w-80 h-80 left-0 right-0 m-auto top-[30%] flex flex-col items-center justify-center bg-gray-50 gap-4 z-10 rounded-lg"
+        onSubmit={handleSubmit(handleAuthentication)}
+      >
         <label htmlFor="email">Email</label>
         <input
           type="email"
-          name="email"
           id="email"
           className="border border-orange"
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email')}
         />
+        <span className="text-sm font-medium text-error-red">
+          {errors.email?.message}
+        </span>
         <label htmlFor="password">Password</label>
         <input
           type="password"
-          name="password"
           className="border border-orange"
-          minLength={6}
-          onChange={(e) => setPassword(e.target.value)}
+          {...register('password')}
         />
+        <span className="text-sm font-medium text-error-red">
+          {errors.password?.message}
+        </span>
         <button
           className="bg-orange px-4 py-2 uppercase text-white tracking-wide font-bold w-[7rem]"
-          onClick={handleAuthentication}
+          type="submit"
         >
           {isSigningUp ? 'sign up' : 'sign in'}
         </button>

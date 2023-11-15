@@ -10,7 +10,7 @@ export async function addItem(req: Request, res: Response) {
         name: name,
       },
     });
-    console.log(name, req.user.sub);
+
     if (item) {
       await prisma.cartItem.update({
         where: {

@@ -13,6 +13,7 @@ export default {
         'light-orange': '#FBAF85',
         'input-border-color': '#CFCFCF',
         'dark-gray': '#191919',
+        'error-red': '#CD2C2C',
       },
       fontFamily: {
         manrope: 'Manrope',
