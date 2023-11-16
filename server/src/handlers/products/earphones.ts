@@ -8,12 +8,8 @@ export async function getEarphones(req: Request, res: Response) {
         category: 'earphones',
       },
     });
-    res.json({ data: products });
+    res.json(products);
   } catch (error) {
     res.status(500).json('server error');
   }
 }
-
-export const addEarphoneToCart = async (req: Request, res: Response) => {
-  res.send('add to cart');
-};

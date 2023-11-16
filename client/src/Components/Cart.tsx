@@ -37,7 +37,7 @@ export default function Cart({
   let totalPrice = 0;
 
   user
-    ? data?.cartItems?.forEach((product: CartItem) => {
+    ? data?.forEach((product: CartItem) => {
         totalQuantity += product.quantity;
       })
     : itemsOnCart?.forEach((product) => {
@@ -45,7 +45,7 @@ export default function Cart({
       });
 
   user
-    ? data?.cartItems?.forEach((product: CartItem) => {
+    ? data?.forEach((product: CartItem) => {
         totalPrice += product.quantity * product.price;
       })
     : itemsOnCart?.forEach((product) => {
@@ -61,7 +61,7 @@ export default function Cart({
 
   const productsOnCart =
     data && user
-      ? data.cartItems.map((item: CartItem, index: number) => (
+      ? data.map((item: CartItem, index: number) => (
           <ProductOnCart
             key={index}
             id={item.id}

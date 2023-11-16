@@ -33,7 +33,7 @@ export async function handleSignIn(req: Request, res: Response) {
         cartItems: true,
       },
     });
-    res.json({ user });
+    res.json(user);
   } catch (error) {
     console.log(error);
   }

@@ -22,7 +22,7 @@ export async function handleSignUp(req: Request, res: Response) {
         cartItems: true,
       },
     });
-    res.json({ user });
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error });
   }

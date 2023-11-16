@@ -8,7 +8,7 @@ export async function getCartItems(req: Request, res: Response) {
         userID: req.user.sub,
       },
     });
-    res.json({ cartItems });
+    res.json(cartItems);
   } catch (error) {
     console.log(error);
   }

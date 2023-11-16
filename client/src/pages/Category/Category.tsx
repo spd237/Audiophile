@@ -5,7 +5,7 @@ import Footer from '../../Components/Footer';
 import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { getEarphones, getHeadphones, getSpeakers } from '../../api/api';
+import { getCategory } from '../../api/api';
 
 export default function Category({
   setNavOpen,
@@ -15,12 +15,14 @@ export default function Category({
   const currentPage = useParams().category;
   const { data } = useQuery({
     queryKey: ['products', currentPage],
-    queryFn:
-      currentPage === 'headphones'
-        ? getHeadphones
-        : currentPage === 'speakers'
-        ? getSpeakers
-        : getEarphones,
+    queryFn: () => {
+      if (
+        currentPage === 'headphones' ||
+        currentPage === 'earphones' ||
+        currentPage === 'speakers'
+      )
+        return getCategory(currentPage);
+    },
   });
 
   const categoryCards = categories.map((category, index) => {
@@ -34,7 +36,7 @@ export default function Category({
     );
   });
 
-  const productCards = data?.data.map((product) => {
+  const productCards = data?.map((product) => {
     return (
       <ProductCard
         key={product.id}

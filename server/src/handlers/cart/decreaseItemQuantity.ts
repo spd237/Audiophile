@@ -20,7 +20,7 @@ export async function decreaseItemQuantity(req: Request, res: Response) {
         },
       });
     }
-    res.json({ updatedItem });
+    res.status(200).json(updatedItem);
   } catch (error) {
     console.log(error);
   }

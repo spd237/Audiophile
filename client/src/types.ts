@@ -1,8 +1,5 @@
 import { Session, User } from '@supabase/supabase-js';
 
-export interface CategoryType {
-  data: ProductType[];
-}
 export interface ProductType {
   id: number;
   slug: string;

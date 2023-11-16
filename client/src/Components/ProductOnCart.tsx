@@ -50,6 +50,7 @@ export default function ProductOnCart({
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
   });
+
   const removeItemMutation = useMutation({
     mutationFn: ({ token, id }: { token: string; id: string }) =>
       decreaseQuantity(token, id),

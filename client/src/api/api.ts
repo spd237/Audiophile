@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartItem, CategoryType, ProductType } from '../types';
+import { CartItem, ProductType } from '../types';
 
 const API_URL = 'http://localhost:3000';
 
@@ -7,31 +7,21 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-type ProductResponseType = {
-  data: ProductType;
-};
+export async function getCategory(
+  category: string | undefined
+): Promise<ProductType[]> {
+  const response = await api.get(`/audiophile/${category}`);
+  return response.data;
+}
 
-export const getHeadphones = async (): Promise<CategoryType> => {
-  const response = await api.get('/audiophile/headphones');
-  return response.data;
-};
-export const getSpeakers = async (): Promise<CategoryType> => {
-  const response = await api.get('/audiophile/speakers');
-  return response.data;
-};
-export const getEarphones = async (): Promise<CategoryType> => {
-  const response = await api.get('/audiophile/earphones');
-  return response.data;
-};
-
-export const getProduct = async (
+export async function getProduct(
   slug: string | undefined
-): Promise<ProductResponseType> => {
+): Promise<ProductType> {
   const response = await api.get(`/audiophile/product-details/${slug}`, {
     data: slug,
   });
   return response.data;
-};
+}
 
 export async function createUser(
   id: string | undefined,
@@ -49,7 +39,7 @@ export async function updateUser(
   return response.data;
 }
 
-export async function getCartItems(token: string) {
+export async function getCartItems(token: string): Promise<CartItem[]> {
   const response = await api.get(`/audiophile/cart-items`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -72,7 +62,10 @@ export async function addToCart(
   return response.data;
 }
 
-export async function increaseQuantity(token: string, id: string) {
+export async function increaseQuantity(
+  token: string,
+  id: string
+): Promise<CartItem> {
   const response = await api.post(
     '/audiophile/increase-quantity',
     { id },
@@ -82,7 +75,10 @@ export async function increaseQuantity(token: string, id: string) {
   );
   return response.data;
 }
-export async function decreaseQuantity(token: string, id: string) {
+export async function decreaseQuantity(
+  token: string,
+  id: string
+): Promise<CartItem> {
   const response = await api.post(
     '/audiophile/decrease-quantity',
     { id },

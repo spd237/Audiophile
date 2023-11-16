@@ -7,12 +7,12 @@ import SummaryProduct from './Product/SummaryProduct';
 interface SummaryProps {
   handleSubmit: UseFormHandleSubmit<CheckoutData, undefined>;
   onSubmit: (data: CheckoutData) => void;
-  data: any;
+  data: CartItem[] | undefined;
 }
 
 function Summary({ handleSubmit, onSubmit, data }: SummaryProps) {
   let totalPrice = 0;
-  data?.cartItems?.forEach((product: CartItem) => {
+  data?.forEach((product: CartItem) => {
     totalPrice += product.quantity * product.price;
   });
 
@@ -20,7 +20,7 @@ function Summary({ handleSubmit, onSubmit, data }: SummaryProps) {
     maximumFractionDigits: 0,
   });
 
-  const productsOnSummary = data?.cartItems?.map((item: CartItem) => {
+  const productsOnSummary = data?.map((item: CartItem) => {
     return (
       <SummaryProduct
         key={uuidv4()}

@@ -8,7 +8,7 @@ export async function removeAll(req: Request, res: Response) {
         userID: req.user.sub,
       },
     });
-    res.json({ removeAllItems });
+    res.status(200).json(removeAllItems);
   } catch (error) {
     console.log(error);
   }

@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../../api/api';
 import { CartItem } from '../../types';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
@@ -26,10 +27,10 @@ export default function ProductDetails({
   const slug = useParams().product;
   const { data } = useQuery(['productDetails', slug], () => getProduct(slug));
 
-  const categoryCards = categories.map((category, index) => {
+  const categoryCards = categories.map((category) => {
     return (
       <CategoryCard
-        key={index}
+        key={uuidv4()}
         categoryName={category.category}
         thumbnail={category.thumbnail}
         setNavOpen={setNavOpen}
@@ -37,10 +38,10 @@ export default function ProductDetails({
     );
   });
 
-  const otherProducts = data?.data.others.map((product, index) => {
+  const otherProducts = data?.others.map((product) => {
     return (
       <OtherProducts
-        key={index}
+        key={uuidv4()}
         slug={product.slug}
         name={product.name}
         image={product.image}
@@ -60,27 +61,27 @@ export default function ProductDetails({
           </button>
           <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] lg:w-full">
             <img
-              srcSet={`${data?.data.image.mobile} 327w, ${data?.data.image.tablet} 281w, ${data?.data.image.desktop} 540w`}
+              srcSet={`${data?.image.mobile} 327w, ${data?.image.tablet} 281w, ${data?.image.desktop} 540w`}
               sizes="(max-width: 640px) 327px, (max-width: 1024px) 281px, 540px"
               alt="mark II headphones"
               className="rounded-lg sm:max-w-xs lg:max-w-[540px]"
-              src={data?.data.image.desktop}
+              src={data?.image.desktop}
             />
 
             <div className="flex flex-col gap-6 sm:gap-4">
-              {data?.data.new && (
+              {data?.new && (
                 <span className="text-orange tracking-[10px] uppercase text-sm ">
                   new product
                 </span>
               )}
               <h3 className="uppercase font-bold tracking-[1px] text-[28px] sm:mb-4">
-                {data?.data.name}
+                {data?.name}
               </h3>
               <p className=" text-[15px] opacity-50 sm:max-w-xl">
-                {data?.data.description}
+                {data?.description}
               </p>
               <AddToCart
-                price={data?.data.price}
+                price={data?.price}
                 setItemsOnCart={setItemsOnCart}
                 token={token}
               />
@@ -88,30 +89,30 @@ export default function ProductDetails({
           </article>
         </div>
         <div className="lg:flex gap-[125px] lg:my-40 lg:self-start">
-          <Features features={data?.data.features} />
-          <Included inTheBox={data?.data.includes} />
+          <Features features={data?.features} />
+          <Included inTheBox={data?.includes} />
         </div>
         <div className="w-full flex flex-col gap-5 sm:grid grid-rows-2 grid-cols-[41.5%_58.5%] sm:gap-4 lg:gap-x-0">
           <img
-            srcSet={`${data?.data.gallery.first.mobile} 327w, ${data?.data.gallery.first.tablet} 277w, ${data?.data.gallery.first.desktop} 445w`}
+            srcSet={`${data?.gallery.first.mobile} 327w, ${data?.gallery.first.tablet} 277w, ${data?.gallery.first.desktop} 445w`}
             sizes="(max-width: 640px) 327px, (max-width: 1024px) 277px, 445px"
             alt="gallery img"
             className="rounded-lg self-start"
-            src={data?.data.gallery.first.desktop}
+            src={data?.gallery.first.desktop}
           />
           <img
-            srcSet={`${data?.data.gallery.second.mobile} 327w, ${data?.data.gallery.second.tablet} 277w, ${data?.data.gallery.second.desktop} 445w`}
+            srcSet={`${data?.gallery.second.mobile} 327w, ${data?.gallery.second.tablet} 277w, ${data?.gallery.second.desktop} 445w`}
             sizes="(max-width: 640px) 327px, (max-width: 1024px) 277px, 445px"
             alt="gallery img"
             className="rounded-lg row-start-2 self-end"
-            src={data?.data.gallery.second.desktop}
+            src={data?.gallery.second.desktop}
           />
           <img
-            srcSet={`${data?.data.gallery.third.mobile} 327w, ${data?.data.gallery.third.tablet} 395w, ${data?.data.gallery.third.desktop} 635w`}
+            srcSet={`${data?.gallery.third.mobile} 327w, ${data?.gallery.third.tablet} 395w, ${data?.gallery.third.desktop} 635w`}
             sizes="(max-width: 640px) 327px, (max-width: 1024px) 395px, 635px"
             alt="gallery img"
             className="row-start-1 row-span-2 rounded-lg"
-            src={data?.data.gallery.third.desktop}
+            src={data?.gallery.third.desktop}
           />
         </div>
         <div className="my-28">

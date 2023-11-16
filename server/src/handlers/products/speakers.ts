@@ -9,12 +9,8 @@ export async function getSpeakers(req: Request, res: Response) {
       },
     });
 
-    res.json({ data: products });
+    res.json(products);
   } catch (error) {
     res.status(500).json('server error');
   }
 }
-
-export const addSpeakerToCart = async (req: Request, res: Response) => {
-  res.send('add to cart');
-};

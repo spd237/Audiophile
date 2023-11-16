@@ -9,7 +9,7 @@ export async function getProduct(req: Request, res: Response) {
         slug: slug,
       },
     });
-    res.json({ data: product });
+    res.json(product);
   } catch (error) {
     res.status(500).json('server error');
   }
