@@ -10,6 +10,6 @@ export async function removeAll(req: Request, res: Response) {
     });
     res.status(200).json(removeAllItems);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 }

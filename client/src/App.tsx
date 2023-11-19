@@ -15,6 +15,8 @@ import { CartItem } from './types.ts';
 import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
 import { useAuthToken } from './hooks/useAuthToken.ts';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCartItems } from './api/api.ts';
 
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -36,6 +38,20 @@ function App() {
     []
   );
   const [goingToCheckout, setGoingToCheckout] = useState(false);
+  const { data } = useQuery({
+    queryKey: ['cartItems', token],
+    queryFn: () => getCartItems(token),
+    enabled: !!token,
+  });
+
+  let totalPrice = 0;
+  let totalQuantity = 0;
+  const cartItems = token ? data : itemsOnCart;
+
+  cartItems?.forEach((product: CartItem) => {
+    totalQuantity += product.quantity;
+    totalPrice += product.quantity * product.price;
+  });
 
   useEffect(() => {
     async function handleUser() {
@@ -74,6 +90,7 @@ function App() {
           user={user}
           setGoingToCheckout={setGoingToCheckout}
           setItemsOnCart={setItemsOnCart}
+          totalQuantity={totalQuantity}
         />
       )}
       <Routes>
@@ -122,12 +139,13 @@ function App() {
         <>
           <Cart
             cartRef={cartRef}
-            itemsOnCart={itemsOnCart}
             setItemsOnCart={setItemsOnCart}
             setCartOpen={setCartOpen}
-            user={user}
             token={token}
             setGoingToCheckout={setGoingToCheckout}
+            totalQuantity={totalQuantity}
+            totalPrice={totalPrice}
+            cartItems={cartItems}
           />{' '}
           <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
         </>

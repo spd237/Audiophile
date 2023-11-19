@@ -11,6 +11,6 @@ export async function getProduct(req: Request, res: Response) {
     });
     res.json(product);
   } catch (error) {
-    res.status(500).json('server error');
+    res.status(500).json(error);
   }
 }

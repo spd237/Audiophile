@@ -24,6 +24,6 @@ export async function handleSignUp(req: Request, res: Response) {
     });
     res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(500).json(error);
   }
 }

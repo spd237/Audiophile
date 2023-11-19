@@ -15,6 +15,6 @@ export async function increaseItemQuantity(req: Request, res: Response) {
     });
     res.status(200).json(updatedItem);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 }

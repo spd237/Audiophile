@@ -18,8 +18,6 @@ export async function handleSignIn(req: Request, res: Response) {
       );
     }
 
-    console.log(req.body.cartItems);
-
     const user = await prisma.user.update({
       where: {
         id: req.body.id,
@@ -35,6 +33,6 @@ export async function handleSignIn(req: Request, res: Response) {
     });
     res.json(user);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 }

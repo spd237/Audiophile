@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Checkout({ token }: { token: string }) {
   const goBack = useNavigate();
-  const [confirmationModalOpen, setConfirmationModalOpen] = useState(true);
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
   const methods = useForm<CheckoutData>({
     resolver: zodResolver(CheckoutSchema),

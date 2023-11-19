@@ -32,6 +32,6 @@ export async function addItem(req: Request, res: Response) {
     }
     res.json({ message: 'successfully added to cart' });
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 }

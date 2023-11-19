@@ -10,6 +10,6 @@ export async function getCartItems(req: Request, res: Response) {
     });
     res.json(cartItems);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 }

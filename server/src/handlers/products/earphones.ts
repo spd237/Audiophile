@@ -10,6 +10,6 @@ export async function getEarphones(req: Request, res: Response) {
     });
     res.json(products);
   } catch (error) {
-    res.status(500).json('server error');
+    res.status(500).json(error);
   }
 }
