@@ -5,7 +5,6 @@ export default {
     extend: {
       colors: {
         orange: '#D87D4A',
-        'orange-hover': '#FBAF85',
         'almost-black': '#101010',
         'zx9-hover': '#4C4C4C',
         'light-gray': '#F1F1F1',
@@ -27,6 +26,7 @@ export default {
         zx7previewDesktop:
           "url('src/assets/image-speaker-zx7-home-desktop.jpg')",
         'pattern-circles': "url('src/assets/pattern-circles.svg')",
+        'radio-background': "url('src/assets/radio-selected.svg')",
       },
     },
   },

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { removeAllItems } from '../api/api';
 import { v4 as uuidv4 } from 'uuid';
+import { AnimatePresence, easeOut, motion } from 'framer-motion';
 
 interface CartProps {
   cartRef: React.RefObject<HTMLDivElement>;
@@ -14,6 +15,7 @@ interface CartProps {
   totalQuantity: number;
   totalPrice: number;
   cartItems: CartItem[] | undefined;
+  cartOpen: boolean;
 }
 
 export default function Cart({
@@ -25,6 +27,7 @@ export default function Cart({
   totalQuantity,
   totalPrice,
   cartItems,
+  cartOpen,
 }: CartProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -49,56 +52,81 @@ export default function Cart({
   ));
 
   return (
-    <div
-      className="absolute top-24 bg-white rounded-lg mx-auto left-0 right-0 max-w-xs z-10 px-7 py-8 sm:max-w-sm sm:left-[21.5rem] lg:left-[48rem] min-h-[15rem]"
-      ref={cartRef}
-    >
-      <div className="flex items-center justify-between">
-        <span className="text-lg font-bold tracking-[1.2px] uppercase">
-          cart<span>({totalQuantity || 0})</span>
-        </span>
-        {!totalQuantity ? (
-          ''
-        ) : (
-          <button
-            className="text-[15px] font-medium opacity-50 underline"
-            onClick={() => {
-              !token ? setItemsOnCart([]) : removeAllMutation.mutate({ token });
-            }}
-          >
-            Remove All
-          </button>
-        )}
-      </div>
-      {!totalQuantity ? (
-        <div className="ml-28 mt-14">Cart is empty.</div>
-      ) : (
-        <>
-          <div className="flex flex-col gap-6 my-8">{productsOnCart}</div>
-          <div>
-            <div className="flex justify-between">
-              <span className="text-[15px] font-medium opacity-50 uppercase">
-                total
-              </span>
-              <span className="text-lg font-bold">
-                $ {totalPrice?.toLocaleString()}
-              </span>
-            </div>
-            <button
-              className="bg-orange text-white text-[13px] font-bold tracking-[1px] uppercase w-full py-4 mt-6"
-              onClick={() => {
-                setCartOpen(false);
-                setGoingToCheckout(
-                  (prevGoingToCheckout) => !prevGoingToCheckout
-                );
-                !token ? navigate('/auth') : navigate('/checkout');
-              }}
-            >
-              checkout
-            </button>
+    <AnimatePresence>
+      {cartOpen && (
+        <motion.div
+          initial={{ y: -8, opacity: 0 }}
+          animate={{
+            y: 8,
+            opacity: 1,
+            transition: {
+              type: 'tween',
+              ease: 'easeIn',
+              duration: 0.15,
+            },
+          }}
+          exit={{
+            y: -6,
+            opacity: 0,
+            transition: {
+              type: 'tween',
+              ease: 'easeOut',
+              duration: 0.15,
+            },
+          }}
+          className="absolute top-20 bg-white rounded-lg mx-auto left-0 right-0 max-w-xs z-10 px-7 py-8 sm:max-w-sm sm:left-[21.5rem] lg:left-[48rem] min-h-[15rem]"
+          ref={cartRef}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-lg font-bold tracking-[1.2px] uppercase">
+              cart<span>({totalQuantity || 0})</span>
+            </span>
+            {!totalQuantity ? (
+              ''
+            ) : (
+              <button
+                className="text-[15px] font-medium opacity-50 underline hover:text-orange hover:opacity-100"
+                onClick={() => {
+                  !token
+                    ? setItemsOnCart([])
+                    : removeAllMutation.mutate({ token });
+                }}
+              >
+                Remove All
+              </button>
+            )}
           </div>
-        </>
+          {!totalQuantity ? (
+            <div className="ml-28 mt-14">Cart is empty.</div>
+          ) : (
+            <>
+              <div className="flex flex-col gap-6 my-8">{productsOnCart}</div>
+              <div>
+                <div className="flex justify-between">
+                  <span className="text-[15px] font-medium opacity-50 uppercase">
+                    total
+                  </span>
+                  <span className="text-lg font-bold">
+                    $ {totalPrice?.toLocaleString()}
+                  </span>
+                </div>
+                <button
+                  className="bg-orange text-white text-[13px] font-bold tracking-[1px] uppercase w-full py-4 mt-6 border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] hover:shadow-[inset_328px_0_0_0_#ffffff] transition-all duration-200 ease-in hover:text-orange"
+                  onClick={() => {
+                    setCartOpen(false);
+                    setGoingToCheckout(
+                      (prevGoingToCheckout) => !prevGoingToCheckout
+                    );
+                    !token ? navigate('/auth') : navigate('/checkout');
+                  }}
+                >
+                  checkout
+                </button>
+              </div>
+            </>
+          )}
+        </motion.div>
       )}
-    </div>
+    </AnimatePresence>
   );
 }

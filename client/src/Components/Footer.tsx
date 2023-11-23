@@ -5,17 +5,17 @@ export default function Footer() {
     <footer className="bg-almost-black text-white flex justify-center">
       <div className="mx-6 sm:mx-10 lg:max-w-6xl flex flex-col items-center gap-12 pb-8 pt-[52px] relative before:absolute before:bg-orange before:w-[101px] before:h-1 before:top-0 sm:items-start lg:grid grid-cols-2 grid-rows-3 lg:gap-y-0 lg:items-center">
         <img src={logo} alt="logo" />
-        <ul className="uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-center sm:flex sm:gap-[34px] lg:justify-self-end">
-          <li className="mb-4 cursor-pointer lg:mb-0 hover:text-orange">
+        <ul className="uppercase text-[13px] font-bold leading-[25px] tracking-[2px] flex flex-col items-center gap-4 sm:flex-row sm:gap-[34px] lg:justify-self-end">
+          <li className="cursor-pointer lg:mb-0 text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] ">
             <Link to={'/'}>home</Link>
           </li>
-          <li className="mb-4 cursor-pointer lg:mb-0 hover:text-orange">
+          <li className="cursor-pointer lg:mb-0 text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] ">
             <Link to={'/headphones'}>headphones</Link>
           </li>
-          <li className="mb-4 cursor-pointer lg:mb-0 hover:text-orange">
+          <li className="cursor-pointer lg:mb-0 text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] ">
             <Link to={'/speakers'}>speakers</Link>
           </li>
-          <li className="cursor-pointer hover:text-orange">
+          <li className="cursor-pointer text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] ">
             <Link to={'/earphones'} preventScrollReset={false}>
               earphones
             </Link>

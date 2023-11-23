@@ -32,7 +32,7 @@ function Summary({ handleSubmit, onSubmit, data }: SummaryProps) {
   });
 
   return (
-    <div className="bg-white rounded-lg px-6 py-8 flex flex-col gap-6 row-start-2 col-start-2 lg:max-h-[612px]">
+    <div className="bg-white rounded-lg px-6 py-8 flex flex-col gap-6 row-start-2 col-start-2 h-fit">
       <h2 className=" text-lg uppercase font-bold tracking-[1.2px]">summary</h2>
       <div className="flex flex-col gap-6">{productsOnSummary}</div>
       <div>
@@ -65,7 +65,7 @@ function Summary({ handleSubmit, onSubmit, data }: SummaryProps) {
           </span>
         </div>
         <button
-          className="bg-orange text-white text-[13px] uppercase font-bold tracking-[1px] w-full py-4 mt-8"
+          className="bg-orange text-white text-[13px] uppercase font-bold tracking-[1px] w-full py-4 mt-8 border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] sm:hover:shadow-[inset_871px_0_0_0_#ffffff] lg:hover:shadow-[inset_355px_0_0_0_#ffffff] transition-all duration-200 ease-in hover:text-orange"
           onClick={handleSubmit(onSubmit)}
         >
           continue & pay

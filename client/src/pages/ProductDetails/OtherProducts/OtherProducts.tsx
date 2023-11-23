@@ -14,9 +14,11 @@ export default function OtherProducts({ slug, name, image }: Others) {
       <h4 className="font-bold text-2xl tracking-[1.7px] text-center">
         {name}
       </h4>
-      <button className="bg-orange text-white font-bold text-[13px] uppercase tracking-[1px] py-[15px] px-8 hover:bg-orange-hover">
-        <Link to={`/product-details/${slug}`}>see product</Link>
-      </button>
+      <Link to={`/product-details/${slug}`}>
+        <button className="bg-orange text-white font-bold text-[13px] uppercase tracking-[1px] py-[15px] px-8 border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] hover:shadow-[inset_168px_0_0_0_#ffffff] transition-shadow duration-200 ease-in hover:text-orange">
+          see product
+        </button>
+      </Link>
     </div>
   );
 }

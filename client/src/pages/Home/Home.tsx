@@ -31,14 +31,14 @@ export default function Home({
           <div className="flex flex-col gap-[68px] items-center mt-24 w-full sm:flex-row sm:gap-[10px] lg:gap-7">
             {categoryCards}
           </div>
-          <div className="flex flex-col items-center gap-6 mt-[120px] lg:gap-8">
+          <div className="w-full flex flex-col items-center gap-6 mt-[120px] lg:gap-8">
             <ProductPreviewZX9 />
             <ProductPreviewZX7 />
             <ProductPreviewYX1 />
           </div>
-          <About />
         </div>
       </div>
+      <About />
       <Footer />
     </>
   );

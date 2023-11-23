@@ -72,9 +72,9 @@ export default function ProductOnCart({
           $ {price.toLocaleString()}
         </span>
       </div>
-      <div className="bg-light-gray flex items-center justify-between w-[89px] h-[30px] px-3 ml-auto lg:min-w-[89px]">
+      <div className="bg-light-gray flex items-center justify-between w-[89px] h-[30px] px-3 ml-auto lg:min-w-[89px] ">
         <button
-          className="opacity-25"
+          className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
             !token
               ? handleRemoveItem
@@ -85,7 +85,7 @@ export default function ProductOnCart({
         </button>
         <span className="text-[13px] font-bold">{quantity}</span>
         <button
-          className="opacity-25"
+          className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
             !token ? handleAddItem : () => addItemMutation.mutate({ token, id })
           }

@@ -6,6 +6,7 @@ import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getCategory } from '../../api/api';
+import SkeletonProductPreview from '../../Components/Skeletons/SkeletonProductPreview';
 
 export default function Category({
   setNavOpen,
@@ -13,7 +14,7 @@ export default function Category({
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const currentPage = useParams().category;
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['products', currentPage],
     queryFn: () => {
       if (
@@ -56,8 +57,8 @@ export default function Category({
           {currentPage}
         </h2>
       </div>
-      <div className="max-w-xs sm:max-w-2xl lg:max-w-6xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-40 ">
-        {productCards}
+      <div className="max-w-xs sm:max-w-2xl lg:max-w-6xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-40">
+        {isLoading ? <SkeletonProductPreview /> : productCards}
       </div>
       <div className="flex flex-col gap-[68px] items-center mx-auto mt-24 max-w-xs sm:max-w-2xl lg:max-w-6xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">
         {categoryCards}

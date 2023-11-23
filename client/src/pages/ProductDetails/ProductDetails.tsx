@@ -11,6 +11,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../../api/api';
 import { CartItem } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
+import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
+import { useEffect, useState } from 'react';
 
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
@@ -25,7 +27,10 @@ export default function ProductDetails({
 }: ProductDetailsProps) {
   const goBack = useNavigate();
   const slug = useParams().product;
-  const { data } = useQuery(['productDetails', slug], () => getProduct(slug));
+  const { data, isLoading } = useQuery(['productDetails', slug], () =>
+    getProduct(slug)
+  );
+  const [imageLoaded, setImagesLoaded] = useState(false);
 
   const categoryCards = categories.map((category) => {
     return (
@@ -49,44 +54,78 @@ export default function ProductDetails({
     );
   });
 
+  useEffect(() => {
+    const preloadImages = data?.image && [
+      data.image.mobile,
+      data.image.tablet,
+      data.image.desktop,
+    ];
+
+    const images = preloadImages?.map((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        checkAllImagesLoaded();
+      };
+      return img;
+    });
+
+    function checkAllImagesLoaded() {
+      const allLoaded = images?.every((img) => img.complete);
+      if (allLoaded) {
+        setImagesLoaded(true);
+      }
+    }
+
+    return () => {
+      images?.forEach((img) => {
+        img.onload = null;
+      });
+    };
+  }, [data?.image]);
+
   return (
     <>
       <div className="flex flex-col items-center mx-6 sm:mx-10 lg:mx-auto lg:max-w-6xl">
         <div>
           <button
-            className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6"
+            className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6 hover:text-orange hover:opacity-100"
             onClick={() => goBack(-1)}
           >
             Go Back
           </button>
-          <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] lg:w-full">
-            <img
-              srcSet={`${data?.image.mobile} 327w, ${data?.image.tablet} 281w, ${data?.image.desktop} 540w`}
-              sizes="(max-width: 640px) 327px, (max-width: 1024px) 281px, 540px"
-              alt="mark II headphones"
-              className="rounded-lg sm:max-w-xs lg:max-w-[540px]"
-              src={data?.image.desktop}
-            />
-
-            <div className="flex flex-col gap-6 sm:gap-4">
-              {data?.new && (
-                <span className="text-orange tracking-[10px] uppercase text-sm ">
-                  new product
-                </span>
-              )}
-              <h3 className="uppercase font-bold tracking-[1px] text-[28px] sm:mb-4">
-                {data?.name}
-              </h3>
-              <p className=" text-[15px] opacity-50 sm:max-w-xl">
-                {data?.description}
-              </p>
-              <AddToCart
-                price={data?.price}
-                setItemsOnCart={setItemsOnCart}
-                token={token}
+          {isLoading || !imageLoaded ? (
+            <SkeletonProductDetails />
+          ) : (
+            <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] lg:w-full">
+              <img
+                srcSet={`${data?.image.mobile} 327w, ${data?.image.tablet} 281w, ${data?.image.desktop} 540w`}
+                sizes="(max-width: 640px) 327px, (max-width: 1024px) 281px, 540px"
+                alt="mark II headphones"
+                className="rounded-lg sm:max-w-xs lg:max-w-[540px]"
+                src={data?.image.desktop}
               />
-            </div>
-          </article>
+
+              <div className="flex flex-col gap-6 sm:gap-4">
+                {data?.new && (
+                  <span className="text-orange tracking-[10px] uppercase text-sm ">
+                    new product
+                  </span>
+                )}
+                <h3 className="uppercase font-bold tracking-[1px] text-[28px] sm:mb-4">
+                  {data?.name}
+                </h3>
+                <p className=" text-[15px] opacity-50 sm:max-w-xl">
+                  {data?.description}
+                </p>
+                <AddToCart
+                  price={data?.price}
+                  setItemsOnCart={setItemsOnCart}
+                  token={token}
+                />
+              </div>
+            </article>
+          )}
         </div>
         <div className="lg:flex gap-[125px] lg:my-40 lg:self-start">
           <Features features={data?.features} />

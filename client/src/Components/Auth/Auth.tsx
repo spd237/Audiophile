@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TailSpin } from 'react-loader-spinner';
 
 interface AuthProps {
   itemsOnCart: CartItem[] | [];
@@ -147,12 +148,25 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
             )}
           </label>
         </div>
-        <button
-          className="bg-transparent hover:bg-orange hover:bg-opacity-10 border rounded-sm border-orange uppercase px-6 py-1 text-orange tracking-wide font-bold min-w-[5rem] mt-4"
-          type="submit"
-        >
-          {isSigningUp ? 'sign up' : 'sign in'}
-        </button>
+
+        {authMutation.isLoading ? (
+          <TailSpin
+            height="25"
+            width="25"
+            color="#D87D4A"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            visible={true}
+          />
+        ) : (
+          <button
+            className="bg-transparent hover:bg-orange hover:bg-opacity-10 border rounded-sm border-orange uppercase px-6 py-1 text-orange tracking-wide font-bold min-w-[5rem] mt-4"
+            type="submit"
+          >
+            {isSigningUp ? 'sign up' : 'sign in'}
+          </button>
+        )}
+
         <div>
           <span className="text-gray-200">
             {isSigningUp ? 'Already have an account?' : 'Need an account?'}

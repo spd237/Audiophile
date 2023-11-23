@@ -10,6 +10,7 @@ interface CheckoutFormProps {
 
 function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
   const paymentMethod = watch('paymentDetails.paymentMethod');
+  console.log(paymentMethod);
   return (
     <form className="bg-white rounded-lg px-12 pt-14 pb-12 flex flex-col gap-8 mb-8 row-start-2 lg:mb-0">
       <div>
@@ -33,7 +34,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
             <input
               type="text"
               id="name"
-              className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+              className={`rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
                 !errors.name?.message
                   ? 'border border-input-border-color focus:border-orange'
                   : 'border-error-red border-2 focus:border-error-red'
@@ -55,7 +56,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
             <input
               type="email"
               id="email"
-              className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+              className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
                 !errors.email?.message
                   ? 'border border-input-border-color focus:border-orange'
                   : 'border-error-red border-2 focus:border-error-red'
@@ -77,7 +78,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
             <input
               type="tel"
               id="tel"
-              className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+              className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
                 !errors.phoneNumber?.message
                   ? 'border border-input-border-color focus:border-orange'
                   : 'border-error-red border-2 focus:border-error-red'
@@ -105,7 +106,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           <input
             type="text"
             id="address"
-            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
               !errors.address?.message
                 ? 'border border-input-border-color focus:border-orange'
                 : 'border-error-red border-2 focus:border-error-red'
@@ -127,7 +128,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           <input
             type="text"
             id="zip"
-            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
               !errors.zipCode?.message
                 ? 'border border-input-border-color focus:border-orange'
                 : 'border-error-red border-2 focus:border-error-red'
@@ -149,7 +150,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           <input
             type="text"
             id="city"
-            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
               !errors.city?.message
                 ? 'border border-input-border-color focus:border-orange'
                 : 'border-error-red border-2 focus:border-error-red'
@@ -171,7 +172,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           <input
             type="text"
             id="country"
-            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+            className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
               !errors.country?.message
                 ? 'border border-input-border-color focus:border-orange'
                 : 'border-error-red border-2 focus:border-error-red'
@@ -189,22 +190,22 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           Payment Method
         </span>
         <div className="flex flex-col gap-4 row-start-2 col-start-2">
-          <label className="text-sm font-bold tracking-[-0.2px] flex gap-4 border border-input-border-color rounded-lg px-4 py-[18px]">
+          <label className="text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color cursor-pointer rounded-lg px-4 py-[18px] focus-within:border-orange before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute focus-within:before:bg-radio-background before:bg-no-repeat before:bg-center">
             <input
               type="radio"
               id="e-money"
               value="eMoney"
-              className="rounded-full"
+              className="appearance-none"
               {...register('paymentDetails.paymentMethod')}
             />
             e-Money
           </label>
-          <label className="text-sm font-bold tracking-[-0.2px] flex gap-4 border border-input-border-color rounded-lg px-4 py-[18px]">
+          <label className="text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color rounded-lg px-4 py-[18px] cursor-pointer focus-within:border-orange before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute focus-within:before:bg-radio-background before:bg-no-repeat before:bg-center">
             <input
               type="radio"
               id="cash"
               value="cashOnDelivery"
-              defaultChecked
+              className="appearance-none"
               {...register('paymentDetails.paymentMethod')}
             />
             Cash on Delivery
@@ -226,7 +227,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
                 <input
                   type="text"
                   id="e-money-nr"
-                  className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+                  className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
                     !errors.paymentDetails?.root?.message
                       ? 'border border-input-border-color focus:border-orange'
                       : 'border-error-red border-2 focus:border-error-red'
@@ -246,7 +247,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
                 <input
                   type="text"
                   id="e-money-pin"
-                  className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black focus:outline-none ${
+                  className={` rounded-lg px-6 py-[18px] text-sm font-bold text-black caret-orange focus:outline-none ${
                     !errors.paymentDetails?.root?.message
                       ? 'border border-input-border-color focus:border-orange'
                       : 'border-error-red border-2 focus:border-error-red'

@@ -15,8 +15,9 @@ import { CartItem } from './types.ts';
 import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
 import { useAuthToken } from './hooks/useAuthToken.ts';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getCartItems } from './api/api.ts';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -77,6 +78,8 @@ function App() {
     handleUser();
   }, []);
 
+  console.log(location.pathname);
+
   return (
     <>
       <ScrollToTop />
@@ -93,63 +96,79 @@ function App() {
           totalQuantity={totalQuantity}
         />
       )}
-      <Routes>
-        <Route path="/" element={<Home setNavOpen={setNavOpen} />} />
-        <Route
-          path="/:category"
-          element={<CategoryWrapper setNavOpen={setNavOpen} />}
-        />
-        <Route
-          path="/product-details/:product"
-          element={
-            <ProductDetails
-              setItemsOnCart={setItemsOnCart}
-              setNavOpen={setNavOpen}
-              token={token}
-            />
-          }
-        />
-        <Route
-          path="/checkout"
-          element={
-            <CheckoutWrapper>
-              <Checkout token={token} />
-            </CheckoutWrapper>
-          }
-        />
-        <Route
-          path="/auth"
-          element={
-            <Auth
-              itemsOnCart={itemsOnCart}
-              goingToCheckout={goingToCheckout}
-              setGoingToCheckout={setGoingToCheckout}
-            />
-          }
-        />
-      </Routes>
-      {navOpen && (
-        <>
-          {' '}
-          <Menu setNavOpen={setNavOpen} navRef={navRef} />
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
-      {cartOpen && (
-        <>
-          <Cart
-            cartRef={cartRef}
-            setItemsOnCart={setItemsOnCart}
-            setCartOpen={setCartOpen}
-            token={token}
-            setGoingToCheckout={setGoingToCheckout}
-            totalQuantity={totalQuantity}
-            totalPrice={totalPrice}
-            cartItems={cartItems}
-          />{' '}
-          <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
-        </>
-      )}
+      <AnimatePresence>
+        <Routes>
+          <Route path="/" element={<Home setNavOpen={setNavOpen} />} />
+          <Route
+            path="/:category"
+            element={<CategoryWrapper setNavOpen={setNavOpen} />}
+          />
+          <Route
+            path="/product-details/:product"
+            element={
+              <ProductDetails
+                setItemsOnCart={setItemsOnCart}
+                setNavOpen={setNavOpen}
+                token={token}
+              />
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <CheckoutWrapper>
+                <Checkout token={token} />
+              </CheckoutWrapper>
+            }
+          />
+          <Route
+            path="/auth"
+            element={
+              <Auth
+                itemsOnCart={itemsOnCart}
+                goingToCheckout={goingToCheckout}
+                setGoingToCheckout={setGoingToCheckout}
+              />
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+      <Menu navOpen={navOpen} setNavOpen={setNavOpen} navRef={navRef} />
+      <Cart
+        cartRef={cartRef}
+        setItemsOnCart={setItemsOnCart}
+        setCartOpen={setCartOpen}
+        token={token}
+        setGoingToCheckout={setGoingToCheckout}
+        totalQuantity={totalQuantity}
+        totalPrice={totalPrice}
+        cartItems={cartItems}
+        cartOpen={cartOpen}
+      />
+      <AnimatePresence>
+        {(cartOpen || navOpen) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 0.4,
+              transition: {
+                type: 'tween',
+                ease: 'easeIn',
+                duration: 0.15,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              transition: {
+                type: 'tween',
+                ease: 'easeOut',
+                duration: 0.15,
+              },
+            }}
+            className="bg-black opacity-40 h-screen w-screen fixed top-0"
+          ></motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -16,11 +16,11 @@ export default function Hero() {
             made for the passionate music enthusiast.
           </p>
         </div>
-        <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] hover:bg-orange-hover">
-          <Link to={'/product-details/xx99-mark-two-headphones'}>
+        <Link to={'/product-details/xx99-mark-two-headphones'}>
+          <button className="bg-orange text-white w-40 h-12 uppercase font-bold text-sm tracking-[0.0625rem] border-2 border-orange shadow-[inset_0_0_0_0_#191919] hover:shadow-[inset_328px_0_0_0_#191919] hover:text-orange transition-all duration-200 ease-in ">
             See product
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
     </section>
   );

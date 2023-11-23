@@ -6,7 +6,7 @@ export const CheckoutSchema = z.object({
   name: z
     .string()
     .min(2, { message: 'Please enter a valid name' })
-    .max(40, { message: 'Please enter a valid name' }),
+    .max(255, { message: 'Please enter a valid name' }),
   email: z.string().email({ message: 'Wrong format' }),
   phoneNumber: z.string().min(10, { message: 'Wrong format' }),
   address: z.string().min(1, { message: "Field can't be empty" }),

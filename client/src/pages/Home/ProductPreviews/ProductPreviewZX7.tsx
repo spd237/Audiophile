@@ -6,9 +6,11 @@ export default function ProductPreviewZX7() {
       <span className="uppercase text-black text-[28px] font-bold tracking-[2px]">
         zx7 speaker
       </span>
-      <button className="bg-transparent max-w-[160px] h-12 border-[1.5px] border-black uppercase text-[13px] font-bold tracking-[1px] hover:bg-black hover:text-white">
-        <Link to={'/product-details/zx7-speaker'}>see product</Link>
-      </button>
+      <Link to={'/product-details/zx7-speaker'}>
+        <button className="bg-transparent w-40 h-12 uppercase text-[13px] font-bold tracking-[1px] border-2 border-black shadow-[inset_0_0_0_0_#000000] hover:shadow-[inset_328px_0_0_0_#000000] hover:text-white transition-all duration-200 ease-in">
+          see product
+        </button>
+      </Link>
     </article>
   );
 }
