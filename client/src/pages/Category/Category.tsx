@@ -57,7 +57,7 @@ export default function Category({
           {currentPage}
         </h2>
       </div>
-      <div className="max-w-xs sm:max-w-2xl lg:max-w-6xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-40">
+      <div className="max-w-xs sm:max-w-2xl lg:max-w-6xl flex flex-col items-center gap-[120px] mx-auto mb-60 mt-24">
         {isLoading ? <SkeletonProductPreview /> : productCards}
       </div>
       <div className="flex flex-col gap-[68px] items-center mx-auto mt-24 max-w-xs sm:max-w-2xl lg:max-w-6xl sm:flex-row sm:justify-between sm:gap-[10px] lg:gap-7">

@@ -78,8 +78,6 @@ function App() {
     handleUser();
   }, []);
 
-  console.log(location.pathname);
-
   return (
     <>
       <ScrollToTop />
@@ -96,43 +94,41 @@ function App() {
           totalQuantity={totalQuantity}
         />
       )}
-      <AnimatePresence>
-        <Routes>
-          <Route path="/" element={<Home setNavOpen={setNavOpen} />} />
-          <Route
-            path="/:category"
-            element={<CategoryWrapper setNavOpen={setNavOpen} />}
-          />
-          <Route
-            path="/product-details/:product"
-            element={
-              <ProductDetails
-                setItemsOnCart={setItemsOnCart}
-                setNavOpen={setNavOpen}
-                token={token}
-              />
-            }
-          />
-          <Route
-            path="/checkout"
-            element={
-              <CheckoutWrapper>
-                <Checkout token={token} />
-              </CheckoutWrapper>
-            }
-          />
-          <Route
-            path="/auth"
-            element={
-              <Auth
-                itemsOnCart={itemsOnCart}
-                goingToCheckout={goingToCheckout}
-                setGoingToCheckout={setGoingToCheckout}
-              />
-            }
-          />
-        </Routes>
-      </AnimatePresence>
+      <Routes>
+        <Route path="/" element={<Home setNavOpen={setNavOpen} />} />
+        <Route
+          path="/:category"
+          element={<CategoryWrapper setNavOpen={setNavOpen} />}
+        />
+        <Route
+          path="/product-details/:product"
+          element={
+            <ProductDetails
+              setItemsOnCart={setItemsOnCart}
+              setNavOpen={setNavOpen}
+              token={token}
+            />
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <CheckoutWrapper>
+              <Checkout token={token} />
+            </CheckoutWrapper>
+          }
+        />
+        <Route
+          path="/auth"
+          element={
+            <Auth
+              itemsOnCart={itemsOnCart}
+              goingToCheckout={goingToCheckout}
+              setGoingToCheckout={setGoingToCheckout}
+            />
+          }
+        />
+      </Routes>
       <Menu navOpen={navOpen} setNavOpen={setNavOpen} navRef={navRef} />
       <Cart
         cartRef={cartRef}

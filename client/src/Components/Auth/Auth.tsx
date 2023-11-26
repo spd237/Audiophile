@@ -12,7 +12,7 @@ import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TailSpin } from 'react-loader-spinner';
 
-interface AuthProps {
+export interface AuthProps {
   itemsOnCart: CartItem[] | [];
   goingToCheckout: boolean;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;

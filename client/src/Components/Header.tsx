@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../App';
 import { CartItem } from '../types';
+import { motion } from 'framer-motion';
 
 interface HeaderProps {
   navOpen: boolean;
@@ -31,6 +32,22 @@ export default function Header({
   async function signOut() {
     await supabase.auth.signOut();
   }
+
+  const list = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        delay: 0.2,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const listItem = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
 
   return (
     <header className="relative z-10 bg-dark-gray flex justify-center items-center">
@@ -73,27 +90,62 @@ export default function Header({
             />
           </svg>
         </button>
-        <img
+        <motion.img
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: 0.2,
+              ease: 'easeIn',
+            },
+          }}
           src={logo}
           alt="logo"
-          className="ml-8 sm:mr-auto sm:ml-11 lg:ml-0 lg:mr-0"
+          className="ml-8 sm:mr-auto sm:ml-11 lg:ml-0 lg:mr-0 cursor-pointer"
+          onClick={() => navigate('/')}
         />
-        <ul className="hidden lg:flex uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-white gap-[34px] mx-auto items-center ">
-          <li className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]">
+        <motion.ul
+          variants={list}
+          initial="hidden"
+          animate="show"
+          className="hidden lg:flex uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-white gap-[34px] mx-auto items-center "
+        >
+          <motion.li
+            variants={listItem}
+            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
+          >
             <Link to={'/'}>home</Link>
-          </li>
-          <li className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]">
+          </motion.li>
+          <motion.li
+            variants={listItem}
+            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
+          >
             <Link to={'/headphones'}>headphones</Link>
-          </li>
-          <li className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]">
+          </motion.li>
+          <motion.li
+            variants={listItem}
+            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
+          >
             <Link to={'/speakers'}>speakers</Link>
-          </li>
-          <li className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]">
+          </motion.li>
+          <motion.li
+            variants={listItem}
+            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
+          >
             <Link to={'/earphones'}>earphones</Link>
-          </li>
-        </ul>
+          </motion.li>
+        </motion.ul>
         <div className="flex items-center gap-4 lg:gap-6">
-          <button
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: {
+                duration: 0.2,
+                ease: 'easeIn',
+                delay: 0.4,
+              },
+            }}
             className="relative"
             onClick={() => setCartOpen((prevCartOpen) => !prevCartOpen)}
             ref={buttonCartRef}
@@ -122,15 +174,35 @@ export default function Header({
                 {totalQuantity}
               </span>
             )}
-          </button>
+          </motion.button>
           {!user ? (
             <Link to={'/auth'}>
-              <button className="text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]">
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: 1,
+                  transition: {
+                    duration: 0.2,
+                    ease: 'easeIn',
+                    delay: 0.5,
+                  },
+                }}
+                className="text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
+              >
                 SIGN IN
-              </button>
+              </motion.button>
             </Link>
           ) : (
-            <button
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                transition: {
+                  duration: 0.2,
+                  ease: 'easeIn',
+                  delay: 0.5,
+                },
+              }}
               className="text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] "
               onClick={() => {
                 localStorage.removeItem('cart');
@@ -141,7 +213,7 @@ export default function Header({
               }}
             >
               SIGN OUT
-            </button>
+            </motion.button>
           )}
         </div>
       </div>

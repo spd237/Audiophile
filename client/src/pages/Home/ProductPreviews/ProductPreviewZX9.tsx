@@ -2,9 +2,24 @@ import zx9speakerMobile from '../../../assets/image-speaker-zx9-home-mobile.png'
 import zx9speakerTablet from '../../../assets/image-speaker-zx9-tablet.png';
 import { Link } from 'react-router-dom';
 import zx9speakerDesktop from '../../../assets/image-speaker-zx9-desktop.png';
+import { motion } from 'framer-motion';
 export default function ProductPreviewZX9() {
   return (
-    <article className="bg-orange bg-pattern-circles bg-no-repeat bg-cover bg-[center_bottom_8.5rem] w-full flex flex-col items-center h-[600px] sm:h-[720px] sm:bg-[center_bottom_11rem] lg:h-[560px] rounded-lg text-white py-[55px] relative overflow-hidden lg:flex-row lg:gap-[255px] lg:bg-[top_right_12.5rem]">
+    <motion.article
+      initial={
+        window.innerWidth > 640 ? { opacity: 0, x: -200 } : { opacity: 1, x: 0 }
+      }
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: 0.4,
+          ease: 'easeIn',
+        },
+      }}
+      viewport={{ once: true, margin: '-300px' }}
+      className="bg-orange bg-pattern-circles bg-no-repeat bg-cover bg-[center_bottom_8.5rem] w-full flex flex-col items-center h-[600px] sm:h-[720px] sm:bg-[center_bottom_11rem] lg:h-[560px] rounded-lg text-white py-[55px] relative overflow-hidden lg:flex-row lg:gap-[255px] lg:bg-[top_right_12.5rem]"
+    >
       <img
         srcSet={`${zx9speakerMobile} 172w, ${zx9speakerTablet} 197w, ${zx9speakerDesktop} 410w`}
         sizes="(max-width: 640px) 172px, (max-width: 1024px) 197px, 410px"
@@ -23,10 +38,12 @@ export default function ProductPreviewZX9() {
           Upgrade to premium speakers that are phenomenally built to deliver
           truly remarkable sound.
         </p>
-        <button className="bg-black w-40 h-12 uppercase font-bold text-[13px] border-2 border-black shadow-[inset_0_0_0_0_#D87D4A] hover:shadow-[inset_328px_0_0_0_#D87D4A] hover:text-black transition-all duration-200 ease-in ">
-          <Link to={'/product-details/zx9-speaker'}>see product</Link>
-        </button>
+        <Link to={'/product-details/zx9-speaker'}>
+          <button className="bg-black w-40 h-12 uppercase font-bold text-[13px] border-2 border-black shadow-[inset_0_0_0_0_#D87D4A] hover:shadow-[inset_328px_0_0_0_#D87D4A] hover:text-black transition-all duration-200 ease-in ">
+            see product
+          </button>
+        </Link>
       </div>
-    </article>
+    </motion.article>
   );
 }

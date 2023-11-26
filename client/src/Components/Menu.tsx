@@ -1,12 +1,6 @@
 import CategoryCard from './CategoryCard';
 import { categories } from '../utils';
-import {
-  AnimatePresence,
-  easeIn,
-  easeInOut,
-  easeOut,
-  motion,
-} from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 interface MenuPropTypes {
   navOpen: boolean;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,19 +21,21 @@ export default function Menu({ navOpen, setNavOpen, navRef }: MenuPropTypes) {
     <AnimatePresence>
       {navOpen && (
         <motion.div
-          initial={{ scaleY: 0 }}
+          initial={{ opacity: 0, y: -5 }}
           animate={{
-            scaleY: 1,
+            opacity: 1,
+            y: 0,
             transition: {
               duration: 0.25,
-              ease: easeIn,
+              ease: 'easeIn',
             },
           }}
           exit={{
-            scaleY: 0,
+            opacity: 0,
+            y: -5,
             transition: {
               duration: 0.25,
-              ease: easeOut,
+              ease: 'easeOut',
             },
           }}
           className="bg-white absolute top-[73.6px] w-screen flex flex-col gap-[68px] px-6 pt-20 pb-8 z-10 sm:flex-row sm:gap-3 sm:px-10 sm:pb-16 sm:pt-[108px] lg:hidden origin-top"

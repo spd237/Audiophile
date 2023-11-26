@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 interface PropsType {
@@ -11,8 +12,16 @@ export default function CategoryCard({
   thumbnail,
   setNavOpen,
 }: PropsType) {
+  const card = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
+
   return (
-    <article className="flex flex-col justify-center items-center w-full bg-light-gray h-[165px] rounded-lg relative">
+    <motion.article
+      variants={card}
+      className="flex flex-col justify-center items-center w-full bg-light-gray h-[165px] rounded-lg relative"
+    >
       <img
         src={thumbnail}
         alt="headphoneImg"
@@ -43,6 +52,6 @@ export default function CategoryCard({
           />
         </svg>
       </div>
-    </article>
+    </motion.article>
   );
 }

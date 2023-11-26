@@ -46,9 +46,10 @@ export default function ProductCard(props: PropsType) {
 
   return (
     <article
-      className={`flex flex-col items-center gap-8 lg:flex-row lg:w-full lg:gap-20  ${
-        props.new === true ? 'order-1' : 'order-2'
-      }`}
+      className={`flex flex-col items-center gap-8 lg:flex-row lg:w-full lg:gap-20 ${
+        props.name !== 'YX1 Wireless Earphones' &&
+        'lg:first-of-type:flex-row-reverse'
+      }  ${props.new === true ? 'order-1' : 'order-2'}`}
     >
       {!imageLoaded ? (
         <SkeletonProductPreview />
