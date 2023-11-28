@@ -5,6 +5,7 @@ interface SummaryProductProps {
 }
 
 function SummaryProduct({ name, quantity, price }: SummaryProductProps) {
+  const modifiedName = name.replaceAll('-', ' ');
   return (
     <div className="flex items-center">
       <img
@@ -13,7 +14,7 @@ function SummaryProduct({ name, quantity, price }: SummaryProductProps) {
         className="max-w-[64px] rounded-lg"
       />
       <div className="flex flex-col ml-4 mr-5">
-        <span className="text-[15px] font-bold uppercase">{name}</span>
+        <span className="text-[15px] font-bold uppercase">{modifiedName}</span>
         <span className="text-sm font-bold opacity-50">
           ${price.toLocaleString()}
         </span>

@@ -100,7 +100,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
             animate={{ y: 0, scale: 1 }}
             exit={{ y: -5, opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="bg-red-200 max-w-[250px] mx-auto absolute top-4 left-0 right-0 flex  justify-evenly items-center p-2 rounded gap-2"
+            className="bg-red-200 max-w-[250px] mx-auto absolute top-4 left-0 right-0 flex justify-evenly items-center p-2 rounded gap-2"
           >
             <FontAwesomeIcon
               icon={faCircleExclamation}

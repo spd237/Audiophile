@@ -10,7 +10,6 @@ interface CheckoutFormProps {
 
 function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
   const paymentMethod = watch('paymentDetails.paymentMethod');
-  console.log(paymentMethod);
   return (
     <form className="bg-white rounded-lg px-12 pt-14 pb-12 flex flex-col gap-8 mb-8 row-start-2 lg:mb-0">
       <div>
@@ -18,7 +17,7 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           checkout
         </h2>
         <div className="flex flex-col gap-4 sm:grid grid-cols-2 grid-rows-[20%_40%_40%]">
-          <h3 className="text-orange text-[13px] uppercase tracking-[0.9px] font-bold leading-6 self-end">
+          <h3 className="text-orange text-[13px] uppercase tracking-[0.9px] font-bold leading-6">
             billing details
           </h3>
           <div className="flex flex-col gap-[9px] row-start-2 col-start-1">
@@ -190,7 +189,12 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
           Payment Method
         </span>
         <div className="flex flex-col gap-4 row-start-2 col-start-2">
-          <label className="text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color cursor-pointer rounded-lg px-4 py-[18px] focus-within:border-orange before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute focus-within:before:bg-radio-background before:bg-no-repeat before:bg-center">
+          <label
+            className={`text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color cursor-pointer rounded-lg px-4 py-[18px]  before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute ${
+              paymentMethod === 'eMoney' &&
+              'before:bg-radio-background before:bg-no-repeat before:bg-center border-orange'
+            }`}
+          >
             <input
               type="radio"
               id="e-money"
@@ -200,7 +204,12 @@ function CheckoutForm({ register, errors, watch }: CheckoutFormProps) {
             />
             e-Money
           </label>
-          <label className="text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color rounded-lg px-4 py-[18px] cursor-pointer focus-within:border-orange before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute focus-within:before:bg-radio-background before:bg-no-repeat before:bg-center">
+          <label
+            className={`text-sm font-bold tracking-[-0.2px] relative flex gap-8 border border-input-border-color rounded-lg px-4 py-[18px] cursor-pointer  before:h-5 before:w-5 before:border before:border-input-border-color before:rounded-full before:absolute before:bg-center ${
+              paymentMethod === 'cashOnDelivery' &&
+              'before:bg-radio-background before:bg-no-repeat before:bg-center border-orange'
+            }`}
+          >
             <input
               type="radio"
               id="cash"

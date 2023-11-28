@@ -9,12 +9,14 @@ interface AddToCartProps {
   price: number | undefined;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   token: string;
+  setAddToCartStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function AddToCart({
   price,
   setItemsOnCart,
   token,
+  setAddToCartStatus,
 }: AddToCartProps) {
   const queryClient = useQueryClient();
   const productName = useParams().product;
@@ -47,6 +49,9 @@ export default function AddToCart({
           ];
         }
       });
+      setAddToCartStatus('Item added to cart successfully.');
+    } else {
+      setAddToCartStatus('There was an error. Please try again.');
     }
   }
 
@@ -64,6 +69,10 @@ export default function AddToCart({
     }) => addToCart(token, name, quantity, price),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+      setAddToCartStatus('Item added to cart successfully.');
+    },
+    onError: () => {
+      setAddToCartStatus('There was an error. Please try again.');
     },
   });
 
@@ -93,11 +102,11 @@ export default function AddToCart({
           </button>
         </div>
         <button
-          className="bg-orange uppercase font-bold text-white py-3 px-8 text-[13px] w-[160px] border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] hover:shadow-[inset_160px_0_0_0_#ffffff] transition-shadow duration-200 ease-in hover:text-orange"
+          className="bg-orange uppercase font-bold text-white py-3 px-8 text-[13px]  border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] hover:shadow-[inset_160px_0_0_0_#ffffff] transition-shadow duration-200 ease-in hover:text-orange"
           onClick={() => {
             if (!token) {
               handleAddToCart();
-            } else {
+            } else if (token && quantity > 0) {
               addToCartMutation.mutate({
                 token: token,
                 name: productName,

@@ -66,13 +66,15 @@ export default function ProductOnCart({
         alt="mark 2 headphones"
         className="max-w-[64px] rounded-lg"
       />
-      <div className="flex flex-col ml-4">
-        <span className="text-sm font-bold uppercase">{modifiedName}</span>
-        <span className="text-sm font-bold opacity-50">
+      <div className="flex flex-col ml-2 sm:ml-4 sm:mr-5">
+        <span className="text-xs sm:text-sm font-bold uppercase">
+          {modifiedName}
+        </span>
+        <span className="text-xs sm:text-sm font-bold opacity-50">
           $ {price.toLocaleString()}
         </span>
       </div>
-      <div className="bg-light-gray flex items-center justify-between w-[89px] h-[30px] px-3 ml-auto lg:min-w-[89px] ">
+      <div className="bg-light-gray flex items-center justify-between min-w-[89px] h-[30px] px-3 ml-auto">
         <button
           className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={

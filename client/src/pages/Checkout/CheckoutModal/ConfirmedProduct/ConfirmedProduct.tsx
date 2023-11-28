@@ -5,6 +5,7 @@ interface ConfirmedProductProps {
 }
 
 function ConfirmedProduct({ name, quantity, price }: ConfirmedProductProps) {
+  const modifiedName = name.replaceAll('-', ' ');
   return (
     <div className="flex items-center justify-center">
       <img
@@ -13,7 +14,7 @@ function ConfirmedProduct({ name, quantity, price }: ConfirmedProductProps) {
         className="w-8 h-9"
       />
       <div className="flex flex-col ml-4 mr-5">
-        <span className="text-xs font-bold uppercase">{name}</span>
+        <span className="text-xs font-bold uppercase">{modifiedName}</span>
         <span className="text-sm font-bold opacity-50">
           ${price.toLocaleString()}
         </span>

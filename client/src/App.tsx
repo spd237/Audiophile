@@ -21,7 +21,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_API_KEY
+  import.meta.env.VITE_SUPABASE_API_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+    },
+  }
 );
 
 function App() {
@@ -94,6 +100,17 @@ function App() {
           totalQuantity={totalQuantity}
         />
       )}
+      <Cart
+        cartRef={cartRef}
+        setItemsOnCart={setItemsOnCart}
+        setCartOpen={setCartOpen}
+        token={token}
+        setGoingToCheckout={setGoingToCheckout}
+        totalQuantity={totalQuantity}
+        totalPrice={totalPrice}
+        cartItems={cartItems}
+        cartOpen={cartOpen}
+      />
       <Routes>
         <Route path="/" element={<Home setNavOpen={setNavOpen} />} />
         <Route
@@ -130,17 +147,6 @@ function App() {
         />
       </Routes>
       <Menu navOpen={navOpen} setNavOpen={setNavOpen} navRef={navRef} />
-      <Cart
-        cartRef={cartRef}
-        setItemsOnCart={setItemsOnCart}
-        setCartOpen={setCartOpen}
-        token={token}
-        setGoingToCheckout={setGoingToCheckout}
-        totalQuantity={totalQuantity}
-        totalPrice={totalPrice}
-        cartItems={cartItems}
-        cartOpen={cartOpen}
-      />
       <AnimatePresence>
         {(cartOpen || navOpen) && (
           <motion.div

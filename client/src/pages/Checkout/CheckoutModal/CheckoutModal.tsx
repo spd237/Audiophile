@@ -48,7 +48,7 @@ export default function CheckoutModal({
 
   return (
     <div className="flex justify-center items-center h-screen w-screen fixed top-0 left-0 z-10">
-      <div className="bg-white m-auto relative left-0 right-0 max-w-xs p-8 rounded-lg sm:max-w-[540px]">
+      <div className="bg-white m-auto relative left-0 right-0 max-w-xs p-8 rounded-lg sm:min-w-[540px]">
         <img src={checkmark} alt="checkmark" />
         <h2 className="uppercase text-[24px] font-bold mt-6 mb-4 leading-7 tracking-[0.85px] sm:text-[32px] sm:tracking-[1.143px] sm:leading-9 sm:max-w-xs">
           thank you for your order
@@ -57,8 +57,12 @@ export default function CheckoutModal({
           You will recieve an email confirmation shortly.
         </span>
         <div className="mt-6 sm:flex">
-          <div className="bg-light-gray flex flex-col p-6 rounded-t-lg sm:min-w-[246px] sm:rounded-t-none sm:rounded-l-lg">
-            <div className="flex flex-col gap-4 relative after:absolute after:bg-black after:opacity-[0.08] after:w-full after:h-[1px] after:-bottom-3">
+          <div className="bg-light-gray flex flex-col justify-center p-6 rounded-t-lg sm:min-w-[246px] sm:rounded-t-none sm:rounded-l-lg">
+            <div
+              className={`flex flex-col gap-4 relative after:absolute after:bg-black after:opacity-[0.08] after:w-full after:-bottom-3 ${
+                data && data?.length >= 2 ? 'after:h-[1px]' : ''
+              }`}
+            >
               {confirmedProducts &&
                 (expanded ? confirmedProducts : confirmedProducts[0])}
             </div>
@@ -83,7 +87,7 @@ export default function CheckoutModal({
           </div>
         </div>
         <button
-          className="bg-orange text-white font-bold text-[13px] w-full uppercase mt-6 py-4 tracking-[1px] sm:mt-[46px]"
+          className="bg-orange text-white font-bold text-[13px] w-full uppercase mt-6 py-4 tracking-[1px] sm:mt-[46px] border-2 border-orange shadow-[inset_0_0_0_0_#ffffff] hover:shadow-[inset_476px_0_0_0_#ffffff] transition-all duration-200 ease-in hover:text-orange"
           onClick={handleConfirmation}
         >
           back to home

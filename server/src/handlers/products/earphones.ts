@@ -8,7 +8,7 @@ export async function getEarphones(req: Request, res: Response) {
         category: 'earphones',
       },
     });
-    res.json(products);
+    res.status(200).json(products);
   } catch (error) {
     res.status(500).json(error);
   }

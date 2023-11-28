@@ -13,6 +13,7 @@ import { CartItem } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
 import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
@@ -27,10 +28,12 @@ export default function ProductDetails({
 }: ProductDetailsProps) {
   const goBack = useNavigate();
   const slug = useParams().product;
+  const [imageLoaded, setImagesLoaded] = useState(false);
+  const [addToCartStatus, setAddToCartStatus] = useState<string>('');
+
   const { data, isLoading } = useQuery(['productDetails', slug], () =>
     getProduct(slug)
   );
-  const [imageLoaded, setImagesLoaded] = useState(false);
 
   const categoryCards = categories.map((category) => {
     return (
@@ -84,10 +87,46 @@ export default function ProductDetails({
     };
   }, [data?.image]);
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAddToCartStatus('');
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [addToCartStatus]);
+
   return (
     <>
-      <div className="flex flex-col items-center mx-6 sm:mx-10 lg:mx-auto lg:max-w-6xl">
-        <div>
+      <div className="flex flex-col items-center mx-6 sm:mx-10 lg:max-w-6xl xl:mx-auto relative top-4">
+        <AnimatePresence>
+          {addToCartStatus && (
+            <motion.div
+              key="status-msg"
+              layout
+              initial={{ y: -10, scale: 0.95 }}
+              animate={{
+                y: 0,
+                scale: 1,
+                transition: {
+                  ease: 'easeIn',
+                  duration: 0.2,
+                },
+              }}
+              exit={{
+                y: -5,
+                opacity: 0,
+                transition: {
+                  ease: 'easeOut',
+                  duration: 0.2,
+                },
+              }}
+              className="bg-orange text-white rounded py-1 px-2 text-sm font-bold absolute left-0 right-0 mx-auto max-w-fit"
+            >
+              {addToCartStatus}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="max-w-full">
           <button
             className="bg-transparent text-[15px] font-medium opacity-50 leading-6 mt-4 mb-6 hover:text-orange hover:opacity-100"
             onClick={() => goBack(-1)}
@@ -97,7 +136,7 @@ export default function ProductDetails({
           {isLoading || !imageLoaded ? (
             <SkeletonProductDetails />
           ) : (
-            <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] lg:w-full">
+            <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] sm:items-center lg:w-full">
               <img
                 srcSet={`${data?.image.mobile} 327w, ${data?.image.tablet} 281w, ${data?.image.desktop} 540w`}
                 sizes="(max-width: 640px) 327px, (max-width: 1024px) 281px, 540px"
@@ -122,6 +161,7 @@ export default function ProductDetails({
                   price={data?.price}
                   setItemsOnCart={setItemsOnCart}
                   token={token}
+                  setAddToCartStatus={setAddToCartStatus}
                 />
               </div>
             </article>
