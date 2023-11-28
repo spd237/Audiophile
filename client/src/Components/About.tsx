@@ -1,10 +1,10 @@
-import aboutPicDesktop from '../assets/image-best-gear-desktop.jpg';
+import aboutPicDesktop from '/img/About/image-best-gear-desktop.jpg';
 
 export default function About() {
   return (
     <article className="my-[120px] flex flex-col items-center gap-8 mx-6 lg:flex-row justify-center sm:mx-10 lg:max-w-6xl lg:justify-between xl:mx-auto">
       <img
-        srcSet="/src/assets/image-best-gear.jpg 327w, /src/assets/image-best-gear-tablet.jpg 689w, /src/assets/image-best-gear-desktop.jpg 540w"
+        srcSet="/img/About/image-best-gear.jpg 327w, /img/About/image-best-gear-tablet.jpg 689w, /img/About/image-best-gear-desktop.jpg 540w"
         sizes="(max-width: 670px) 327px, (max-width: 1024px) 689px, 540px"
         src={aboutPicDesktop}
         alt="about-pic"
