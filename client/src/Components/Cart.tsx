@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { removeAllItems } from '../api/api';
 import { v4 as uuidv4 } from 'uuid';
-import { AnimatePresence, easeOut, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface CartProps {
   cartRef: React.RefObject<HTMLDivElement>;
