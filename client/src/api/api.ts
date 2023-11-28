@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CartItem, ProductType } from '../types';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://audiophile-api-i1ne.onrender.com';
 
 const api = axios.create({
   baseURL: API_URL,
