@@ -5,7 +5,7 @@ export default function ProductPreviewZX7() {
   return (
     <motion.article
       initial={
-        window.innerWidth > 640 ? { opacity: 0, x: -200 } : { opacity: 1, x: 0 }
+        window.innerWidth > 640 ? { opacity: 0, x: 200 } : { opacity: 1, x: 0 }
       }
       whileInView={{
         opacity: 1,
