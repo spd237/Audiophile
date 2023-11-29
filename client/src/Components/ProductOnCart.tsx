@@ -62,7 +62,7 @@ export default function ProductOnCart({
   return (
     <div className="flex items-center">
       <img
-        src={`/src/assets/image-${name}-cart.jpg`}
+        src={`/img/Cart/image-${name}-cart.jpg`}
         alt="mark 2 headphones"
         className="max-w-[64px] rounded-lg"
       />
