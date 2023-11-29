@@ -9,7 +9,7 @@ function ConfirmedProduct({ name, quantity, price }: ConfirmedProductProps) {
   return (
     <div className="flex items-center justify-center">
       <img
-        src={`/src/assets/image-${name}-cart.jpg`}
+        src={`/img/Cart/image-${name}-cart.jpg`}
         alt="mark 2 headphones"
         className="w-8 h-9"
       />
