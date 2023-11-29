@@ -51,7 +51,7 @@ export default function Header({
 
   return (
     <header className="relative z-10 bg-dark-gray flex justify-center items-center">
-      <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-6xl lg:px-0 ">
+      <div className="w-full flex justify-between py-6 mx-6 sm:mx-10 lg:max-w-6xl lg:px-0 border-b border-white border-opacity-20">
         <button
           onClick={() => setNavOpen((prevNavOpen) => !prevNavOpen)}
           ref={buttonNavRef}
