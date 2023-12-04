@@ -57,8 +57,18 @@ export default function Category({
           {currentPage}
         </h2>
       </div>
+
       <div className="mx-6 sm:mx-10 lg:max-w-6xl flex flex-col items-center gap-[120px] xl:mx-auto mb-60 mt-24">
-        {isLoading ? <SkeletonProductPreview /> : productCards}
+        {isLoading ? (
+          <>
+            <span className="absolute left-0 right-0 mx-auto max-w-fit text-sm">
+              Takes a second to load because free tier API hosting...
+            </span>
+            <SkeletonProductPreview />
+          </>
+        ) : (
+          productCards
+        )}
       </div>
       <div
         className="flex flex-col gap-[68px] items-center mx-6 sm:mx-10 mt-24 

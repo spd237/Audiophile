@@ -133,8 +133,14 @@ export default function ProductDetails({
           >
             Go Back
           </button>
+
           {isLoading || !imageLoaded ? (
-            <SkeletonProductDetails />
+            <>
+              <span className="absolute left-0 right-0 mx-auto max-w-fit text-sm">
+                Takes a second to load because free tier API hosting...
+              </span>
+              <SkeletonProductDetails />
+            </>
           ) : (
             <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] sm:items-center lg:w-full">
               <img

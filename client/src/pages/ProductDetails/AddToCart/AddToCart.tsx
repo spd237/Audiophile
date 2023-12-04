@@ -84,6 +84,7 @@ export default function AddToCart({
       <div className="w-full flex gap-4">
         <div className="bg-light-gray flex py-3 px-4 gap-5 justify-between items-center w-[120px]">
           <button
+            name="-"
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => {
               if (quantity > 1) {
@@ -97,6 +98,7 @@ export default function AddToCart({
             {quantity}
           </span>
           <button
+            name="+"
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => setQuantity(quantity + 1)}
           >

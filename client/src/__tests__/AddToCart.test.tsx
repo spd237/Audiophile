@@ -17,8 +17,8 @@ describe('Add To Cart', () => {
         />
       </QueryClientProvider>
     );
-    const incrementBtn = screen.getByText('+');
-    const decrementBtn = screen.getByText('-');
+    const incrementBtn = screen.getByRole('button', { name: '+' });
+    const decrementBtn = screen.getByRole('button', { name: '-' });
     const quantity = screen.getByTitle('quantity');
 
     expect(incrementBtn).toBeTruthy();
