@@ -8,7 +8,7 @@ import ProductDetails from './pages/ProductDetails/ProductDetails';
 import ScrollToTop from './Components/ScrollToTop.ts';
 import Cart from './Components/Cart.tsx';
 import Menu from './Components/Menu.tsx';
-import Auth from './Components/Auth/Auth.tsx';
+import Auth from './pages/Auth/Auth.tsx';
 import useLocalStorage from './hooks/useLocalStorage.ts';
 import Header from './Components/Header.tsx';
 import { CartItem } from './types.ts';
@@ -20,8 +20,8 @@ import { getCartItems } from './api/api.ts';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_API_KEY,
+  import.meta.env.VITE_SUPABASE_URL as string,
+  import.meta.env.VITE_SUPABASE_API_KEY as string,
   {
     auth: {
       autoRefreshToken: true,
@@ -78,10 +78,10 @@ function App() {
           subscription.unsubscribe();
         };
       } else if (error) {
-        console.log(error);
+        throw new Error();
       }
     }
-    handleUser();
+    handleUser().catch((e) => console.error(e));
   }, []);
 
   return (

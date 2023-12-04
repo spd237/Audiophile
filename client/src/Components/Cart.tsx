@@ -51,6 +51,10 @@ export default function Cart({
     />
   ));
 
+  if (removeAllMutation.error) {
+    return <div>Error</div>;
+  }
+
   return (
     <div className="mx-6 sm:mx-10 lg:max-w-6xl xl:mx-auto relative top-0 flex justify-end">
       <AnimatePresence>

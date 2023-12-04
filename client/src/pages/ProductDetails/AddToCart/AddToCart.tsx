@@ -20,10 +20,10 @@ export default function AddToCart({
 }: AddToCartProps) {
   const queryClient = useQueryClient();
   const productName = useParams().product;
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   function handleAddToCart() {
-    if (productName && price && quantity > 0) {
+    if (productName && price) {
       setItemsOnCart((prevItems) => {
         if (!prevItems) prevItems = [];
         if (prevItems.find((item) => item.name === productName)) {
@@ -78,22 +78,24 @@ export default function AddToCart({
 
   return (
     <div className="flex flex-col gap-8 mt-6">
-      <span className="font-bold text-lg tracking-[1.2px]">
+      <div className="font-bold text-lg tracking-[1.2px]">
         $ {price?.toLocaleString()}
-      </span>
+      </div>
       <div className="w-full flex gap-4">
         <div className="bg-light-gray flex py-3 px-4 gap-5 justify-between items-center w-[120px]">
           <button
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => {
-              if (quantity > 0) {
+              if (quantity > 1) {
                 setQuantity(quantity - 1);
               }
             }}
           >
             -
           </button>
-          <span className="text-[13px] font-bold">{quantity}</span>
+          <span className="text-[13px] font-bold" title="quantity">
+            {quantity}
+          </span>
           <button
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => setQuantity(quantity + 1)}
@@ -114,7 +116,7 @@ export default function AddToCart({
                 price: price,
               });
             }
-            setQuantity(0);
+            setQuantity(1);
           }}
         >
           add to cart
