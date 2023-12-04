@@ -61,7 +61,7 @@ export default function Category({
       <div className="mx-6 sm:mx-10 lg:max-w-6xl flex flex-col items-center gap-[120px] xl:mx-auto mb-60 mt-24">
         {isLoading ? (
           <>
-            <span className="absolute left-0 right-0 mx-auto max-w-fit text-sm">
+            <span className="absolute left-0 right-0 mx-auto max-w-fit text-sm mb-4">
               Takes a second to load because free tier API hosting...
             </span>
             <SkeletonProductPreview />
