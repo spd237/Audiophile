@@ -9,10 +9,8 @@ import { removeAllItems } from '../../../api/api';
 
 export default function CheckoutModal({
   data,
-  token,
 }: {
   data: CartItem[] | undefined;
-  token: string;
 }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -35,14 +33,14 @@ export default function CheckoutModal({
   });
 
   const removeAllMutation = useMutation({
-    mutationFn: ({ token }: { token: string }) => removeAllItems(token),
+    mutationFn: () => removeAllItems(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
   });
 
   function handleConfirmation() {
-    removeAllMutation.mutate({ token });
+    removeAllMutation.mutate();
     navigate('/');
   }
 

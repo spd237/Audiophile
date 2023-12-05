@@ -6,7 +6,7 @@ interface ProductOnCartProps {
   quantity: number;
   price: number;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
-  token: string;
+  token: string | undefined;
   id: string;
 }
 
@@ -44,16 +44,14 @@ export default function ProductOnCart({
   }
 
   const addItemMutation = useMutation({
-    mutationFn: ({ token, id }: { token: string; id: string }) =>
-      increaseQuantity(token, id),
+    mutationFn: ({ id }: { id: string }) => increaseQuantity(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
   });
 
   const removeItemMutation = useMutation({
-    mutationFn: ({ token, id }: { token: string; id: string }) =>
-      decreaseQuantity(token, id),
+    mutationFn: ({ id }: { id: string }) => decreaseQuantity(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
@@ -63,7 +61,7 @@ export default function ProductOnCart({
     <div className="flex items-center">
       <img
         src={`/img/Cart/image-${name}-cart.jpg`}
-        alt="mark 2 headphones"
+        alt="product-on-cart"
         className="max-w-[64px] rounded-lg"
       />
       <div className="flex flex-col ml-2 sm:ml-4 sm:mr-5">
@@ -78,9 +76,7 @@ export default function ProductOnCart({
         <button
           className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
-            !token
-              ? handleRemoveItem
-              : () => removeItemMutation.mutate({ token, id })
+            !token ? handleRemoveItem : () => removeItemMutation.mutate({ id })
           }
         >
           -
@@ -89,7 +85,7 @@ export default function ProductOnCart({
         <button
           className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
-            !token ? handleAddItem : () => addItemMutation.mutate({ token, id })
+            !token ? handleAddItem : () => addItemMutation.mutate({ id })
           }
         >
           +

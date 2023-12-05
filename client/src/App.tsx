@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDetectClick } from './hooks/useDetectClick.ts';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { User, createClient } from '@supabase/supabase-js';
 import Checkout from './pages/Checkout/Checkout';
 import Home from './pages/Home/Home';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
@@ -19,20 +18,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getCartItems } from './api/api.ts';
 import { AnimatePresence, motion } from 'framer-motion';
 
-export const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL as string,
-  import.meta.env.VITE_SUPABASE_API_KEY as string,
-  {
-    auth: {
-      autoRefreshToken: true,
-      persistSession: true,
-    },
-  }
-);
-
 function App() {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  const token = useAuthToken(user);
+  const token = useAuthToken();
   const location = useLocation();
   const cartRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -47,7 +34,7 @@ function App() {
   const [goingToCheckout, setGoingToCheckout] = useState(false);
   const { data } = useQuery({
     queryKey: ['cartItems', token],
-    queryFn: () => getCartItems(token),
+    queryFn: () => getCartItems(),
     enabled: !!token,
   });
 
@@ -60,30 +47,6 @@ function App() {
     totalPrice += product.quantity * product.price;
   });
 
-  useEffect(() => {
-    async function handleUser() {
-      const { data, error } = await supabase.auth.getSession();
-      if (data) {
-        setUser(data.session?.user);
-        const {
-          data: { subscription },
-        } = supabase.auth.onAuthStateChange((event, session) => {
-          if (event === 'SIGNED_IN') {
-            setUser(session?.user);
-          } else if (event === 'SIGNED_OUT') {
-            setUser(undefined);
-          }
-        });
-        return () => {
-          subscription.unsubscribe();
-        };
-      } else if (error) {
-        throw new Error();
-      }
-    }
-    handleUser().catch((e) => console.error(e));
-  }, []);
-
   return (
     <>
       <ScrollToTop />
@@ -94,7 +57,6 @@ function App() {
           buttonCartRef={buttonCartRef}
           buttonNavRef={buttonNavRef}
           setNavOpen={setNavOpen}
-          user={user}
           setGoingToCheckout={setGoingToCheckout}
           setItemsOnCart={setItemsOnCart}
           totalQuantity={totalQuantity}
@@ -104,7 +66,6 @@ function App() {
         cartRef={cartRef}
         setItemsOnCart={setItemsOnCart}
         setCartOpen={setCartOpen}
-        token={token}
         setGoingToCheckout={setGoingToCheckout}
         totalQuantity={totalQuantity}
         totalPrice={totalPrice}
@@ -123,7 +84,6 @@ function App() {
             <ProductDetails
               setItemsOnCart={setItemsOnCart}
               setNavOpen={setNavOpen}
-              token={token}
             />
           }
         />
@@ -131,7 +91,7 @@ function App() {
           path="/checkout"
           element={
             <CheckoutWrapper>
-              <Checkout token={token} />
+              <Checkout />
             </CheckoutWrapper>
           }
         />

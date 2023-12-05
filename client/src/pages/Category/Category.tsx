@@ -1,12 +1,11 @@
 import ProductCard from './ProductCard/ProductCard';
-import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
-import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getCategory } from '../../api/api';
 import SkeletonProductPreview from '../../Components/Skeletons/SkeletonProductPreview';
+import { renderCategoryCards } from '../../utils/renderCategoryCards';
 
 export default function Category({
   setNavOpen,
@@ -26,16 +25,7 @@ export default function Category({
     },
   });
 
-  const categoryCards = categories.map((category, index) => {
-    return (
-      <CategoryCard
-        key={index}
-        categoryName={category.category}
-        thumbnail={category.thumbnail}
-        setNavOpen={setNavOpen}
-      />
-    );
-  });
+  const categoryCards = renderCategoryCards(setNavOpen);
 
   const productCards = data?.map((product) => {
     return (

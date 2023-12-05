@@ -5,12 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { removeAllItems } from '../api/api';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useAuthToken } from '../hooks/useAuthToken';
 
 interface CartProps {
   cartRef: React.RefObject<HTMLDivElement>;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  token: string;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
   totalQuantity: number;
   totalPrice: number;
@@ -22,7 +22,6 @@ export default function Cart({
   cartRef,
   setItemsOnCart,
   setCartOpen,
-  token,
   setGoingToCheckout,
   totalQuantity,
   totalPrice,
@@ -31,9 +30,10 @@ export default function Cart({
 }: CartProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const token = useAuthToken();
 
   const removeAllMutation = useMutation({
-    mutationFn: ({ token }: { token: string }) => removeAllItems(token),
+    mutationFn: () => removeAllItems(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
     },
@@ -50,10 +50,6 @@ export default function Cart({
       token={token}
     />
   ));
-
-  if (removeAllMutation.error) {
-    return <div>Error</div>;
-  }
 
   return (
     <div className="mx-6 sm:mx-10 lg:max-w-6xl xl:mx-auto relative top-0 flex justify-end">
@@ -92,9 +88,7 @@ export default function Cart({
                 <button
                   className="text-[15px] font-medium opacity-50 underline hover:text-orange hover:opacity-100"
                   onClick={() => {
-                    !token
-                      ? setItemsOnCart([])
-                      : removeAllMutation.mutate({ token });
+                    !token ? setItemsOnCart([]) : removeAllMutation.mutate();
                   }}
                 >
                   Remove All

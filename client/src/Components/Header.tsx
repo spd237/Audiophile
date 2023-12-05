@@ -1,9 +1,9 @@
 import logo from '../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '@supabase/supabase-js';
-import { supabase } from '../App';
+import { supabase } from '../utils/sbClient';
 import { CartItem } from '../types';
 import { motion } from 'framer-motion';
+import { useAuthToken } from '../hooks/useAuthToken';
 
 interface HeaderProps {
   navOpen: boolean;
@@ -11,7 +11,6 @@ interface HeaderProps {
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   buttonNavRef: React.RefObject<HTMLButtonElement>;
   buttonCartRef: React.RefObject<HTMLButtonElement>;
-  user: User | undefined;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   totalQuantity: number;
@@ -23,11 +22,11 @@ export default function Header({
   setCartOpen,
   buttonNavRef,
   buttonCartRef,
-  user,
   setGoingToCheckout,
   setItemsOnCart,
   totalQuantity,
 }: HeaderProps) {
+  const token = useAuthToken();
   const navigate = useNavigate();
   async function signOut() {
     await supabase.auth.signOut();
@@ -175,7 +174,7 @@ export default function Header({
               </span>
             )}
           </motion.button>
-          {!user ? (
+          {!token ? (
             <Link to={'/auth'}>
               <motion.button
                 initial={{ opacity: 0 }}

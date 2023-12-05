@@ -10,7 +10,7 @@ import { useState } from 'react';
 import CheckoutModal from './CheckoutModal/CheckoutModal';
 import { useNavigate } from 'react-router-dom';
 
-export default function Checkout({ token }: { token: string }) {
+export default function Checkout() {
   const goBack = useNavigate();
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
 
@@ -19,9 +19,8 @@ export default function Checkout({ token }: { token: string }) {
   });
 
   const { data } = useQuery({
-    queryKey: ['cartItems', token],
-    queryFn: () => getCartItems(token),
-    enabled: !!token,
+    queryKey: ['cartItems'],
+    queryFn: () => getCartItems(),
   });
 
   function onSubmit() {
@@ -54,7 +53,7 @@ export default function Checkout({ token }: { token: string }) {
       </FormProvider>
       {confirmationModalOpen && (
         <>
-          <CheckoutModal data={data} token={token} />
+          <CheckoutModal data={data} />
           <div className="bg-black opacity-40 h-screen w-screen fixed top-0"></div>
         </>
       )}

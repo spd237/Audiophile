@@ -1,16 +1,32 @@
-import { User } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
+import { supabase } from '../utils/sbClient';
 
-export function useAuthToken(user: User | undefined) {
-  const [token, setToken] = useState('');
+export function useAuthToken() {
+  const [token, setToken] = useState<string | undefined>();
 
   useEffect(() => {
-    const storedValue = localStorage.getItem(
-      'sb-gfgywzotuybpcpuqczfi-auth-token'
-    );
-    const supabaseAuthData = storedValue ? JSON.parse(storedValue) : '';
-    setToken(supabaseAuthData.access_token);
-  }, [user]);
+    async function handleUser() {
+      const { data, error } = await supabase.auth.getSession();
+      if (data) {
+        setToken(data.session?.access_token);
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_IN') {
+            setToken(session?.access_token);
+          } else if (event === 'SIGNED_OUT') {
+            setToken(undefined);
+          }
+        });
+        return () => {
+          subscription.unsubscribe();
+        };
+      } else if (error) {
+        throw new Error();
+      }
+    }
+    handleUser().catch((e) => console.error(e));
+  }, []);
 
   return token;
 }

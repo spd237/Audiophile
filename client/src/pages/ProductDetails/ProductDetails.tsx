@@ -1,11 +1,9 @@
 import AddToCart from './AddToCart/AddToCart';
 import Features from './Features/Features';
 import Included from './Included/Included';
-import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
 import OtherProducts from './OtherProducts/OtherProducts';
-import { categories } from '../../utils';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../../api/api';
@@ -14,18 +12,19 @@ import { v4 as uuidv4 } from 'uuid';
 import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { renderCategoryCards } from '../../utils/renderCategoryCards';
+import { useAuthToken } from '../../hooks/useAuthToken';
 
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  token: string;
 }
 
 export default function ProductDetails({
   setItemsOnCart,
   setNavOpen,
-  token,
 }: ProductDetailsProps) {
+  const token = useAuthToken();
   const goBack = useNavigate();
   const slug = useParams().product;
   const [imageLoaded, setImagesLoaded] = useState(false);
@@ -35,16 +34,7 @@ export default function ProductDetails({
     getProduct(slug)
   );
 
-  const categoryCards = categories.map((category) => {
-    return (
-      <CategoryCard
-        key={uuidv4()}
-        categoryName={category.category}
-        thumbnail={category.thumbnail}
-        setNavOpen={setNavOpen}
-      />
-    );
-  });
+  const categoryCards = renderCategoryCards(setNavOpen);
 
   const otherProducts = data?.others.map((product) => {
     return (

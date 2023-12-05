@@ -8,7 +8,7 @@ import { addToCart } from '../../../api/api';
 interface AddToCartProps {
   price: number | undefined;
   setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
-  token: string;
+  token: string | undefined;
   setAddToCartStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -57,7 +57,6 @@ export default function AddToCart({
 
   const addToCartMutation = useMutation({
     mutationFn: ({
-      token,
       name,
       quantity,
       price,
@@ -66,7 +65,7 @@ export default function AddToCart({
       name: string | undefined;
       quantity: number;
       price: number | undefined;
-    }) => addToCart(token, name, quantity, price),
+    }) => addToCart(name, quantity, price),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
       setAddToCartStatus('Item added to cart successfully.');
@@ -84,7 +83,6 @@ export default function AddToCart({
       <div className="w-full flex gap-4">
         <div className="bg-light-gray flex py-3 px-4 gap-5 justify-between items-center w-[120px]">
           <button
-            name="-"
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => {
               if (quantity > 1) {
@@ -98,7 +96,6 @@ export default function AddToCart({
             {quantity}
           </span>
           <button
-            name="+"
             className="opacity-25 hover:text-orange hover:opacity-100"
             onClick={() => setQuantity(quantity + 1)}
           >

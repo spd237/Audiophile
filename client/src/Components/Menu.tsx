@@ -1,22 +1,12 @@
-import CategoryCard from './CategoryCard';
-import { categories } from '../utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { renderCategoryCards } from '../utils/renderCategoryCards';
 interface MenuPropTypes {
   navOpen: boolean;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
   navRef: React.RefObject<HTMLDivElement>;
 }
 export default function Menu({ navOpen, setNavOpen, navRef }: MenuPropTypes) {
-  const categoryCards = categories.map((category, index) => {
-    return (
-      <CategoryCard
-        key={index}
-        categoryName={category.category}
-        thumbnail={category.thumbnail}
-        setNavOpen={setNavOpen}
-      />
-    );
-  });
+  const categoryCards = renderCategoryCards(setNavOpen);
   return (
     <AnimatePresence>
       {navOpen && (

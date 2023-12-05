@@ -1,28 +1,18 @@
 import Hero from './Hero/Hero';
-import CategoryCard from '../../Components/CategoryCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
 import ProductPreviewZX7 from './ProductPreviews/ProductPreviewZX7';
 import ProductPreviewYX1 from './ProductPreviews/ProductPreviewYX1';
 import ProductPreviewZX9 from './ProductPreviews/ProductPreviewZX9';
-import { categories } from '../../utils';
 import { motion } from 'framer-motion';
+import { renderCategoryCards } from '../../utils/renderCategoryCards';
 
 export default function Home({
   setNavOpen,
 }: {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const categoryCards = categories.map((category, index) => {
-    return (
-      <CategoryCard
-        key={index}
-        categoryName={category.category}
-        thumbnail={category.thumbnail}
-        setNavOpen={setNavOpen}
-      />
-    );
-  });
+  const categoryCards = renderCategoryCards(setNavOpen);
 
   const container = {
     hidden: { opacity: 0 },
