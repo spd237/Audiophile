@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/sbClient';
+import { supabase } from '../../utils/supabaseClient';
 import { useMutation } from '@tanstack/react-query';
 import { createUser, updateUser } from '../../api/api';
 import { AuthData, CartItem } from '../../types';

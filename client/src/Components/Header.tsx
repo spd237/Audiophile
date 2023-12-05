@@ -1,6 +1,6 @@
 import logo from '../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../utils/sbClient';
+import { supabase } from '../utils/supabaseClient';
 import { CartItem } from '../types';
 import { motion } from 'framer-motion';
 import { useAuthToken } from '../hooks/useAuthToken';

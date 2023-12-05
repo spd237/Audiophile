@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../utils/sbClient';
+import { supabase } from '../utils/supabaseClient';
 
 export function useAuthToken() {
   const [token, setToken] = useState<string | undefined>();
