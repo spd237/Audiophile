@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { ImagesType } from '../../../types';
 import { Link } from 'react-router-dom';
 import SkeletonProductPreview from '../../../Components/Skeletons/SkeletonProductPreview';
