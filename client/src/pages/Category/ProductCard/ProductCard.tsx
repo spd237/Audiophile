@@ -30,7 +30,7 @@ export default function ProductCard({
       ) : (
         <>
           <img
-            srcSet={`${images.mobile} 327w, $s.images.tablet} 689w, ${images.desktop} 540w`}
+            srcSet={`${images.mobile} 327w, ${images.tablet} 689w, ${images.desktop} 540w`}
             sizes="(max-width: 640px) 327px, (max-width: 1024px) 689px, 540px"
             alt="headphones"
             className="rounded-lg lg:max-w-[540px]"

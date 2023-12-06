@@ -17,7 +17,7 @@ model Product {
   image         Json
   category      String
   categoryImage Json
-  new           Boolean
+  isNew         Boolean
   price         Int
   description   String
   features      String
