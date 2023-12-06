@@ -6,7 +6,7 @@ CREATE TABLE "Product" (
     "image" JSONB NOT NULL,
     "category" TEXT NOT NULL,
     "categoryImage" JSONB NOT NULL,
-    "new" BOOLEAN NOT NULL,
+    "isNew" BOOLEAN NOT NULL,
     "price" INTEGER NOT NULL,
     "description" TEXT NOT NULL,
     "features" TEXT NOT NULL,
@@ -25,19 +25,15 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "_ProductToUser" (
-    "A" INTEGER NOT NULL,
-    "B" TEXT NOT NULL
+CREATE TABLE "CartItem" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "userID" TEXT NOT NULL,
+
+    CONSTRAINT "CartItem_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "_ProductToUser_AB_unique" ON "_ProductToUser"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_ProductToUser_B_index" ON "_ProductToUser"("B");
-
 -- AddForeignKey
-ALTER TABLE "_ProductToUser" ADD CONSTRAINT "_ProductToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_ProductToUser" ADD CONSTRAINT "_ProductToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "CartItem" ADD CONSTRAINT "CartItem_userID_fkey" FOREIGN KEY ("userID") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
