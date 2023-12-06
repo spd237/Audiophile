@@ -10,6 +10,7 @@ export default function OtherProducts({ slug, name, image }: Others) {
         alt="mark1 headphones"
         className="rounded-lg"
         src={image.desktop}
+        loading="lazy"
       />
       <h4 className="font-bold text-2xl tracking-[1.7px] text-center">
         {name}

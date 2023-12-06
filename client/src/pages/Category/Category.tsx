@@ -32,10 +32,11 @@ export default function Category({
       <ProductCard
         key={product.id}
         name={product.name}
-        new={product.new}
+        isNew={product.isNew}
         description={product.description}
         images={product.categoryImage}
         slug={product.slug}
+        isLoading={isLoading}
       />
     );
   });

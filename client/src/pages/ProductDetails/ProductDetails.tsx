@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
 import { useAuthToken } from '../../hooks/useAuthToken';
+import ArtisticImages from './ArtisticImages/ArtisticImages';
 
 interface ProductDetailsProps {
   setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
@@ -27,7 +28,6 @@ export default function ProductDetails({
   const token = useAuthToken();
   const goBack = useNavigate();
   const slug = useParams().product;
-  const [imageLoaded, setImagesLoaded] = useState(false);
   const [addToCartStatus, setAddToCartStatus] = useState<string>('');
 
   const { data, isLoading } = useQuery(['productDetails', slug], () =>
@@ -46,36 +46,6 @@ export default function ProductDetails({
       />
     );
   });
-
-  useEffect(() => {
-    const preloadImages = data?.image && [
-      data.image.mobile,
-      data.image.tablet,
-      data.image.desktop,
-    ];
-
-    const images = preloadImages?.map((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        checkAllImagesLoaded();
-      };
-      return img;
-    });
-
-    function checkAllImagesLoaded() {
-      const allLoaded = images?.every((img) => img.complete);
-      if (allLoaded) {
-        setImagesLoaded(true);
-      }
-    }
-
-    return () => {
-      images?.forEach((img) => {
-        img.onload = null;
-      });
-    };
-  }, [data?.image]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -124,7 +94,7 @@ export default function ProductDetails({
             Go Back
           </button>
 
-          {isLoading || !imageLoaded ? (
+          {isLoading ? (
             <>
               <span className="absolute left-0 right-0 mx-auto max-w-fit text-sm">
                 Takes a second to load because free tier API hosting...
@@ -142,7 +112,7 @@ export default function ProductDetails({
               />
 
               <div className="flex flex-col gap-6 sm:gap-4">
-                {data?.new && (
+                {data?.isNew && (
                   <span className="text-orange tracking-[10px] uppercase text-sm ">
                     new product
                   </span>
@@ -167,29 +137,7 @@ export default function ProductDetails({
           <Features features={data?.features} />
           <Included inTheBox={data?.includes} />
         </div>
-        <div className="w-full flex flex-col gap-5 sm:grid grid-rows-2 grid-cols-[41.5%_58.5%] sm:gap-4 lg:gap-x-0">
-          <img
-            srcSet={`${data?.gallery.first.mobile} 327w, ${data?.gallery.first.tablet} 277w, ${data?.gallery.first.desktop} 445w`}
-            sizes="(max-width: 640px) 327px, (max-width: 1024px) 277px, 445px"
-            alt="gallery img"
-            className="rounded-lg self-start"
-            src={data?.gallery.first.desktop}
-          />
-          <img
-            srcSet={`${data?.gallery.second.mobile} 327w, ${data?.gallery.second.tablet} 277w, ${data?.gallery.second.desktop} 445w`}
-            sizes="(max-width: 640px) 327px, (max-width: 1024px) 277px, 445px"
-            alt="gallery img"
-            className="rounded-lg row-start-2 self-end"
-            src={data?.gallery.second.desktop}
-          />
-          <img
-            srcSet={`${data?.gallery.third.mobile} 327w, ${data?.gallery.third.tablet} 395w, ${data?.gallery.third.desktop} 635w`}
-            sizes="(max-width: 640px) 327px, (max-width: 1024px) 395px, 635px"
-            alt="gallery img"
-            className="row-start-1 row-span-2 rounded-lg"
-            src={data?.gallery.third.desktop}
-          />
-        </div>
+        {data?.gallery && <ArtisticImages images={data.gallery} />}
         <div className="my-28">
           <h3 className="uppercase font-bold leading-9 text-2xl mb-10 text-center">
             you may also like

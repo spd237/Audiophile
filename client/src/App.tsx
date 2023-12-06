@@ -4,7 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Checkout from './pages/Checkout/Checkout';
 import Home from './pages/Home/Home';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
-import ScrollToTop from './Components/ScrollToTop.ts';
+import ScrollToTop from './utils/ScrollToTop.ts';
 import Cart from './Components/Cart.tsx';
 import Menu from './Components/Menu.tsx';
 import Auth from './pages/Auth/Auth.tsx';

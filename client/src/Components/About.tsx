@@ -7,6 +7,7 @@ export default function About() {
         src={'/img/About/image-best-gear-desktop.jpg'}
         alt="about-pic"
         className="rounded-lg lg:max-w-[50%] lg:h-[588px] lg:order-2"
+        loading="lazy"
       />
       <div className="flex flex-col items-center lg:items-start">
         <h3 className="uppercase text-black text-[28px] font-bold tracking-[2px] text-center mb-8 md:max-w-sm lg:text-left lg:text-[40px] leading-[44px]">
