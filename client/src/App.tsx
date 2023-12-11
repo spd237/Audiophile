@@ -15,7 +15,7 @@ import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
 import { useAuthToken } from './hooks/useAuthToken.ts';
 import { useQuery } from '@tanstack/react-query';
-import { getCartItems } from './api/api.ts';
+import { getCartItems } from './services/api/api.ts';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {

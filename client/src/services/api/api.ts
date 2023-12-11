@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartItem, ProductType } from '../types';
+import { CartItem, ProductType } from '../../types';
 
 const API_URL = 'https://audiophile-api-2jdh.onrender.com';
 

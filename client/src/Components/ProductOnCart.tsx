@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CartItem } from '../types';
-import { increaseQuantity, decreaseQuantity } from '../api/api';
+import { increaseQuantity, decreaseQuantity } from '../services/api/api';
 interface ProductOnCartProps {
   name: string;
   quantity: number;

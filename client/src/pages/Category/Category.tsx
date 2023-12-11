@@ -3,7 +3,7 @@ import About from '../../Components/About';
 import Footer from '../../Components/Footer';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { getCategory } from '../../api/api';
+import { getCategory } from '../../services/api/api';
 import SkeletonProductPreview from '../../Components/Skeletons/SkeletonProductPreview';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
 

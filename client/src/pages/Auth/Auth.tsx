@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { useMutation } from '@tanstack/react-query';
-import { createUser, updateUser } from '../../api/api';
+import { createUser, updateUser } from '../../services/api/api';
 import { AuthData, CartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
