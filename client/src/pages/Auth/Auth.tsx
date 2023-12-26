@@ -43,14 +43,6 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
     }) => (isSigningUp ? createUser(id, cartItems) : updateUser(id, cartItems)),
   });
 
-  function handlePostAuth(data: AuthData) {
-    authMutation.mutate({ id: data.user?.id, cartItems: itemsOnCart });
-    if (goingToCheckout) {
-      setGoingToCheckout(false);
-      navigate('/checkout');
-    } else navigate(-1);
-  }
-
   async function handleAuthentication() {
     try {
       if (isSigningUp) {
@@ -79,6 +71,14 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
         setAuthError(error.message);
       }
     }
+  }
+
+  function handlePostAuth(data: AuthData) {
+    authMutation.mutate({ id: data.user?.id, cartItems: itemsOnCart });
+    if (goingToCheckout) {
+      setGoingToCheckout(false);
+      navigate('/checkout');
+    } else navigate(-1);
   }
 
   useEffect(() => {

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { CartItem, ProductType } from '../../types';
 
-const API_URL = 'https://audiophile-api-2jdh.onrender.com';
+const API_URL = 'http://localhost:3000';
 
 const api = axios.create({
   baseURL: API_URL,
 });
 
-api.interceptors.request.use(function (config) {
+api.interceptors.request.use((config) => {
   const token = JSON.parse(
     localStorage.getItem('sb-gfgywzotuybpcpuqczfi-auth-token') || 'null'
   )?.access_token;

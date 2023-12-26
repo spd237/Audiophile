@@ -1,11 +1,11 @@
-import { CartItem } from '../types';
+import { CartItem } from '../../types';
 import ProductOnCart from './ProductOnCart';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { removeAllItems } from '../services/api/api';
+import { removeAllItems } from '../../services/api/api';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useAuthToken } from '../hooks/useAuthToken';
+import { useAuthToken } from '../../hooks/useAuthToken';
 
 interface CartProps {
   cartRef: React.RefObject<HTMLDivElement>;

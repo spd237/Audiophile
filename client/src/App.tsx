@@ -5,7 +5,7 @@ import Checkout from './pages/Checkout/Checkout';
 import Home from './pages/Home/Home';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
 import ScrollToTop from './utils/ScrollToTop.ts';
-import Cart from './Components/Cart.tsx';
+import Cart from './Components/Cart/Cart.tsx';
 import Menu from './Components/Menu.tsx';
 import Auth from './pages/Auth/Auth.tsx';
 import useLocalStorage from './hooks/useLocalStorage.ts';
