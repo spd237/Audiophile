@@ -5,7 +5,7 @@ import Checkout from './pages/Checkout/Checkout';
 import Home from './pages/Home/Home';
 import ProductDetails from './pages/ProductDetails/ProductDetails';
 import ScrollToTop from './utils/ScrollToTop.ts';
-import Cart from './Components/Cart.tsx';
+import Cart from './Components/Cart/Cart.tsx';
 import Menu from './Components/Menu.tsx';
 import Auth from './pages/Auth/Auth.tsx';
 import useLocalStorage from './hooks/useLocalStorage.ts';
@@ -15,7 +15,7 @@ import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
 import { useAuthToken } from './hooks/useAuthToken.ts';
 import { useQuery } from '@tanstack/react-query';
-import { getCartItems } from './api/api.ts';
+import { getCartItems } from './services/api/api.ts';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {

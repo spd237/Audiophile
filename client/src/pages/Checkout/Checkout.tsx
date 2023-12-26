@@ -5,7 +5,7 @@ import { CheckoutData, CheckoutSchema } from '../../models/CheckoutSchema';
 import CheckoutForm from './CheckoutForm/CheckoutForm';
 import Summary from './Summary/Summary';
 import { useQuery } from '@tanstack/react-query';
-import { getCartItems } from '../../api/api';
+import { getCartItems } from '../../services/api/api';
 import { useState } from 'react';
 import CheckoutModal from './CheckoutModal/CheckoutModal';
 import { useNavigate } from 'react-router-dom';

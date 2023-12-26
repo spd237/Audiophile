@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CartItem } from '../../../types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addToCart } from '../../../api/api';
+import { addToCart } from '../../../services/api/api';
 
 interface AddToCartProps {
   price: number | undefined;

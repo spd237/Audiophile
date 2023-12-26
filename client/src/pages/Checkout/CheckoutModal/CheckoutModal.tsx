@@ -5,7 +5,7 @@ import ConfirmedProduct from './ConfirmedProduct/ConfirmedProduct';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { removeAllItems } from '../../../api/api';
+import { removeAllItems } from '../../../services/api/api';
 
 export default function CheckoutModal({
   data,
