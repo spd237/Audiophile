@@ -7,7 +7,6 @@ import OtherProducts from './OtherProducts/OtherProducts';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../../services/api/api';
-import { CartItem } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
 import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
 import { useEffect, useState } from 'react';
