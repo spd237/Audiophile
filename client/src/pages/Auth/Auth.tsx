@@ -11,14 +11,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TailSpin } from 'react-loader-spinner';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../../Components/Cart/cartItemsSlice';
 
 export interface AuthProps {
-  itemsOnCart: CartItem[] | [];
   goingToCheckout: boolean;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
+function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
   const navigate = useNavigate();
   const {
     register,
@@ -32,6 +33,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
   const password = watch('password');
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [authError, setAuthError] = useState<string>();
+  const cartItems = useSelector(selectCartItems);
 
   const authMutation = useMutation({
     mutationFn: ({
@@ -74,7 +76,7 @@ function Auth({ itemsOnCart, goingToCheckout, setGoingToCheckout }: AuthProps) {
   }
 
   function handlePostAuth(data: AuthData) {
-    authMutation.mutate({ id: data.user?.id, cartItems: itemsOnCart });
+    authMutation.mutate({ id: data.user?.id, cartItems });
     if (goingToCheckout) {
       setGoingToCheckout(false);
       navigate('/checkout');

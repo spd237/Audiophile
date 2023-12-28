@@ -1,9 +1,13 @@
-import logo from '../assets/logo.svg';
+import logo from '../../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../utils/supabaseClient';
-import { CartItem } from '../types';
+import { supabase } from '../../utils/supabaseClient';
 import { motion } from 'framer-motion';
-import { useAuthToken } from '../hooks/useAuthToken';
+import { useAuthToken } from '../../hooks/useAuthToken';
+import { useSelector } from 'react-redux';
+import { selectCartItems } from '../Cart/cartItemsSlice';
+import { useQuery } from '@tanstack/react-query';
+import { getCartItems } from '../../services/api/api';
+import Nav from './Nav';
 
 interface HeaderProps {
   navOpen: boolean;
@@ -12,8 +16,6 @@ interface HeaderProps {
   buttonNavRef: React.RefObject<HTMLButtonElement>;
   buttonCartRef: React.RefObject<HTMLButtonElement>;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
-  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
-  totalQuantity: number;
 }
 
 export default function Header({
@@ -23,30 +25,27 @@ export default function Header({
   buttonNavRef,
   buttonCartRef,
   setGoingToCheckout,
-  setItemsOnCart,
-  totalQuantity,
 }: HeaderProps) {
   const token = useAuthToken();
   const navigate = useNavigate();
+  const cartItems = useSelector(selectCartItems);
+  const { data } = useQuery({
+    queryKey: ['cartItems', token],
+    queryFn: () => getCartItems(),
+    enabled: !!token,
+  });
+
+  const totalQuantity = !token
+    ? cartItems.reduce((accumulator, item) => {
+        return accumulator + item.quantity;
+      }, 0)
+    : data?.reduce((accumulator, item) => {
+        return accumulator + item.quantity;
+      }, 0);
+
   async function signOut() {
     await supabase.auth.signOut();
   }
-
-  const list = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        delay: 0.2,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const listItem = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 },
-  };
 
   return (
     <header className="relative z-10 bg-dark-gray flex justify-center items-center">
@@ -103,37 +102,7 @@ export default function Header({
           className="ml-8 sm:mr-auto sm:ml-11 lg:ml-0 lg:mr-0 cursor-pointer"
           onClick={() => navigate('/')}
         />
-        <motion.ul
-          variants={list}
-          initial="hidden"
-          animate="show"
-          className="hidden lg:flex uppercase text-[13px] font-bold leading-[25px] tracking-[2px] text-white gap-[34px] mx-auto items-center "
-        >
-          <motion.li
-            variants={listItem}
-            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
-          >
-            <Link to={'/'}>home</Link>
-          </motion.li>
-          <motion.li
-            variants={listItem}
-            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
-          >
-            <Link to={'/headphones'}>headphones</Link>
-          </motion.li>
-          <motion.li
-            variants={listItem}
-            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
-          >
-            <Link to={'/speakers'}>speakers</Link>
-          </motion.li>
-          <motion.li
-            variants={listItem}
-            className="cursor-pointer hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%]"
-          >
-            <Link to={'/earphones'}>earphones</Link>
-          </motion.li>
-        </motion.ul>
+        <Nav />
         <div className="flex items-center gap-4 lg:gap-6">
           <motion.button
             initial={{ opacity: 0 }}
@@ -168,7 +137,7 @@ export default function Header({
                 />
               </g>
             </svg>
-            {totalQuantity > 0 && (
+            {totalQuantity && (
               <span className="text-white text-xs bg-orange absolute -top-2 left-3 rounded-full w-5 h-5 flex items-center justify-center">
                 {totalQuantity}
               </span>
@@ -205,7 +174,6 @@ export default function Header({
               className="text-white text-[13px] leading-[25px] tracking-[2px] font-bold hover:text-orange bg-gradient-to-r from-orange to-orange bg-[length:0%_2px] bg-[100%_100%] bg-no-repeat transition-[background-size] duration-200 ease-in-out hover:bg-[length:100%_2px] hover:bg-[0%_100%] "
               onClick={() => {
                 localStorage.removeItem('cart');
-                setItemsOnCart([]);
                 setGoingToCheckout(false);
                 signOut();
                 navigate('/');

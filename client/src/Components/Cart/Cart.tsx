@@ -1,36 +1,55 @@
-import { CartItem } from '../../types';
 import ProductOnCart from './ProductOnCart';
+import { CartItem } from '../../types';
 import { useNavigate } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { removeAllItems } from '../../services/api/api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getCartItems, removeAllItems } from '../../services/api/api';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuthToken } from '../../hooks/useAuthToken';
+import { removeAll, selectCartItems } from './cartItemsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface CartProps {
   cartRef: React.RefObject<HTMLDivElement>;
-  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setGoingToCheckout: React.Dispatch<React.SetStateAction<boolean>>;
-  totalQuantity: number;
-  totalPrice: number;
-  cartItems: CartItem[] | undefined;
   cartOpen: boolean;
 }
 
 export default function Cart({
   cartRef,
-  setItemsOnCart,
   setCartOpen,
   setGoingToCheckout,
-  totalQuantity,
-  totalPrice,
-  cartItems,
   cartOpen,
 }: CartProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const token = useAuthToken();
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems).filter(
+    (item) => item?.quantity > 0
+  );
+  const { data } = useQuery({
+    queryKey: ['cartItems', token],
+    queryFn: () => getCartItems(),
+    enabled: !!token,
+  });
+
+  const totalQuantity = !token
+    ? cartItems.reduce((accumulator, item) => {
+        return accumulator + item.quantity;
+      }, 0)
+    : data?.reduce((accumulator, item) => {
+        return accumulator + item.quantity;
+      }, 0);
+
+  const totalPrice = !token
+    ? cartItems.reduce((accumulator, item) => {
+        return accumulator + item.price * item.quantity;
+      }, 0)
+    : data?.reduce((accumulator, item) => {
+        return accumulator + item.price * item.quantity;
+      }, 0);
 
   const removeAllMutation = useMutation({
     mutationFn: () => removeAllItems(),
@@ -39,17 +58,20 @@ export default function Cart({
     },
   });
 
-  const productsOnCart = cartItems?.map((item: CartItem) => (
+  const createProductComponent = (item: CartItem) => (
     <ProductOnCart
       key={uuidv4()}
       id={item.id}
       name={item.name}
       quantity={item.quantity}
       price={item.price}
-      setItemsOnCart={setItemsOnCart}
       token={token}
     />
-  ));
+  );
+
+  const productsOnCart = !token
+    ? cartItems.map((item: CartItem) => createProductComponent(item))
+    : data?.map((item) => createProductComponent(item));
 
   return (
     <div className="mx-6 sm:mx-10 lg:max-w-6xl xl:mx-auto relative top-0 flex justify-end">
@@ -88,7 +110,7 @@ export default function Cart({
                 <button
                   className="text-[15px] font-medium opacity-50 underline hover:text-orange hover:opacity-100"
                   onClick={() => {
-                    !token ? setItemsOnCart([]) : removeAllMutation.mutate();
+                    !token ? dispatch(removeAll()) : removeAllMutation.mutate();
                   }}
                 >
                   Remove All

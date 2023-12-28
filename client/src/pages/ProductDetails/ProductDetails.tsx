@@ -17,14 +17,10 @@ import { useAuthToken } from '../../hooks/useAuthToken';
 import ArtisticImages from './ArtisticImages/ArtisticImages';
 
 interface ProductDetailsProps {
-  setItemsOnCart: React.Dispatch<React.SetStateAction<CartItem[] | []>>;
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ProductDetails({
-  setItemsOnCart,
-  setNavOpen,
-}: ProductDetailsProps) {
+export default function ProductDetails({ setNavOpen }: ProductDetailsProps) {
   const token = useAuthToken();
   const goBack = useNavigate();
   const slug = useParams().product;
@@ -125,7 +121,6 @@ export default function ProductDetails({
                 </p>
                 <AddToCart
                   price={data?.price}
-                  setItemsOnCart={setItemsOnCart}
                   token={token}
                   setAddToCartStatus={setAddToCartStatus}
                 />

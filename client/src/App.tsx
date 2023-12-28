@@ -8,18 +8,12 @@ import ScrollToTop from './utils/ScrollToTop.ts';
 import Cart from './Components/Cart/Cart.tsx';
 import Menu from './Components/Menu.tsx';
 import Auth from './pages/Auth/Auth.tsx';
-import useLocalStorage from './hooks/useLocalStorage.ts';
-import Header from './Components/Header.tsx';
-import { CartItem } from './types.ts';
+import Header from './Components/Header/Header.tsx';
 import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
-import { useAuthToken } from './hooks/useAuthToken.ts';
-import { useQuery } from '@tanstack/react-query';
-import { getCartItems } from './services/api/api.ts';
-import { AnimatePresence, motion } from 'framer-motion';
+import Overlay from './Components/Animations/Overlay.tsx';
 
 function App() {
-  const token = useAuthToken();
   const location = useLocation();
   const cartRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -27,25 +21,7 @@ function App() {
   const buttonNavRef = useRef<HTMLButtonElement>(null);
   const [navOpen, setNavOpen] = useDetectClick(navRef, buttonNavRef);
   const [cartOpen, setCartOpen] = useDetectClick(cartRef, buttonCartRef);
-  const [itemsOnCart, setItemsOnCart] = useLocalStorage<CartItem[] | []>(
-    'cart',
-    []
-  );
   const [goingToCheckout, setGoingToCheckout] = useState(false);
-  const { data } = useQuery({
-    queryKey: ['cartItems', token],
-    queryFn: () => getCartItems(),
-    enabled: !!token,
-  });
-
-  let totalPrice = 0;
-  let totalQuantity = 0;
-  const cartItems = token ? data : itemsOnCart;
-
-  cartItems?.forEach((product: CartItem) => {
-    totalQuantity += product.quantity;
-    totalPrice += product.quantity * product.price;
-  });
 
   return (
     <>
@@ -58,18 +34,12 @@ function App() {
           buttonNavRef={buttonNavRef}
           setNavOpen={setNavOpen}
           setGoingToCheckout={setGoingToCheckout}
-          setItemsOnCart={setItemsOnCart}
-          totalQuantity={totalQuantity}
         />
       )}
       <Cart
         cartRef={cartRef}
-        setItemsOnCart={setItemsOnCart}
         setCartOpen={setCartOpen}
         setGoingToCheckout={setGoingToCheckout}
-        totalQuantity={totalQuantity}
-        totalPrice={totalPrice}
-        cartItems={cartItems}
         cartOpen={cartOpen}
       />
       <Routes>
@@ -80,12 +50,7 @@ function App() {
         />
         <Route
           path="/product-details/:product"
-          element={
-            <ProductDetails
-              setItemsOnCart={setItemsOnCart}
-              setNavOpen={setNavOpen}
-            />
-          }
+          element={<ProductDetails setNavOpen={setNavOpen} />}
         />
         <Route
           path="/checkout"
@@ -99,7 +64,6 @@ function App() {
           path="/auth"
           element={
             <Auth
-              itemsOnCart={itemsOnCart}
               goingToCheckout={goingToCheckout}
               setGoingToCheckout={setGoingToCheckout}
             />
@@ -107,30 +71,7 @@ function App() {
         />
       </Routes>
       <Menu navOpen={navOpen} setNavOpen={setNavOpen} navRef={navRef} />
-      <AnimatePresence>
-        {(cartOpen || navOpen) && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 0.4,
-              transition: {
-                type: 'tween',
-                ease: 'easeIn',
-                duration: 0.15,
-              },
-            }}
-            exit={{
-              opacity: 0,
-              transition: {
-                type: 'tween',
-                ease: 'easeOut',
-                duration: 0.15,
-              },
-            }}
-            className="bg-black opacity-40 h-screen w-screen fixed top-0"
-          ></motion.div>
-        )}
-      </AnimatePresence>
+      <Overlay cartOpen={cartOpen} navOpen={navOpen} />
     </>
   );
 }

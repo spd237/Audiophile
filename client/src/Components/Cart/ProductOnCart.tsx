@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CartItem } from '../../types';
 import { increaseQuantity, decreaseQuantity } from '../../services/api/api';
+import { itemAdded, itemRemoved } from './cartItemsSlice';
+import { useDispatch } from 'react-redux';
 interface ProductOnCartProps {
   name: string;
   quantity: number;
   price: number;
-  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   token: string | undefined;
   id: string;
 }
@@ -14,34 +14,12 @@ export default function ProductOnCart({
   name,
   quantity,
   price,
-  setItemsOnCart,
   token,
   id,
 }: ProductOnCartProps) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const modifiedName = name.replaceAll('-', ' ');
-
-  function handleAddItem() {
-    setItemsOnCart((prevItems) => {
-      return prevItems?.map((item) => {
-        if (item.name === name) {
-          return { ...item, quantity: quantity + 1 };
-        } else return item;
-      });
-    });
-  }
-
-  function handleRemoveItem() {
-    setItemsOnCart((prevItems) => {
-      return prevItems
-        ?.map((item) => {
-          if (item.name === name && item.quantity > 0) {
-            return { ...item, quantity: quantity - 1 };
-          } else return item;
-        })
-        .filter((item) => item?.quantity > 0);
-    });
-  }
 
   const addItemMutation = useMutation({
     mutationFn: ({ id }: { id: string }) => increaseQuantity(id),
@@ -76,7 +54,9 @@ export default function ProductOnCart({
         <button
           className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
-            !token ? handleRemoveItem : () => removeItemMutation.mutate({ id })
+            !token
+              ? () => dispatch(itemRemoved(name))
+              : () => removeItemMutation.mutate({ id })
           }
         >
           -
@@ -85,7 +65,9 @@ export default function ProductOnCart({
         <button
           className="opacity-25 hover:text-orange hover:opacity-100"
           onClick={
-            !token ? handleAddItem : () => addItemMutation.mutate({ id })
+            !token
+              ? () => dispatch(itemAdded(name, 1, price))
+              : () => addItemMutation.mutate({ id })
           }
         >
           +

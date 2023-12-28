@@ -1,54 +1,29 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CartItem } from '../../../types';
-import { v4 as uuidv4 } from 'uuid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addToCart } from '../../../services/api/api';
+import { useDispatch } from 'react-redux';
+import { itemAdded } from '../../../Components/Cart/cartItemsSlice';
 
 interface AddToCartProps {
   price: number | undefined;
-  setItemsOnCart: React.Dispatch<React.SetStateAction<[] | CartItem[]>>;
   token: string | undefined;
   setAddToCartStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function AddToCart({
   price,
-  setItemsOnCart,
   token,
   setAddToCartStatus,
 }: AddToCartProps) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const productName = useParams().product;
   const [quantity, setQuantity] = useState(1);
 
   function handleAddToCart() {
-    if (productName && price) {
-      setItemsOnCart((prevItems) => {
-        if (!prevItems) prevItems = [];
-        if (prevItems.find((item) => item.name === productName)) {
-          return prevItems.map((item) => {
-            if (item.name === productName) {
-              return {
-                ...item,
-                quantity: item.quantity + quantity,
-              };
-            } else {
-              return item;
-            }
-          });
-        } else {
-          return [
-            ...prevItems,
-            {
-              id: uuidv4(),
-              name: productName,
-              quantity: quantity,
-              price: price,
-            },
-          ];
-        }
-      });
+    if (productName && quantity && price) {
+      dispatch(itemAdded(productName, quantity, price));
       setAddToCartStatus('Item added to cart successfully.');
     } else {
       setAddToCartStatus('There was an error. Please try again.');
