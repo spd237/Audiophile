@@ -27,7 +27,7 @@ export default function Cart({
   const token = useAuthToken();
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems).filter(
-    (item) => item?.quantity > 0
+    (item) => item.quantity > 0
   );
   const { data } = useQuery({
     queryKey: ['cartItems', token],

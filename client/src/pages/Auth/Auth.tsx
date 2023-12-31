@@ -32,7 +32,7 @@ function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
   const email = watch('email');
   const password = watch('password');
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const [authError, setAuthError] = useState<string>();
+  const [authError, setAuthError] = useState('');
   const cartItems = useSelector(selectCartItems);
 
   const authMutation = useMutation({
@@ -44,6 +44,14 @@ function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
       cartItems: CartItem[] | [];
     }) => (isSigningUp ? createUser(id, cartItems) : updateUser(id, cartItems)),
   });
+
+  function handlePostAuth(data: AuthData) {
+    authMutation.mutate({ id: data.user?.id, cartItems });
+    if (goingToCheckout) {
+      setGoingToCheckout(false);
+      navigate('/checkout');
+    } else navigate(-1);
+  }
 
   async function handleAuthentication() {
     try {
@@ -73,14 +81,6 @@ function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
         setAuthError(error.message);
       }
     }
-  }
-
-  function handlePostAuth(data: AuthData) {
-    authMutation.mutate({ id: data.user?.id, cartItems });
-    if (goingToCheckout) {
-      setGoingToCheckout(false);
-      navigate('/checkout');
-    } else navigate(-1);
   }
 
   useEffect(() => {
