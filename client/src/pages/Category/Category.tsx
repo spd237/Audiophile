@@ -1,11 +1,10 @@
 import ProductCard from './ProductCard/ProductCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { getCategory } from '../../services/api/api';
 import SkeletonProductPreview from '../../Components/Skeletons/SkeletonProductPreview';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
+import { useGetCategoryQuery } from '../../services/ReduxApi/reduxApi';
 
 export default function Category({
   setNavOpen,
@@ -13,21 +12,10 @@ export default function Category({
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const currentPage = useParams().category;
-  const { data, isLoading } = useQuery({
-    queryKey: ['products', currentPage],
-    queryFn: () => {
-      if (
-        currentPage === 'headphones' ||
-        currentPage === 'earphones' ||
-        currentPage === 'speakers'
-      )
-        return getCategory(currentPage);
-    },
-  });
-
+  const { data: categories, isLoading } = useGetCategoryQuery(currentPage);
   const categoryCards = renderCategoryCards(setNavOpen);
 
-  const productCards = data?.map((product) => {
+  const productCards = categories?.map((product) => {
     return (
       <ProductCard
         key={product.id}

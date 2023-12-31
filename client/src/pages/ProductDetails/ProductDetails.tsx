@@ -4,9 +4,7 @@ import Included from './Included/Included';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
 import OtherProducts from './OtherProducts/OtherProducts';
-import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProduct } from '../../services/api/api';
 import { v4 as uuidv4 } from 'uuid';
 import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
 import { useEffect, useState } from 'react';
@@ -14,6 +12,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
 import { useAuthToken } from '../../hooks/useAuthToken';
 import ArtisticImages from './ArtisticImages/ArtisticImages';
+import { useGetProductQuery } from '../../services/ReduxApi/reduxApi';
 
 interface ProductDetailsProps {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,13 +24,11 @@ export default function ProductDetails({ setNavOpen }: ProductDetailsProps) {
   const slug = useParams().product;
   const [addToCartStatus, setAddToCartStatus] = useState<string>('');
 
-  const { data, isLoading } = useQuery(['productDetails', slug], () =>
-    getProduct(slug)
-  );
+  const { data: product, isLoading } = useGetProductQuery(slug);
 
   const categoryCards = renderCategoryCards(setNavOpen);
 
-  const otherProducts = data?.others.map((product) => {
+  const otherProducts = product?.others.map((product) => {
     return (
       <OtherProducts
         key={uuidv4()}
@@ -99,27 +96,27 @@ export default function ProductDetails({ setNavOpen }: ProductDetailsProps) {
           ) : (
             <article className="flex flex-col items-center gap-8 sm:flex-row sm:gap-[70px] sm:items-center lg:w-full">
               <img
-                srcSet={`${data?.image.mobile} 327w, ${data?.image.tablet} 281w, ${data?.image.desktop} 540w`}
+                srcSet={`${product?.image.mobile} 327w, ${product?.image.tablet} 281w, ${product?.image.desktop} 540w`}
                 sizes="(max-width: 640px) 327px, (max-width: 1024px) 281px, 540px"
                 alt="mark II headphones"
                 className="rounded-lg sm:max-w-xs lg:max-w-[540px]"
-                src={data?.image.desktop}
+                src={product?.image.desktop}
               />
 
               <div className="flex flex-col gap-6 sm:gap-4">
-                {data?.isNew && (
+                {product?.isNew && (
                   <span className="text-orange tracking-[10px] uppercase text-sm ">
                     new product
                   </span>
                 )}
                 <h3 className="uppercase font-bold tracking-[1px] text-[28px] sm:mb-4">
-                  {data?.name}
+                  {product?.name}
                 </h3>
                 <p className=" text-[15px] opacity-50 sm:max-w-xl">
-                  {data?.description}
+                  {product?.description}
                 </p>
                 <AddToCart
-                  price={data?.price}
+                  price={product?.price}
                   token={token}
                   setAddToCartStatus={setAddToCartStatus}
                 />
@@ -128,10 +125,10 @@ export default function ProductDetails({ setNavOpen }: ProductDetailsProps) {
           )}
         </div>
         <div className="lg:flex gap-[125px] lg:my-40 lg:self-start">
-          <Features features={data?.features} />
-          <Included inTheBox={data?.includes} />
+          <Features features={product?.features} />
+          <Included inTheBox={product?.includes} />
         </div>
-        {data?.gallery && <ArtisticImages images={data.gallery} />}
+        {product?.gallery && <ArtisticImages images={product.gallery} />}
         <div className="my-28">
           <h3 className="uppercase font-bold leading-9 text-2xl mb-10 text-center">
             you may also like
