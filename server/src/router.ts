@@ -9,9 +9,11 @@ import { increaseItemQuantity } from './handlers/cart/increaseItemQuantity';
 import { decreaseItemQuantity } from './handlers/cart/decreaseItemQuantity';
 import { removeAll } from './handlers/cart/removeAll';
 import { addItem } from './handlers/cart/addItem';
+import { getAllProductSlugs } from './handlers/products/getAllProductSlugs';
 
 const router = Router();
 
+router.get('/getAllProductSlugs', getAllProductSlugs);
 router.get('/headphones', getHeadphones);
 router.get('/speakers', getSpeakers);
 router.get('/earphones', getEarphones);

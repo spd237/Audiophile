@@ -30,6 +30,8 @@ function ProductDetailsWrapper({
 
   if (slug && slugs?.includes(slug)) {
     return <ProductDetails setNavOpen={setNavOpen} slug={slug} />;
+  } else {
+    return <ErrorPage />;
   }
 }
 
