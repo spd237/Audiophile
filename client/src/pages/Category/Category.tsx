@@ -1,18 +1,18 @@
 import ProductCard from './ProductCard/ProductCard';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
-import { useParams } from 'react-router-dom';
 import SkeletonProductPreview from '../../Components/Skeletons/SkeletonProductPreview';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
 import { useGetCategoryQuery } from '../../services/ReduxApi/reduxApi';
 
 export default function Category({
   setNavOpen,
+  category,
 }: {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  category: string;
 }) {
-  const currentPage = useParams().category;
-  const { data: categories, isLoading } = useGetCategoryQuery(currentPage);
+  const { data: categories, isLoading } = useGetCategoryQuery(category);
   const categoryCards = renderCategoryCards(setNavOpen);
 
   const productCards = categories?.map((product) => {
@@ -33,7 +33,7 @@ export default function Category({
     <>
       <div className="bg-dark-gray">
         <h2 className="uppercase text-white font-bold text-[28px] tracking-[2px] text-center py-8 px-[84px] mb-16 sm:py-24 sm:px-60">
-          {currentPage}
+          {category}
         </h2>
       </div>
 

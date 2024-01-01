@@ -3,7 +3,6 @@ import { useDetectClick } from './hooks/useDetectClick.ts';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Checkout from './pages/Checkout/Checkout';
 import Home from './pages/Home/Home';
-import ProductDetails from './pages/ProductDetails/ProductDetails';
 import ScrollToTop from './utils/ScrollToTop.ts';
 import Cart from './Components/Cart/Cart.tsx';
 import Menu from './Components/Menu.tsx';
@@ -12,6 +11,8 @@ import Header from './Components/Header/Header.tsx';
 import CategoryWrapper from './pages/Category/CategoryWrapper.tsx';
 import CheckoutWrapper from './pages/Checkout/CheckoutWrapper.tsx';
 import Overlay from './Components/Animations/Overlay.tsx';
+import ErrorPage from './pages/Error/ErrorPage.tsx';
+import ProductDetailsWrapper from './pages/ProductDetails/ProductDetailsWrapper.tsx';
 
 function App() {
   const location = useLocation();
@@ -50,8 +51,9 @@ function App() {
         />
         <Route
           path="/product-details/:product"
-          element={<ProductDetails setNavOpen={setNavOpen} />}
+          element={<ProductDetailsWrapper setNavOpen={setNavOpen} />}
         />
+        <Route path="/product-details/*" element={<ErrorPage />} />
         <Route
           path="/checkout"
           element={
@@ -69,6 +71,7 @@ function App() {
             />
           }
         />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Menu navOpen={navOpen} setNavOpen={setNavOpen} navRef={navRef} />
       <Overlay cartOpen={cartOpen} navOpen={navOpen} />

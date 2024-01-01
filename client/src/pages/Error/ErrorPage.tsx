@@ -1,9 +1,8 @@
 export default function ErrorPage() {
   return (
-    <div>
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>Page Not Found</p>
+    <div className="w-full h-screen flex flex-col items-center bg-almost-black text-white pt-8 gap-3">
+      <h2 className=" font-bold text-3xl">Page Not Found</h2>
+      <p className="text-lg">We could not find what you were looking for.</p>
     </div>
   );
 }

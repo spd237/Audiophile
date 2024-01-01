@@ -13,7 +13,7 @@ export default function CategoryPage({
     case 'headphones':
     case 'earphones':
     case 'speakers':
-      return <Category setNavOpen={setNavOpen} />;
+      return <Category setNavOpen={setNavOpen} category={category} />;
     default:
       return <ErrorPage />;
   }

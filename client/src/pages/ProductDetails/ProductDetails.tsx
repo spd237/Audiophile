@@ -4,24 +4,27 @@ import Included from './Included/Included';
 import About from '../../Components/About';
 import Footer from '../../Components/Footer';
 import OtherProducts from './OtherProducts/OtherProducts';
-import { useParams, useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import ArtisticImages from './ArtisticImages/ArtisticImages';
 import SkeletonProductDetails from '../../Components/Skeletons/SkeletonProductDetails';
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { renderCategoryCards } from '../../utils/renderCategoryCards';
 import { useAuthToken } from '../../hooks/useAuthToken';
-import ArtisticImages from './ArtisticImages/ArtisticImages';
 import { useGetProductQuery } from '../../services/ReduxApi/reduxApi';
 
 interface ProductDetailsProps {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  slug: string;
 }
 
-export default function ProductDetails({ setNavOpen }: ProductDetailsProps) {
+export default function ProductDetails({
+  setNavOpen,
+  slug,
+}: ProductDetailsProps) {
   const token = useAuthToken();
   const goBack = useNavigate();
-  const slug = useParams().product;
   const [addToCartStatus, setAddToCartStatus] = useState<string>('');
 
   const { data: product, isLoading } = useGetProductQuery(slug);
