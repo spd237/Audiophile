@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addToCart } from '../../../services/api/api';
 import { useDispatch } from 'react-redux';
-import { itemAdded } from '../../../Components/Cart/cartItemsSlice';
+import {
+  itemAdded,
+  useAddToCartMutation,
+} from '../../../Components/Cart/cartItemsSlice';
 
 interface AddToCartProps {
   price: number | undefined;
@@ -16,10 +17,10 @@ export default function AddToCart({
   token,
   setAddToCartStatus,
 }: AddToCartProps) {
-  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const productName = useParams().product;
   const [quantity, setQuantity] = useState(1);
+  const [addToCart] = useAddToCartMutation();
 
   function handleAddToCart() {
     if (productName && quantity && price) {
@@ -30,25 +31,16 @@ export default function AddToCart({
     }
   }
 
-  const addToCartMutation = useMutation({
-    mutationFn: ({
-      name,
-      quantity,
-      price,
-    }: {
-      token: string;
-      name: string | undefined;
-      quantity: number;
-      price: number | undefined;
-    }) => addToCart(name, quantity, price),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
-      setAddToCartStatus('Item added to cart successfully.');
-    },
-    onError: () => {
-      setAddToCartStatus('There was an error. Please try again.');
-    },
-  });
+  async function handleAddToCartMutation() {
+    if (productName && price) {
+      try {
+        await addToCart({ name: productName, quantity, price });
+        setAddToCartStatus('Item added to cart successfully.');
+      } catch (error) {
+        setAddToCartStatus('There was an error. Please try again.');
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col gap-8 mt-6">
@@ -83,12 +75,7 @@ export default function AddToCart({
             if (!token) {
               handleAddToCart();
             } else if (token && quantity > 0) {
-              addToCartMutation.mutate({
-                token: token,
-                name: productName,
-                quantity: quantity,
-                price: price,
-              });
+              handleAddToCartMutation();
             }
             setQuantity(1);
           }}

@@ -4,9 +4,7 @@ import { supabase } from '../../utils/supabaseClient';
 import { motion } from 'framer-motion';
 import { useAuthToken } from '../../hooks/useAuthToken';
 import { useSelector } from 'react-redux';
-import { selectCartItems } from '../Cart/cartItemsSlice';
-import { useQuery } from '@tanstack/react-query';
-import { getCartItems } from '../../services/api/api';
+import { selectCartItems, useGetCartItemsQuery } from '../Cart/cartItemsSlice';
 import Nav from './Nav';
 import OpenCartBtn from '../Cart/OpenCartBtn';
 
@@ -30,11 +28,7 @@ export default function Header({
   const token = useAuthToken();
   const navigate = useNavigate();
   const cartItems = useSelector(selectCartItems);
-  const { data } = useQuery({
-    queryKey: ['cartItems', token],
-    queryFn: () => getCartItems(),
-    enabled: !!token,
-  });
+  const { data } = useGetCartItemsQuery(undefined, { skip: !token });
 
   const totalQuantity = !token
     ? cartItems.reduce((accumulator, item) => {

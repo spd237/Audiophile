@@ -1,6 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { increaseQuantity, decreaseQuantity } from '../../services/api/api';
-import { itemAdded, itemRemoved } from './cartItemsSlice';
+import {
+  itemAdded,
+  itemRemoved,
+  useDecreaseQuantityMutation,
+  useIncreaseQuantityMutation,
+} from './cartItemsSlice';
 import { useDispatch } from 'react-redux';
 interface ProductOnCartProps {
   name: string;
@@ -17,23 +20,25 @@ export default function ProductOnCart({
   token,
   id,
 }: ProductOnCartProps) {
-  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const modifiedName = name.replaceAll('-', ' ');
+  const [increaseQuantity] = useIncreaseQuantityMutation();
+  const [decreaseQuantity] = useDecreaseQuantityMutation();
 
-  const addItemMutation = useMutation({
-    mutationFn: ({ id }: { id: string }) => increaseQuantity(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
-    },
-  });
-
-  const removeItemMutation = useMutation({
-    mutationFn: ({ id }: { id: string }) => decreaseQuantity(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
-    },
-  });
+  async function handleDecreaseQuantity() {
+    try {
+      await decreaseQuantity(id);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  async function handleIncreaseQuantity() {
+    try {
+      await increaseQuantity(id);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <div className="flex items-center">
@@ -56,7 +61,7 @@ export default function ProductOnCart({
           onClick={
             !token
               ? () => dispatch(itemRemoved(name))
-              : () => removeItemMutation.mutate({ id })
+              : () => handleDecreaseQuantity()
           }
         >
           -
@@ -67,7 +72,7 @@ export default function ProductOnCart({
           onClick={
             !token
               ? () => dispatch(itemAdded(name, 1, price))
-              : () => addItemMutation.mutate({ id })
+              : () => handleIncreaseQuantity()
           }
         >
           +

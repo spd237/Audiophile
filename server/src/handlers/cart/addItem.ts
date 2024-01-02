@@ -12,7 +12,7 @@ export async function addItem(req: Request, res: Response) {
     });
 
     if (item) {
-      await prisma.cartItem.update({
+      const updatedItem = await prisma.cartItem.update({
         where: {
           id: item.id,
         },
@@ -20,8 +20,9 @@ export async function addItem(req: Request, res: Response) {
           quantity: item.quantity + quantity,
         },
       });
+      res.status(200).json(updatedItem);
     } else {
-      await prisma.cartItem.create({
+      const newItem = await prisma.cartItem.create({
         data: {
           name: name,
           quantity: quantity,
@@ -29,8 +30,8 @@ export async function addItem(req: Request, res: Response) {
           userID: req.user.sub,
         },
       });
+      res.status(200).json(newItem);
     }
-    res.json({ message: 'successfully added to cart' });
   } catch (error) {
     res.status(500).json(error);
   }

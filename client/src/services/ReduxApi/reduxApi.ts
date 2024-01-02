@@ -7,7 +7,18 @@ interface Slugs {
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3000',
+    prepareHeaders: (headers) => {
+      const token = JSON.parse(
+        localStorage.getItem('sb-gfgywzotuybpcpuqczfi-auth-token') || 'null'
+      )?.access_token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+    },
+  }),
+  tagTypes: ['cartItems'],
   endpoints: (builder) => ({
     getAllProductSlugs: builder.query<Slugs[], void>({
       query: () => `/audiophile/getAllProductSlugs`,

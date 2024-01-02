@@ -39,6 +39,11 @@ export interface Others {
   image: ImagesType;
 }
 
+export interface UserResponse {
+  id: string;
+  cartItems: CartItem[];
+}
+
 export interface CartItem {
   id: string;
   name: string;

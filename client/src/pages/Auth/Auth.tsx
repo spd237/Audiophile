@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import { useMutation } from '@tanstack/react-query';
-import { createUser, updateUser } from '../../services/api/api';
-import { AuthData, CartItem } from '../../types';
+import { AuthData } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { UserData, UserSchema } from '../../models/UserSchema';
@@ -13,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { TailSpin } from 'react-loader-spinner';
 import { useSelector } from 'react-redux';
 import { selectCartItems } from '../../Components/Cart/cartItemsSlice';
+import { useCreateUserMutation, useUpdateUserMutation } from './authSlice';
 
 export interface AuthProps {
   goingToCheckout: boolean;
@@ -34,19 +33,19 @@ function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [authError, setAuthError] = useState('');
   const cartItems = useSelector(selectCartItems);
+  const [createUser, { isLoading: isSignUpLoading }] = useCreateUserMutation();
+  const [updateUser, { isLoading: isSignInLoading }] = useUpdateUserMutation();
 
-  const authMutation = useMutation({
-    mutationFn: ({
-      id,
-      cartItems,
-    }: {
-      id: string | undefined;
-      cartItems: CartItem[] | [];
-    }) => (isSigningUp ? createUser(id, cartItems) : updateUser(id, cartItems)),
-  });
-
-  function handlePostAuth(data: AuthData) {
-    authMutation.mutate({ id: data.user?.id, cartItems });
+  async function handlePostAuth(data: AuthData) {
+    if (data.user) {
+      try {
+        isSigningUp
+          ? await createUser({ id: data.user?.id, cartItems })
+          : await updateUser({ id: data.user?.id, cartItems });
+      } catch (e) {
+        throw new Error();
+      }
+    }
     if (goingToCheckout) {
       setGoingToCheckout(false);
       navigate('/checkout');
@@ -151,7 +150,7 @@ function Auth({ goingToCheckout, setGoingToCheckout }: AuthProps) {
           </label>
         </div>
 
-        {authMutation.isLoading ? (
+        {isSignInLoading || isSignUpLoading ? (
           <TailSpin
             height="25"
             width="25"
